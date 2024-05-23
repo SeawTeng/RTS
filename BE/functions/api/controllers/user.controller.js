@@ -7,38 +7,52 @@ class UserController {
         return await UserRepository.getAll();
     }
 
+    async login(userDto) {
+        const user = await UserRepository.login(userDto);
+        const newUser = Object.assign({}, user, userDto);
+        delete newUser.password;
+        return newUser;
+    }
+
     async getById(id) {
         return await UserRepository.getById(id);
     }
 
     async create(userDto) {
-        const newUser = this.parse(userDto);
-        await UserRepository.set(newUser);
-        return newUser.id;
+        return await UserRepository.add(userDto);
     }
 
     async update(id, userDto) {
-        const existingUser = await UserRepository.getById(id);
-        if (!existingUser) throw new Error('Error');
+        userDto.id = id;
 
-        const newUser = Object.assign({}, existingUser, userDto);
-        newUser.id = id;
+        return await UserRepository.set(userDto);
+    }
 
-        await UserRepository.set(this.parse(newUser));
+    async updatePassword(data) {
+        const existingUser = await UserRepository.getById(data.id);
+        if (!existingUser) throw new Error('User does not exist!');
+
+        if (data.old_password != existingUser.password) {
+            throw new Error('Incorrect old password');
+        }
+
+        if (data.old_password == data.new_password) {
+            throw new Error('Old password cannot be same as new password');
+        }
+
+        const newPassword = {
+            password: data.new_password,
+            id: data.id
+        }
+
+        return await UserRepository.set(newPassword);
     }
 
     async delete(id) {
-        const existingUser = await UserRepository.getById(id);
+        const existingUser = await UserRepository.delete(id);
         if (!existingUser) throw new Error('Error');
 
-        await UserRepository.delete(id);
-    }
-
-    parse(userDto) {
-        if (!userDto) throw new Error('User not found.');
-
-        const { username, lastName, firstName, password, id } = userDto;
-        return new Users(username, lastName, firstName, password, id);
+        return "User have been successfully deleted!";
     }
 }
 

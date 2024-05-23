@@ -4,16 +4,15 @@ import { UserController } from '../controllers/index.js';
 
 const router = express.Router();
 
-router.get('/', async (req, res) => await handleReadRequest(res, async () => {
-    return await UserController.getAll();
+router.post('/login', async (req, res) => await handleReadRequest(res, async () => {
+    return await UserController.login(req.body);
 }));
 
-router.get('/get/:id', async (req, res) => await handleReadRequest(res, async () => {
+router.get('/:id', async (req, res) => await handleReadRequest(res, async () => {
     return await UserController.getById(req.params.id);
 }));
 
-router.post('/create/:id', async (req, res) => await handleWriteRequest(res, async () => {
-    req.body.id = req.params.id;
+router.post('/create', async (req, res) => await handleWriteRequest(res, async () => {
     return await UserController.create(req.body);
 }, 201));
 
@@ -23,6 +22,10 @@ router.put('/:id', async (req, res) => await handleWriteRequest(res, async () =>
 
 router.delete('/:id', async (req, res) => await handleWriteRequest(res, async () => {
     return await UserController.delete(req.params.id);
+}));
+
+router.post('/updatePassword', async (req, res) => await handleWriteRequest(res, async () => {
+    return await UserController.updatePassword(req.body);
 }));
 
 export default router;

@@ -1,8 +1,8 @@
 class Entity {
 
     /**
-     * Representa uma entidade
-     * @param {string} id Identificador da Entidade
+     *
+     * @param {string} id 
      */
     constructor(id) {
         this.id = id;

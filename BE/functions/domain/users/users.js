@@ -1,25 +1,67 @@
 import Entity from '../entity.js';
+import moment from 'moment'
 
 class Users extends Entity {
     /**
-     * @param {string} username
+     * @param {string} id
+     * @param {string} email 
      * @param {string} firstName
      * @param {string} lastName
      * @param {string} password
-     * @param {string} id
+     * @param {string} image
+     * @param {string} dob
+     * @param {string} type
+     * @param {string} planType
+     * @param {string} planId
+     * @param {string} status 
+     * @param {string} lastCreatedTime  
+     * @param {string} lastUpdatedTime  
+     * @param {boolean} isDeleted  
+     * @param {string} lastCreatedBy   
+     * @param {string} lastUpdatedBy   
      */
-    constructor(username, firstName, lastName, password, id) {
+    constructor(
+        id,
+        email, 
+        firstName, 
+        lastName, 
+        password, 
+        image,
+        dob,
+        type,
+        planType,
+        planId,
+        status,
+        lastCreatedTime,
+        lastUpdatedTime,
+        isDeleted,
+        lastCreatedBy,
+        lastUpdatedBy
+    ) {
         super(id);
 
-        if (!username) throw new TypeError('Username requires');
+        if (!email) throw new TypeError('Email requires');
         if (!firstName) throw new TypeError('First Name required');
         if (!lastName) throw new TypeError('Last Name required');
         if (!password) throw new TypeError('Password required');
 
-        this.username = username;
+        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
+        this.image = image;
+        this.dob = moment(dob).format("DD-MM-YYYY");
+        this.type = type;
+        this.planType = planType;
+        this.planId = planId;
+        this.status = status;
+        this.lastCreatedTime = 
+            moment(lastCreatedTime).format("DD-MM-YYYY HH:mm:ss") || moment().format("DD-MM-YYYY HH:mm:ss");
+        this.lastUpdatedTime = 
+            moment(lastUpdatedTime).format("DD-MM-YYYY HH:mm:ss") || moment().format("DD-MM-YYYY HH:mm:ss");
+        this.isDeleted = isDeleted;
+        this.lastCreatedBy = lastCreatedBy;
+        this.lastUpdatedBy = lastUpdatedBy
     }
 }
 

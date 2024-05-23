@@ -21,34 +21,73 @@ class FirebaseRepository {
         this.firebaseCollection = this.db.collection(collection);
     }
 
-    async getById(id) {
+    async login(item) {
         const response = await this.firebaseCollection
-            .where('id', '==', id)
+            .where('email', '==', item.email)
+            .where('password', '==', item.password)
             .get();
 
         if (response.empty) {
-            return null;
+            return "not found!";
         }
 
-        return this.processFirebaseResponse(response)[0];
+        const id = response.docs[0].ref.id;
+        const data = this.processFirebaseResponse(response)[0];
+        data.id = id
+
+        return data;
+    }
+
+    async getById(id) {
+        const response = await this.firebaseCollection
+            .doc(id)
+            .get();
+
+        if (response.empty) {
+            return `${this.collection} with id ${id} does not exist!`;
+        }
+
+        const data = this.processDBResponse(response);
+        data.id = id;
+
+        return data;
+    }
+
+    async add(item) {
+        const response = await this.firebaseCollection
+            .add(item);
+
+        return response.id;
     }
 
     async set(item) {
         await this.db
             .doc(`${this.collection}/${item.id}`)
-            .set(JSON.parse(JSON.stringify(item)));
+            .update(item);
+
+        return `${this.collection} has successfully updated!`;
     }
 
     async delete(id) {
-        await this.db
+        const res = await this.db
             .doc(`${this.collection}/${id}`)
-            .delete();
+            .update({ "isDeleted": true })
+
+        return res;
     }
 
     processFirebaseResponse(response) {
         return response.docs.map(itemRef => itemRef.data());
     }
 
+    processDBResponse(response) {
+        const data  = {}
+        for (const i in response._fieldsProto) {
+            data[i] = response._fieldsProto[i].stringValue
+        }
+        
+        return data;
+    }
 }
 
 export default FirebaseRepository;
