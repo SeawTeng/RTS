@@ -1,5 +1,5 @@
 import { UserRepository } from '../../repositories/index.js';
-import { Users } from '../../domain/users/index.js';
+import jwt from "jsonwebtoken";
 
 class UserController {
 
@@ -7,11 +7,16 @@ class UserController {
         return await UserRepository.getAll();
     }
 
-    async login(userDto) {
-        const user = await UserRepository.login(userDto);
-        const newUser = Object.assign({}, user, userDto);
+    async login(req, res) {
+        const user = await UserRepository.login(req, res);
+        const newUser = Object.assign({}, user, req.body);
         delete newUser.password;
         return newUser;
+    }
+
+    async logout(req, res) {
+        const logout = await UserRepository.logout(req, res);
+        return logout;
     }
 
     async getById(id) {
@@ -19,6 +24,13 @@ class UserController {
     }
 
     async create(userDto) {
+        const exist = await UserRepository.firebaseCollection
+            .where('email', '==', userDto.email)
+            .get();
+        if (!exist.empty) {
+            return `This email is in used please try with another email or login with your password!`
+        }
+
         return await UserRepository.add(userDto);
     }
 
@@ -28,10 +40,12 @@ class UserController {
         return await UserRepository.set(userDto);
     }
 
-    async updatePassword(data) {
-        const existingUser = await UserRepository.getById(data.id);
+    async updatePassword(req) {
+        const token = req.headers["cookie"].split('=')[1];
+        const existingUser = await UserRepository.getById(jwt.decode(token, process.env.JWT_SECRET).id);
         if (!existingUser) throw new Error('User does not exist!');
 
+        const data = req.body;
         if (data.old_password != existingUser.password) {
             throw new Error('Incorrect old password');
         }
@@ -42,7 +56,7 @@ class UserController {
 
         const newPassword = {
             password: data.new_password,
-            id: data.id
+            id: existingUser.id
         }
 
         return await UserRepository.set(newPassword);
