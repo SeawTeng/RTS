@@ -11,7 +11,7 @@ const app = express();
 
 var corsOptions = {
     origin: [
-        // 'https://rts-db.firebaseapp.com',
+        'https://rts-24.firebaseapp.com',
         'http://127.0.0.1:5001'
     ]
 }
