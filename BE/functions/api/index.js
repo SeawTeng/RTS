@@ -9,6 +9,8 @@ import cookieParser from 'cookie-parser';
 
 const app = express();
 
+const port = process.env.PORT || 4000;
+
 var corsOptions = {
     origin: [
         'https://rts-24.firebaseapp.com',
@@ -25,5 +27,9 @@ app.use(cookieParser());
 app.use('/users', UserRoutes);
 
 const api = functions.https.onRequest(app);
+
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+})
 
 export default api;
