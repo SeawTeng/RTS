@@ -14,7 +14,13 @@
   },
   "type": "module",
   "main": "index.js",
+  "babel": {
+    "plugins": [
+      "@babel/plugin-syntax-import-assertions"
+    ]
+  },
   "dependencies": {
+    "@babel/eslint-parser": "^7.24.6",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto-js": "^4.2.0",

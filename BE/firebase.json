@@ -26,7 +26,7 @@
     },
     "ui": {
       "enabled": true,
-      "port": 4000,
+      "port": 8000,
       "host": "0.0.0.0"
     },
     "singleProjectMode": true
