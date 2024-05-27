@@ -30,7 +30,10 @@ const routes: Routes = [
         AppComponent, HomeComponent, LoginComponent, SignupComponent
     ],
     imports: [
-        BrowserModule, RouterModule.forRoot(routes), ReactiveFormsModule, CommonModule 
+        BrowserModule, 
+        RouterModule.forRoot(routes), 
+        ReactiveFormsModule, 
+        CommonModule
     ],
     providers: [],
     exports: [

@@ -14,26 +14,28 @@ import * as CryptoJS from 'crypto-js';
   styleUrl: './signup.component.scss'
 })
 export class SignupComponent {
-  signupForm: FormGroup;
+  signupForm: FormGroup = new FormGroup({});
 
-  constructor(private formBuilder: FormBuilder) {
-    this.signupForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      dob: ['', Validators.required],
-      id: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      type: [''],// Backend managed field
-      planType: [''],// Backend managed field
-      planid: [''],// Backend managed field
-      status: [''], // Backend managed field
-      lastCreatedTime: [''], // Backend managed field
-      lastUpdatedTime: [''], // Backend managed field
-      isDeleted: [''], // Backend managed field
-      lastCreatedBy: [''], // Backend managed field
-      lastUpdatedBy: [''], // Backend managed field
-      image: ['']
+  constructor() {}
+
+  ngOnInit() {
+    this.signupForm = new FormGroup({
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      dob: new FormControl('', Validators.required),
+      id: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      type: new FormControl(''),// Backend managed field
+      planType: new FormControl(''),// Backend managed field
+      planid: new FormControl(''),// Backend managed field
+      status: new FormControl(''), // Backend managed field
+      lastCreatedTime: new FormControl(''), // Backend managed field
+      lastUpdatedTime: new FormControl(''), // Backend managed field
+      isDeleted: new FormControl(''), // Backend managed field
+      lastCreatedBy: new FormControl(''), // Backend managed field
+      lastUpdatedBy: new FormControl(''), // Backend managed field
+      image: new FormControl('')
     });
   }
 
