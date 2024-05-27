@@ -1,0 +1,55 @@
+<p>Sign Up</p>
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="firstName">First Name:</label>
+      <input id="firstName" formControlName="firstName">
+      <div *ngIf="signupForm.get('firstName').invalid && (signupForm.get('firstName').dirty || signupForm.get('firstName').touched)">
+        <div *ngIf="signupForm.get('firstName').errors.required">First Name is required.</div>
+      </div>
+    </div>
+  
+    <div>
+      <label for="lastName">Last Name:</label>
+      <input id="lastName" formControlName="lastName">
+      <div *ngIf="signupForm.get('lastName').invalid && (signupForm.get('lastName').dirty || signupForm.get('lastName').touched)">
+        <div *ngIf="signupForm.get('lastName').errors.required">Last Name is required.</div>
+      </div>
+    </div>
+  
+    <div>
+      <label for="dob">Date of Birth:</label>
+      <input id="dob" type="date" formControlName="dob">
+      <div *ngIf="signupForm.get('dob').invalid && (signupForm.get('dob').dirty || signupForm.get('dob').touched)">
+        <div *ngIf="signupForm.get('dob').errors.required">Date of Birth is required.</div>
+      </div>
+    </div>
+  
+    <div>
+      <label for="id">ID:</label>
+      <input id="id" formControlName="id">
+      <div *ngIf="signupForm.get('id').invalid && (signupForm.get('id').dirty || signupForm.get('id').touched)">
+        <div *ngIf="signupForm.get('id').errors.required">ID is required.</div>
+      </div>
+    </div>
+  
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" type="email" formControlName="email">
+      <div *ngIf="signupForm.get('email').invalid && (signupForm.get('email').dirty || signupForm.get('email').touched)">
+        <div *ngIf="signupForm.get('email').errors.required">Email is required.</div>
+        <div *ngIf="signupForm.get('email').errors.email">Invalid email format.</div>
+      </div>
+    </div>
+  
+    <div>
+      <label for="password">Password:</label>
+      <input id="password" type="password" formControlName="password">
+      <div *ngIf="signupForm.get('password').invalid && (signupForm.get('password').dirty || signupForm.get('password').touched)">
+        <div *ngIf="signupForm.get('password').errors.required">Password is required.</div>
+        <div *ngIf="signupForm.get('password').errors.minlength">Password must be at least 6 characters long.</div>
+      </div>
+    </div>
+  
+    <button type="submit" [disabled]="signupForm.invalid">Sign Up</button>
+  </form>
+  
