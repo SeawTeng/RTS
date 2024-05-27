@@ -1,16 +1,23 @@
-import FirebaseRepository from './utils/firebase.repository.js';
+import FirebaseRepository from "./utils/firebase.repository.js";
 
+/**
+ * UserRepository
+ */
 class UserRepository extends FirebaseRepository {
+  /**
+   * collection users
+   */
+  constructor() {
+    super("users");
+  }
 
-    constructor() {
-        super('users');
-    }
-
-    async getAll() {
-        const response = await this.firebaseCollection.get();
-        return this.processFirebaseResponse(response);
-    }
-
+  /**
+   * get all userr data
+  */
+  async getAll() {
+    const response = await this.firebaseCollection.get();
+    return this.processFirebaseResponse(response);
+  }
 }
 
 export default new UserRepository();
