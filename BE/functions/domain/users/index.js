@@ -1,5 +1,5 @@
-import Users from './users.js';
+import Users from "./users.js";
 
 export {
-    Users
-}
+  Users,
+};

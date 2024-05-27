@@ -1,5 +1,5 @@
-import UserRoutes from './user.routes.js';
+import UserRoutes from "./user.routes.js";
 
 export {
-    UserRoutes
-}
+  UserRoutes,
+};
