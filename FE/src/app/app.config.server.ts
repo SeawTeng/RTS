@@ -6,14 +6,11 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ConfigService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 }
 
 const serverConfig: ApplicationConfig = {
-  providers: [
-    provideServerRendering()
-  ]
+  providers: [provideServerRendering()],
 };
 
-export const config = mergeApplicationConfig(
-  appConfig, serverConfig);
+export const config = mergeApplicationConfig(appConfig, serverConfig);

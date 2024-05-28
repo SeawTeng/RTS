@@ -1,36 +1,83 @@
-<nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
+<nav class="navbar navbar-expand-md nav-light-blue">
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div
+    class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2"
+    id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/quiz">Learning Style Assessment</a>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Features
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="dropdown-item" routerLink="/pomodoro">Pomodoro Timer</a>
+          </li>
+          <li><a class="dropdown-item" routerLink="/todo">To Do List</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="mx-auto order-0">
     <a class="navbar-brand" href="#">
-      <img src="assets/logo.png" width="80" height="80" class="d-inline-block align-top" alt="Logo">
+      <img
+        src="assets/logo-without-text.png"
+        class="d-inline-block align-top rts-logo"
+        alt="Logo" />
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="/">Home</a>
-        </li>
+  </div>
+  <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item">
+        <ng-container *ngIf="!login; then loggedIn; else user_info">
+        </ng-container>
 
-        <li class="nav-item">
-          <a class="nav-link"  routerLink="/quiz">Learning Style Assessment</a>
-        </li>
+        <ng-template #loggedIn>
+          <button
+            class="btn btn-outline-secondary my-2 my-sm-0"
+            type="button"
+            routerLink="/login">
+            Log In
+          </button>
+        </ng-template>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Features
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="/pomodoro">Pomodoro Timer</a></li>
-            <li><a class="dropdown-item" routerLink="/todo">To Do List</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="button" routerLink="/login">Log In</button>
-      </form>
-    </div>
+        <ng-template #user_info>
+          <div class="btn-group" role="group">
+            <button
+              type="button"
+              class="btn btn-outline-secondary dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false">
+              {{ userInfo?.email }}
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Account Page</a></li>
+              <li>
+                <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </ng-template>
+      </li>
+    </ul>
   </div>
 </nav>
 

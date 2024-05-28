@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.toast-success {
+  background-color: #d1e7dd !important;
+  border-color: #a3cfbb !important;
+  background-image: none !important;
+  padding: 15px !important;
+  box-shadow: none !important;
+
+  .toast-title {
+    color: #0a3622 !important;
+    font-size: 16px !important;
+  }
+
+  .toast-message {
+    color: #0a3622 !important;
+  }
+}
+
+.toast-error {
+  background-color: #f8d7da !important;
+  border-color: #f1aeb5 !important;
+  background-image: none !important;
+  padding: 15px !important;
+  box-shadow: none !important;
+
+  .toast-title {
+    color: #58151c !important;
+    font-size: 16px !important;
+  }
+
+  .toast-message {
+    color: #58151c !important;
+  }
+}

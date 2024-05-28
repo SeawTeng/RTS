@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './quiz.component.html',
-  styleUrl: './quiz.component.scss'
+  styleUrl: './quiz.component.scss',
 })
-export class QuizComponent {
-
-}
+export class QuizComponent {}

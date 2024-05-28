@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './to-do.component.html',
-  styleUrl: './to-do.component.scss'
+  styleUrl: './to-do.component.scss',
 })
-export class ToDoComponent {
-
-}
+export class ToDoComponent {}
