@@ -43,18 +43,14 @@ class FirebaseRepository {
 
       if (!user) {
         res.clearCookie("jwt");
-        return {
-          success: false,
-          message: "unauthorized access!",
-        };
+        throw new Error( "unauthorized access!");
       }
 
       return {
-        success: true,
         message: "authorized access!",
       };
     } else {
-      return {success: false, message: "unauthorized access!"};
+      throw new Error("unauthorized access!");
     }
   }
 
@@ -64,14 +60,12 @@ class FirebaseRepository {
   */
   async login(req, res) {
     const response = await this.firebaseCollection
-        .where("email", "==", req.body.email)
-        .where("password", "==", req.body.password)
+        .where("email", "==", req.email)
+        .where("password", "==", req.password)
         .get();
 
     if (response.empty) {
-      return {
-        message: "not found!",
-      };
+      throw new Error("not found!");
     }
 
     const id = response.docs[0].ref.id;
@@ -106,9 +100,7 @@ class FirebaseRepository {
         .get();
 
     if (response.empty) {
-      return {
-        message: `${this.collection} with id ${id} does not exist!`,
-      };
+      throw new Error(`${this.collection} with id ${id} does not exist!`);
     }
 
     const data = this.processDBResponse(response);

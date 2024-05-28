@@ -31,12 +31,7 @@ router.get("/:id", async (req, res) =>
 
 router.post("/create", async (req, res) =>
   await handleWriteRequest(res, async () => {
-    const auth = await UserRepository.checkAuthenticate(req, res);
-    if (auth.success) {
-      return await UserController.create(req.body);
-    } else {
-      return auth;
-    }
+    return await UserController.create(req.body.data);
   }, 201));
 
 router.put("/:id", async (req, res) =>
