@@ -1,7 +1,25 @@
-<nav class="navbar navbar-expand-lg bg-light">
+<style>
+  .signup-btn{
+    background-color: transparent;
+    color: #000000;
+    min-height: 30px;
+    min-width: 70%;
+    border: 2px solid #00000096;
+    border-radius: 5px;
+  }
+
+  .signup-btn:hover,
+  .signup-btn:active {
+    background-color: #0000009f;
+    color: #fff;
+    border-color: #00000034;
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg bg-white">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-      <img src="assets/logo.png" width="80" height="80" class="d-inline-block align-top" alt="Logo">
+      <img src="assets/logo2.png" width="130" height="80" class="d-inline-block align-top" alt="Logo">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -28,7 +46,7 @@
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="button" routerLink="/signup">Sign Up</button>
+        <button class="btn signup-btn my-2 my-sm-0" type="button" routerLink="/signup">Sign Up</button>
       </form>
     </div>
   </div>
