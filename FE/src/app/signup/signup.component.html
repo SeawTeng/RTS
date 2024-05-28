@@ -1,68 +1,147 @@
+<style>
+  .custom-input {
+    border: none;
+    border-bottom: 1px solid #ced4da;
+    border-radius: 0;
+    padding: 5px 0;
+    margin-bottom: 10px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .custom-input:hover,
+  .custom-input:focus {
+    border-bottom: 2px solid #00000092;
+  }
+
+
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+
+  .form-container {
+    width: 80%;
+  }
+
+
+  .img-fluid {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .submit-btn {
+    background-color: #90bad0;
+    color: #fff;
+    min-height: 30px;
+    min-width: 70%;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .submit-btn:not([disabled]):hover,
+  .submit-btn:not([disabled]):active {
+    background-color: #3f647d;
+  }
+
+  .login-link {
+    color: rgba(0, 0, 0, 0.666);
+    text-decoration: none;
+    font-weight: bold;
+  }
+</style>
+
 <div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-md-12 col-sm-12 text-center">
-      <h2>Sign Up</h2>
-    </div>
+    <div class="col-md-8">
+      <div class="card mb-3" style="height: 100%;">
+        <div class="row g-0 h-100">
+          <div class="col-md-6">
+            <img src="assets/studyday.jpeg" alt="Login Image" class="img-fluid"
+              style="height: 100%; object-fit: cover;" />
+          </div>
+          <div class="col-md-6 d-flex align-items-center">
+            <div class="card-body w-100">
+              <div class="form-container">
+                <div class="text-center mb-3">
+                  <h2>Sign Up</h2>
+                </div>
+                <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+                  <div class="row justify-content-center">
+                    <div class="col-md-8 col-sm-12 mt-2">
+                      <label for="email">Email</label>
+                      <input id="email" type="email" formControlName="email" class="custom-input" required>
+                      <div
+                        *ngIf="signupForm.get('email')?.invalid && (signupForm.get('email')?.dirty || signupForm.get('email')?.touched)"
+                        class="text-danger">
+                        <div *ngIf="signupForm.get('email')?.hasError('required')">Email is required.</div>
+                        <div *ngIf="signupForm.get('email')?.hasError('email')">Invalid email format.</div>
+                      </div>
+                    </div>
 
-    <div class="col-md-12 col-sm-12">
-      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-        <div class="row justify-content-center">
-          <div class="col-md-8 col-sm-12 mt-2">
-            <label for="email">Email:</label>
-            <input id="email" type="email" formControlName="email" class="form-control" required>
-            <div *ngIf="signupForm.get('email')?.invalid && (signupForm.get('email')?.dirty || signupForm.get('email')?.touched)" class="text-danger">
-              <div *ngIf="signupForm.get('email')?.hasError('required')">Email is required.</div>
-              <div *ngIf="signupForm.get('email')?.hasError('email')">Invalid email format.</div>
-            </div>
-          </div>
+                    <div class="col-md-8 col-sm-12 mt-2">
+                      <label for="firstName">First Name</label>
+                      <input id="firstName" formControlName="firstName" class="custom-input" required>
+                      <div
+                        *ngIf="signupForm.get('firstName')?.invalid && (signupForm.get('firstName')?.dirty || signupForm.get('firstName')?.touched)"
+                        class="text-danger">
+                        <div *ngIf="signupForm.get('firstName')?.hasError('required')">First Name is required.</div>
+                      </div>
+                    </div>
 
-          <div class="col-md-8 col-sm-12 mt-2">
-            <label for="firstName">First Name:</label>
-            <input id="firstName" formControlName="firstName" class="form-control" required>
-            <div *ngIf="signupForm.get('firstName')?.invalid && (signupForm.get('firstName')?.dirty || signupForm.get('firstName')?.touched)" class="text-danger">
-              <div *ngIf="signupForm.get('firstName')?.hasError('required')">First Name is required.</div>
+                    <div class="col-md-8 col-sm-12 mt-2">
+                      <label for="lastName">Last Name</label>
+                      <input id="lastName" formControlName="lastName" class="custom-input" required>
+                      <div
+                        *ngIf="signupForm.get('lastName')?.invalid && (signupForm.get('lastName')?.dirty || signupForm.get('lastName')?.touched)"
+                        class="text-danger">
+                        <div *ngIf="signupForm.get('lastName')?.hasError('required')">Last Name is required.</div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-8 col-sm-12 mt-2">
+                      <label for="dob">Date of Birth</label>
+                      <input id="dob" type="date" formControlName="dob" class="custom-input" required>
+                      <div
+                        *ngIf="signupForm.get('dob')?.invalid && (signupForm.get('dob')?.dirty || signupForm.get('dob')?.touched)"
+                        class="text-danger">
+                        <div *ngIf="signupForm.get('dob')?.hasError('required')">Date of Birth is required.</div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-8 col-sm-12 mt-2">
+                      <label for="password">Password</label>
+                      <input id="password" type="password" formControlName="password" class="custom-input" required>
+                      <div
+                        *ngIf="signupForm.get('password')?.invalid && (signupForm.get('password')?.dirty || signupForm.get('password')?.touched)"
+                        class="text-danger">
+                        <div *ngIf="signupForm.get('password')?.hasError('required')">Password is required.</div>
+                        <div *ngIf="signupForm.get('password')?.hasError('minlength')">Password must be at least 6
+                          characters
+                          long.</div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 mt-3 text-center">
+                      <button type="submit" class="submit-btn" [disabled]="signupForm.invalid" width="100%;">Sign
+                        Up</button>
+                    </div>
+                  </div>
+                </form>
+                <div class="text-center mt-3">
+                  <p>Already a member ? <a routerLink="/login" class="login-link">Log in here</a></p>
+                </div>
+              </div>
             </div>
-          </div>
-        
-          <div class="col-md-8 col-sm-12 mt-2">
-            <label for="lastName">Last Name:</label>
-            <input id="lastName" formControlName="lastName" class="form-control" required>
-            <div *ngIf="signupForm.get('lastName')?.invalid && (signupForm.get('lastName')?.dirty || signupForm.get('lastName')?.touched)" class="text-danger">
-              <div *ngIf="signupForm.get('lastName')?.hasError('required')">Last Name is required.</div>
-            </div>
-          </div>
-        
-          <div class="col-md-8 col-sm-12 mt-2">
-            <label for="dob">Date of Birth:</label>
-            <input id="dob" type="date" formControlName="dob" class="form-control" required>
-            <div *ngIf="signupForm.get('dob')?.invalid && (signupForm.get('dob')?.dirty || signupForm.get('dob')?.touched)" class="text-danger">
-              <div *ngIf="signupForm.get('dob')?.hasError('required')">Date of Birth is required.</div>
-            </div>
-          </div>
-        
-          <!-- <div class="col-md-8 col-sm-12 mt-2">
-            <label for="id">ID:</label>
-            <input id="id" formControlName="id" class="form-control" required>
-            <div *ngIf="signupForm.get('id')?.invalid && (signupForm.get('id')?.dirty || signupForm.get('id')?.touched)" class="text-danger">
-              <div *ngIf="signupForm.get('id')?.hasError('required')">ID is required.</div>
-            </div>
-          </div> -->
-        
-          <div class="col-md-8 col-sm-12 mt-2">
-            <label for="password">Password:</label>
-            <input id="password" type="password" formControlName="password" class="form-control" required>
-            <div *ngIf="signupForm.get('password')?.invalid && (signupForm.get('password')?.dirty || signupForm.get('password')?.touched)" class="text-danger">
-              <div *ngIf="signupForm.get('password')?.hasError('required')">Password is required.</div>
-              <div *ngIf="signupForm.get('password')?.hasError('minlength')">Password must be at least 6 characters long.</div>
-            </div>
-          </div>
-          
-          <div class="col-md-12 col-sm-12 mt-3 text-center">
-            <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid">Sign Up</button>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
-  

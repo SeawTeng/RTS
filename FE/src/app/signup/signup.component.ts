@@ -3,13 +3,14 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 
 import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormsModule,CommonModule,RouterModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })
@@ -23,7 +24,7 @@ export class SignupComponent {
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       dob: new FormControl('', Validators.required),
-      id: new FormControl('', Validators.required),
+      id: new FormControl(''),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       type: new FormControl(''),// Backend managed field
@@ -57,6 +58,7 @@ export class SignupComponent {
     // Set backend managed fields before sending to backend
     this.signupForm.patchValue({
       // side not that all fields need to be strings in order to encrypt
+      id: '',
       type: 'user',
       planType: 'free',
       planid: "1",
