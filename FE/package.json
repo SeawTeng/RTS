@@ -9,7 +9,7 @@
     "test": "ng test",
     "serve:ssr:RTS_FE": "node dist/rts-fe/server/server.mjs",
     "lint": "ng lint",
-    "deploy": "ng build --prod"
+    "deploy": "ng build --configuration production --base-href"
   },
   "private": true,
   "dependencies": {
