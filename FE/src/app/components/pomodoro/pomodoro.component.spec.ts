@@ -8,10 +8,9 @@ describe('PomodoroComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PomodoroComponent]
-    })
-    .compileComponents();
-    
+      imports: [PomodoroComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(PomodoroComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
