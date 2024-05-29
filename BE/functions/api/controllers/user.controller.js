@@ -29,15 +29,6 @@ class UserController {
   }
 
   /**
-   *  @param {any} req
-   *  @param {any} res
-  */
-  async logout(req, res) {
-    const logout = await UserRepository.logout(req, res);
-    return logout;
-  }
-
-  /**
    *  @param {string} id
   */
   async getById(id) {
@@ -77,7 +68,7 @@ class UserController {
    *  @param {any} req
   */
   async updatePassword(req) {
-    const token = req.headers["cookie"].split("=")[1];
+    const token = req.headers["authorization"];
     const existingUser = await UserRepository.getById(
         jwt.decode(token, process.env.JWT_SECRET).id
     );

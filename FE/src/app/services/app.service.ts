@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
-import { SECRET, SERVER_URL } from '../shared/constant';
+import { SECRET, SERVER_URL, TOKEN_SECRET } from '../shared/constant';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +11,28 @@ import { ToastrService } from 'ngx-toastr';
 export class AppService {
   constructor(
     public http: HttpClient,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cookie: CookieService
   ) {}
+
+  setToken(token: string) {
+    if (token) {
+      this.cookie.set(TOKEN_SECRET, token);
+    }
+  }
+
+  getToken() {
+    return this.cookie.get(TOKEN_SECRET);
+  }
+
+  removeToken() {
+    this.cookie.delete(TOKEN_SECRET);
+  }
+
+  logout() {
+    localStorage.removeItem('user');
+    this.removeToken();
+  }
 
   encryption(response: any) {
     try {
@@ -43,19 +64,13 @@ export class AppService {
     }
   }
 
-  httpCall(
-    api: string,
-    data: any,
-    type: 'post' | 'get' | 'delete' | 'put',
-    withCredentials: boolean = true
-  ) {
+  httpCall(api: string, data: any, type: 'post' | 'get' | 'delete' | 'put') {
     return this.http.request(type, SERVER_URL + api, {
       body: data,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
+        authorization: this.getToken(),
       },
-      withCredentials: withCredentials,
     });
   }
 }

@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({});
   loading: boolean = false;
+  passwordShow: boolean = false;
 
   constructor(
     private service: ServicesService,
@@ -28,17 +29,14 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(6),
-      ]),
+      password: new FormControl('', [Validators.required]),
     });
 
     // ensure that user that have alr login will not visit this page
     const store = localStorage.getItem('user');
     const user = store ? this.service.decryption(store) : {};
     if (user.email) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
     }
   }
 
@@ -58,18 +56,14 @@ export class LoginComponent implements OnInit {
 
       // Send encryptedData to the API
       this.service
-        .httpCall(this.service.login(), { data: encryptedData }, 'post', false)
+        .httpCall(this.service.login(), { data: encryptedData }, 'post')
         .subscribe(
           (res: any) => {
             localStorage.setItem('user', encryptedData);
-            this.router.navigate(['/home']);
+            this.service.setToken(res.token);
+            this.router.navigate(['/']);
             window.location.reload();
             this.loading = false;
-
-            this.toastr.success('Successfully Login', '', {
-              timeOut: 3000,
-              positionClass: 'toast-top-center',
-            });
           },
           (error: any) => {
             this.toastr.error(error.error, 'Error', {
