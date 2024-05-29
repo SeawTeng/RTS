@@ -1,10 +1,10 @@
 import { RouterModule, Routes } from '@angular/router';
-import { authGuard } from './auth.guard';
 import { NgModule } from '@angular/core';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
   {
-    path: 'home',
+    path: '',
     loadComponent: () =>
       import('./components/home/home.component').then(m => m.HomeComponent),
   },
