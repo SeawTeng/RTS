@@ -29,21 +29,8 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    this.service.httpCall(this.service.logout(), {}, 'post', false).subscribe(
-      (res: any) => {
-        localStorage.removeItem('user');
-        window.location.reload();
-
-        this.toastr.success('Successfully Logout', '', {
-          timeOut: 3000,
-          positionClass: 'toast-top-center',
-        });
-      },
-      (error: any) => {
-        this.toastr.error(error.error, 'Error', {
-          positionClass: 'toast-top-center',
-        });
-      }
-    );
+    this.service.logout();
+    this.userInfo = {};
+    this.login = false;
   }
 }

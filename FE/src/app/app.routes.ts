@@ -40,6 +40,22 @@ export const routes: Routes = [
       import('./components/to-do/to-do.component').then(m => m.ToDoComponent),
     canActivate: [authGuard],
   },
+  {
+    path: 'update-password',
+    loadComponent: () =>
+      import('./components/update-password/update-password.component').then(
+        m => m.UpdatePasswordComponent
+      ),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'account-page',
+    loadComponent: () =>
+      import('./components/account-page/account-page.component').then(
+        m => m.AccountPageComponent
+      ),
+    canActivate: [authGuard],
+  },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];
 

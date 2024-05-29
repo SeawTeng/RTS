@@ -16,10 +16,6 @@ export class ServicesService extends AppService {
     return `/users/login`;
   }
 
-  logout() {
-    return `/users/logout`;
-  }
-
   createUser() {
     return `/users/create`;
   }

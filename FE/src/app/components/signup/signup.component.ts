@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import * as CryptoJS from 'crypto-js';
 import { ServicesService } from '../../services/services.service';
 import { NgxLoadingModule } from 'ngx-loading';
 import { Router } from '@angular/router';
+import { StrongPasswordRegx } from '../../shared/constant';
 
 @Component({
   selector: 'app-signup',
@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 export class SignupComponent implements OnInit {
   signupForm: FormGroup = new FormGroup({});
   loading: boolean = false;
+  passwordShow: boolean = false;
 
   constructor(
     private service: ServicesService,
@@ -32,7 +33,7 @@ export class SignupComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
         Validators.required,
-        Validators.minLength(6),
+        Validators.pattern(StrongPasswordRegx),
       ]),
       type: new FormControl(''), // Backend managed field
       planType: new FormControl(''), // Backend managed field
@@ -51,9 +52,9 @@ export class SignupComponent implements OnInit {
     // Set backend managed fields before sending to backend
     this.signupForm.patchValue({
       // side not that all fields need to be strings in order to encrypt
-      type: 'user',
-      planType: 'free',
-      planid: '1',
+      type: 'normal',
+      planType: 'basic',
+      planid: '',
       status: 'active', // example value
       lastCreatedTime: new Date().toISOString(),
       lastUpdatedTime: new Date().toISOString(),
@@ -69,12 +70,7 @@ export class SignupComponent implements OnInit {
 
       // Send encryptedData to the API
       this.service
-        .httpCall(
-          this.service.createUser(),
-          { data: encryptedData },
-          'post',
-          false
-        )
+        .httpCall(this.service.createUser(), { data: encryptedData }, 'post')
         .subscribe(
           (res: any) => {
             this.loading = false;
@@ -85,6 +81,7 @@ export class SignupComponent implements OnInit {
           }
         );
     } else {
+      this.loading = false;
     }
   }
 }

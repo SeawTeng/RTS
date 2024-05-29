@@ -13,7 +13,7 @@ import { ServicesModule } from './services/services.module';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxLoadingModule } from 'ngx-loading';
 import { ToastNoAnimationModule, ToastrModule } from 'ngx-toastr';
-
+import { FontAwesomeModule } from 'fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, LoginComponent, SignupComponent],
@@ -25,9 +25,10 @@ import { ToastNoAnimationModule, ToastrModule } from 'ngx-toastr';
     NgxLoadingModule.forRoot({}),
     ToastrModule.forRoot(),
     ToastNoAnimationModule.forRoot(),
+    FontAwesomeModule,
   ],
   providers: [CookieService],
-  exports: [ReactiveFormsModule, CommonModule],
+  exports: [ReactiveFormsModule, CommonModule, FontAwesomeModule],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
