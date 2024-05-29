@@ -4,7 +4,6 @@ import express from "express";
 import cors from "cors";
 
 import {UserRoutes} from "./routes/index.js";
-import cookieParser from "cookie-parser";
 // import auth from './utils/auth';
 
 const app = express();
@@ -21,8 +20,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-app.use(cookieParser());
 
 // app.use(auth);
 

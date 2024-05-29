@@ -14,15 +14,10 @@ router.post("/login", async (req, res) =>
     return await UserController.login(req, res);
   }));
 
-router.post("/logout", async (req, res) =>
-  await handleReadRequest(res, async () => {
-    return await UserController.logout(req, res);
-  }));
-
 router.get("/:id", async (req, res) =>
   await handleReadRequest(res, async () => {
     const auth = await UserRepository.checkAuthenticate(req, res);
-    if (auth.success) {
+    if (auth.message) {
       return await UserController.getById(req.params.id);
     } else {
       return auth;
@@ -37,7 +32,7 @@ router.post("/create", async (req, res) =>
 router.put("/:id", async (req, res) =>
   await handleWriteRequest(res, async () => {
     const auth = await UserRepository.checkAuthenticate(req, res);
-    if (auth.success) {
+    if (auth.message) {
       return await UserController.update(req.params.id, req.body);
     } else {
       return auth;
@@ -47,7 +42,7 @@ router.put("/:id", async (req, res) =>
 router.delete("/:id", async (req, res) =>
   await handleWriteRequest(res, async () => {
     const auth = await UserRepository.checkAuthenticate(req, res);
-    if (auth.success) {
+    if (auth.message) {
       return await UserController.delete(req.params.id);
     } else {
       return auth;
@@ -57,7 +52,7 @@ router.delete("/:id", async (req, res) =>
 router.post("/updatePassword", async (req, res) =>
   await handleWriteRequest(res, async () => {
     const auth = await UserRepository.checkAuthenticate(req, res);
-    if (auth.success) {
+    if (auth.message) {
       return await UserController.updatePassword(req);
     } else {
       return auth;

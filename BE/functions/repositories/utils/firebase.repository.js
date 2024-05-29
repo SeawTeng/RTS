@@ -32,9 +32,8 @@ class FirebaseRepository {
    * @param {any} res
   */
   async checkAuthenticate(req, res) {
-    if (req.headers && req.headers["cookie"]) {
-      const token = req.headers["cookie"].split("=")[1];
-
+    if (req.headers && req.headers["authorization"]) {
+      const token = req.headers["authorization"];
       const decode = jwt.verify(token, process.env.JWT_SECRET);
 
       const user = await await this.db
@@ -42,7 +41,6 @@ class FirebaseRepository {
           .get();
 
       if (!user) {
-        res.clearCookie("jwt");
         throw new Error( "unauthorized access!");
       }
 
@@ -74,21 +72,8 @@ class FirebaseRepository {
 
     const token = jwt.sign(data, process.env.JWT_SECRET);
     data.token = token;
-    res.cookie("jwt", token, {httpOnly: true, secure: true, maxAge: 3600000});
 
     return data;
-  }
-
-  /**
-   * @param {any} req
-   * @param {any} res
-  */
-  async logout(req, res) {
-    res.clearCookie("jwt");
-
-    return {
-      message: "user logout successfully",
-    };
   }
 
   /**
