@@ -62,8 +62,11 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('user', encryptedData);
             this.service.setToken(res.token);
             this.router.navigate(['/']);
-            window.location.reload();
             this.loading = false;
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 500);
           },
           (error: any) => {
             this.toastr.error(error.error, 'Error', {
