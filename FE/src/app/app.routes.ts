@@ -1,15 +1,50 @@
-import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
-import { PomodoroComponent } from './components/pomodoro/pomodoro.component';
-import { QuizComponent } from './components/quiz/quiz.component';
-import { SignupComponent } from './components/signup/signup.component';
-import { ToDoComponent } from './components/to-do/to-do.component';
+import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from './auth.guard';
+import { NgModule } from '@angular/core';
 
-export const routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
-  { path: 'pomodoro', component: PomodoroComponent },
-  { path: 'quiz', component: QuizComponent },
-  { path: 'todo', component: ToDoComponent },
+export const routes: Routes = [
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./components/home/home.component').then(m => m.HomeComponent),
+  },
+  {
+    path: 'signup',
+    loadComponent: () =>
+      import('./components/signup/signup.component').then(
+        m => m.SignupComponent
+      ),
+  },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./components/login/login.component').then(m => m.LoginComponent),
+  },
+  {
+    path: 'pomodoro',
+    loadComponent: () =>
+      import('./components/pomodoro/pomodoro.component').then(
+        m => m.PomodoroComponent
+      ),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'quiz',
+    loadComponent: () =>
+      import('./components/quiz/quiz.component').then(m => m.QuizComponent),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'todo',
+    loadComponent: () =>
+      import('./components/to-do/to-do.component').then(m => m.ToDoComponent),
+    canActivate: [authGuard],
+  },
+  { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutesModule {}
