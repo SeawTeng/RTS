@@ -1,31 +1,49 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { environment } from './../environments/environment';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { ServicesService } from './services/services.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HttpClientModule],
+  imports: [RouterOutlet, HttpClientModule, RouterLink, CommonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   title = 'RTS_FE';
+  userInfo: any;
+  login = false;
 
-  constructor(private http: HttpClient) {
-    console.log(environment.production);
-  }
+  constructor(
+    private service: ServicesService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
-      this.fetchDetails();
+    const store = localStorage.getItem('user');
+    this.userInfo = store ? this.service.decryption(store) : {};
+    this.login = this.userInfo.email ? true : false;
   }
 
-  public fetchDetails() {
-    this.http.get(environment.apiUrl+"/users").subscribe(
+  logout() {
+    this.service.httpCall(this.service.logout(), {}, 'post', false).subscribe(
       (res: any) => {
-        console.log(res);
+        localStorage.removeItem('user');
+        window.location.reload();
+
+        this.toastr.success('Successfully Logout', '', {
+          timeOut: 3000,
+          positionClass: 'toast-top-center',
+        });
+      },
+      (error: any) => {
+        this.toastr.error(error.error, 'Error', {
+          positionClass: 'toast-top-center',
+        });
       }
-    )
+    );
   }
 }

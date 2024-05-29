@@ -13,9 +13,10 @@ const port = process.env.HOST_PORT || 4000;
 
 const corsOptions = {
   origin: [
-    "https://rts-24.firebaseapp.com",
     "http://127.0.0.1:5001",
+    "http://localhost:4200",
   ],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));

@@ -1,5 +1,8 @@
 import {UserRepository} from "../../repositories/index.js";
 import jwt from "jsonwebtoken";
+import encUtf8 from "crypto-js/enc-utf8.js";
+import AES from "crypto-js/aes.js";
+
 /**
  * UserController
 */
@@ -16,7 +19,10 @@ class UserController {
    *  @param {any} res
   */
   async login(req, res) {
-    const user = await UserRepository.login(req, res);
+    const bytes = AES.decrypt(req.body.data, process.env.JWT_SECRET);
+    const decryptedData = JSON.parse(bytes.toString(encUtf8));
+
+    const user = await UserRepository.login(decryptedData, res);
     const newUser = Object.assign({}, user, req.body);
     delete newUser.password;
     return newUser;
@@ -39,20 +45,22 @@ class UserController {
   }
 
   /**
-   *  @param {Users} userDto
+   *  @param {string} userDto
   */
   async create(userDto) {
+    const bytes = AES.decrypt(userDto, process.env.JWT_SECRET);
+    const decryptedData = JSON.parse(bytes.toString(encUtf8));
+
     const exist = await UserRepository.firebaseCollection
-        .where("email", "==", userDto.email)
+        .where("email", "==", decryptedData.email)
         .get();
     if (!exist.empty) {
-      return {
-        message: `This email is in used please try with 
-          another email or login with your password!`,
-      };
+      throw new Error(`This email is in used please try with 
+        another email or login with your password!`,
+      );
     }
 
-    return await UserRepository.add(userDto);
+    return await UserRepository.add(decryptedData);
   }
 
   /**
@@ -74,25 +82,21 @@ class UserController {
         jwt.decode(token, process.env.JWT_SECRET).id
     );
     if (!existingUser) {
-      throw new Error({
-        message: "User does not exist!"});
+      throw new Error("User does not exist!");
     }
 
-    const data = req.body;
-    if (data.old_password != existingUser.password) {
-      throw new Error({
-        message: "Incorrect old password",
-      });
+    const bytes = AES.decrypt(req.body.data, process.env.JWT_SECRET);
+    const decryptedData = JSON.parse(bytes.toString(encUtf8));
+    if (decryptedData.old_password != existingUser.password) {
+      throw new Error("Incorrect old password");
     }
 
-    if (data.old_password == data.new_password) {
-      throw new Error({
-        message: "Old password cannot be same as new password",
-      });
+    if (decryptedData.old_password == decryptedData.new_password) {
+      throw new Error("Old password cannot be same as new password");
     }
 
     const newPassword = {
-      password: data.new_password,
+      password: decryptedData.new_password,
       id: existingUser.id,
     };
 

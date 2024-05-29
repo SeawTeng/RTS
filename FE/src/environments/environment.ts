@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  apiUrl: 'http://my-prod-url'
+  production: false,
+  apiUrl: 'http://127.0.0.1:5001/rts-24-c3dbb/us-central1/api',
 };
