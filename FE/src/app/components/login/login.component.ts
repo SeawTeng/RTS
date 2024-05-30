@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -61,12 +61,9 @@ export class LoginComponent implements OnInit {
           (res: any) => {
             localStorage.setItem('user', encryptedData);
             this.service.setToken(res.token);
-            this.router.navigate(['home']);
             this.loading = false;
 
-            setTimeout(() => {
-              window.location.reload();
-            }, 500);
+            this.router.navigate(['home']);
           },
           (error: any) => {
             this.toastr.error(error.error, 'Error', {
