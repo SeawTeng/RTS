@@ -4,7 +4,7 @@ import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     loadComponent: () =>
       import('./components/home/home.component').then(m => m.HomeComponent),
   },
@@ -56,7 +56,15 @@ export const routes: Routes = [
       ),
     canActivate: [authGuard],
   },
-  { path: '**', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  {
+    path: '**',
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./components/pagenotfound/pagenotfound.component').then(
+        m => m.PagenotfoundComponent
+      ),
+  },
 ];
 
 @NgModule({

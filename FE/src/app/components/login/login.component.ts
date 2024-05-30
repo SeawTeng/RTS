@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     const store = localStorage.getItem('user');
     const user = store ? this.service.decryption(store) : {};
     if (user.email) {
-      this.router.navigate(['/']);
+      this.router.navigate(['home']);
     }
   }
 
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
           (res: any) => {
             localStorage.setItem('user', encryptedData);
             this.service.setToken(res.token);
-            this.router.navigate(['/']);
+            this.router.navigate(['home']);
             this.loading = false;
 
             setTimeout(() => {

@@ -65,7 +65,7 @@ export class UpdatePasswordComponent implements OnInit {
         .subscribe(
           (res: any) => {
             localStorage.removeItem('user');
-            this.router.navigate(['/']);
+            this.router.navigate(['home']);
             window.location.reload();
             this.loading = false;
 
