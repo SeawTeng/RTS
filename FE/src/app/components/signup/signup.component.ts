@@ -74,7 +74,7 @@ export class SignupComponent implements OnInit {
         .subscribe(
           (res: any) => {
             this.loading = false;
-            this.router.navigate(['/login']);
+            this.router.navigate(['login']);
           },
           error => {
             this.loading = false;
