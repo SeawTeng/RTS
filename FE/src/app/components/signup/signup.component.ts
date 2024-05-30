@@ -6,6 +6,7 @@ import { ServicesService } from '../../services/services.service';
 import { NgxLoadingModule } from 'ngx-loading';
 import { Router } from '@angular/router';
 import { StrongPasswordRegx } from '../../shared/constant';
+import moment from 'moment';
 
 @Component({
   selector: 'app-signup',
@@ -18,6 +19,8 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup = new FormGroup({});
   loading: boolean = false;
   passwordShow: boolean = false;
+
+  today: string = moment().format('YYYY-MM-DD');
 
   constructor(
     private service: ServicesService,
@@ -35,34 +38,11 @@ export class SignupComponent implements OnInit {
         Validators.required,
         Validators.pattern(StrongPasswordRegx),
       ]),
-      type: new FormControl(''), // Backend managed field
-      planType: new FormControl(''), // Backend managed field
-      planid: new FormControl(''), // Backend managed field
-      status: new FormControl(''), // Backend managed field
-      lastCreatedTime: new FormControl(''), // Backend managed field
-      lastUpdatedTime: new FormControl(''), // Backend managed field
-      isDeleted: new FormControl(''), // Backend managed field
-      lastCreatedBy: new FormControl(''), // Backend managed field
-      lastUpdatedBy: new FormControl(''), // Backend managed field
-      image: new FormControl(''),
+      image: new FormControl('')
     });
   }
 
   onSubmit() {
-    // Set backend managed fields before sending to backend
-    this.signupForm.patchValue({
-      // side not that all fields need to be strings in order to encrypt
-      type: 'normal',
-      planType: 'basic',
-      planid: '',
-      status: 'active', // example value
-      lastCreatedTime: new Date().toISOString(),
-      lastUpdatedTime: new Date().toISOString(),
-      isDeleted: false,
-      lastCreatedBy: 'system', // example value
-      lastUpdatedBy: 'system', // example value
-    });
-
     if (this.signupForm.valid) {
       const formValues = this.signupForm.value;
       const encryptedData = this.service.encryption(formValues);

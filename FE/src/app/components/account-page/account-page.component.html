@@ -1,1 +1,86 @@
-<p>account-page works!</p>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12 col-sm-12 text-center">
+      <h2>Update User Detail</h2>
+    </div>
+
+    <div class="col-md-12 col-sm-12">
+      <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-sm-12 mt-2">
+            <label for="email">Email:</label>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              class="form-control"
+             />
+          </div>
+
+          <div class="col-md-8 col-sm-12 mt-2">
+            <label for="firstName">First Name:</label>
+            <input
+              id="firstName"
+              formControlName="firstName"
+              class="form-control"
+              required />
+            <div
+              *ngIf="
+                updateForm.get('firstName')?.invalid &&
+                (updateForm.get('firstName')?.dirty ||
+                  updateForm.get('firstName')?.touched)
+              "
+              class="text-danger">
+              <div *ngIf="updateForm.get('firstName')?.hasError('required')">
+                First Name is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8 col-sm-12 mt-2">
+            <label for="lastName">Last Name:</label>
+            <input
+              id="lastName"
+              formControlName="lastName"
+              class="form-control"
+              required />
+            <div
+              *ngIf="
+                updateForm.get('lastName')?.invalid &&
+                (updateForm.get('lastName')?.dirty ||
+                  updateForm.get('lastName')?.touched)
+              "
+              class="text-danger">
+              <div *ngIf="updateForm.get('lastName')?.hasError('required')">
+                Last Name is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8 col-sm-12 mt-2">
+            <label for="dob">Date of Birth:</label>
+            <input
+              id="dob"
+              type="date"
+              formControlName="dob"
+              class="form-control"
+             />
+          </div>
+
+          <div class="col-md-12 col-sm-12 mt-3 text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="updateForm.invalid">
+              update
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <ngx-loading
+    [show]="loading"
+    [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+</div>

@@ -64,15 +64,10 @@ export class UpdatePasswordComponent implements OnInit {
         )
         .subscribe(
           (res: any) => {
-            localStorage.removeItem('user');
-            this.router.navigate(['home']);
-            window.location.reload();
             this.loading = false;
-
-            this.toastr.success('Successfully Login', '', {
-              timeOut: 3000,
-              positionClass: 'toast-top-center',
-            });
+            this.service.logout();
+            this.router.navigate(['home']);
+            
           },
           (error: any) => {
             this.toastr.error(error.error, 'Error', {
