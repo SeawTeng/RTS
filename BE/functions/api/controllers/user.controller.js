@@ -36,10 +36,10 @@ class UserController {
   }
 
   /**
-   *  @param {string} userDto
+   *  @param {any} req
   */
-  async create(userDto) {
-    const bytes = AES.decrypt(userDto, process.env.JWT_SECRET);
+  async create(req) {
+    const bytes = AES.decrypt(req.body.data, process.env.JWT_SECRET);
     const decryptedData = JSON.parse(bytes.toString(encUtf8));
 
     const exist = await UserRepository.firebaseCollection
@@ -51,17 +51,24 @@ class UserController {
       );
     }
 
-    return await UserRepository.add(decryptedData);
+    decryptedData.type = "normal";
+    decryptedData.planType = "basic";
+    decryptedData.planid = "";
+    decryptedData.status = "active";
+    decryptedData.isDeleted = false;
+
+    return await UserRepository.add(req, decryptedData);
   }
 
   /**
-   *  @param {string} id
-   *  @param {Users} userDto
+   *  @param {any} req
   */
-  async update(id, userDto) {
-    userDto.id = id;
+  async update(req) {
+    const bytes = AES.decrypt(req.body.data, process.env.JWT_SECRET);
+    const userDto = JSON.parse(bytes.toString(encUtf8));
+    userDto.id = req.params.id;
 
-    return await UserRepository.set(userDto);
+    return await UserRepository.set(req, userDto);
   }
 
   /**
@@ -91,7 +98,7 @@ class UserController {
       id: existingUser.id,
     };
 
-    return await UserRepository.set(newPassword);
+    return await UserRepository.set(req, newPassword);
   }
 
   /**

@@ -1,6 +1,7 @@
 import admin from "firebase-admin";
 import p from "../../permission.json" assert { type: "json" };
 import jwt from "jsonwebtoken";
+import moment from "moment";
 
 /**
  * FirebaseRepository
@@ -37,7 +38,7 @@ class FirebaseRepository {
       const decode = jwt.verify(token, process.env.JWT_SECRET);
 
       const user = await await this.db
-          .doc(`${this.collection}/${decode.id}`)
+          .doc(`users/${decode.id}`)
           .get();
 
       if (!user) {
@@ -95,9 +96,21 @@ class FirebaseRepository {
   }
 
   /**
+   * @param {any} req
    * @param {any} item
   */
-  async add(item) {
+  async add(req, item) {
+    const token = req.headers["authorization"];
+    let decode = null;
+    if (token) {
+      decode = jwt.verify(token, process.env.JWT_SECRET);
+    }
+
+    item.lastCreatedTime = moment().format("DD-MM-YYYY HH:mm:ss");
+    item.lastUpdatedTime = moment().format("DD-MM-YYYY HH:mm:ss");
+    item.lastCreatedBy = decode ? decode.email : "SYSTEM";
+    item.lastUpdatedBy = decode ? decode.email : "SYSTEM";
+
     const response = await this.firebaseCollection
         .add(item);
 
@@ -105,9 +118,21 @@ class FirebaseRepository {
   }
 
   /**
+   * @param {any} req
    * @param {any} item
   */
-  async set(item) {
+  async set(req, item) {
+    const token = req.headers["authorization"];
+    let decode = null;
+    if (token) {
+      decode = jwt.verify(token, process.env.JWT_SECRET);
+    }
+
+    item.lastCreatedTime = moment().format("DD-MM-YYYY HH:mm:ss");
+    item.lastUpdatedTime = moment().format("DD-MM-YYYY HH:mm:ss");
+    item.lastCreatedBy = decode ? decode.email : "SYSTEM";
+    item.lastUpdatedBy = decode ? decode.email : "SYSTEM";
+
     await this.db
         .doc(`${this.collection}/${item.id}`)
         .update(item);
@@ -118,12 +143,25 @@ class FirebaseRepository {
   }
 
   /**
-   * @param {string} id
+   * @param {any} req
   */
-  async delete(id) {
+  async delete(req) {
+    const token = req.headers["authorization"];
+    let decode = null;
+    if (token) {
+      decode = jwt.verify(token, process.env.JWT_SECRET);
+    }
+    const data = {
+      lastCreatedTime: moment().format("DD-MM-YYYY HH:mm:ss"),
+      lastUpdatedTime: moment().format("DD-MM-YYYY HH:mm:ss"),
+      lastCreatedBy: decode ? decode.email : "SYSTEM",
+      lastUpdatedBy: decode ? decode.email : "SYSTEM",
+      isDeleted: true,
+    };
+
     const res = await this.db
-        .doc(`${this.collection}/${id}`)
-        .update({"isDeleted": true});
+        .doc(`${this.collection}/${req.params.id}`)
+        .update(data);
 
     return res;
   }
