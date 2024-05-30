@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
         .httpCall(this.service.login(), { data: encryptedData }, 'post')
         .subscribe(
           (res: any) => {
-            localStorage.setItem('user', encryptedData);
+            localStorage.setItem('user', this.service.encryption(res));
             this.service.setToken(res.token);
             this.loading = false;
 

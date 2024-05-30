@@ -29,7 +29,5 @@ export class AppComponent {
   
   logout() {
     this.service.logout();
-    this.userInfo = {};
-    this.login = false;
   }
 }
