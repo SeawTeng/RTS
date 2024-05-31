@@ -25,7 +25,7 @@ export class AppComponent {
     this.userInfo = store ? this.service.decryption(store) : {};
     return this.userInfo.email ? true : false;
   }
-  
+
   logout() {
     this.service.logout();
     this.router.navigate(['login']);

@@ -7,6 +7,7 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { Router } from '@angular/router';
 import { StrongPasswordRegx } from '../../shared/constant';
 import moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
@@ -24,7 +25,8 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private service: ServicesService,
-    public router: Router
+    public router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -38,7 +40,7 @@ export class SignupComponent implements OnInit {
         Validators.required,
         Validators.pattern(StrongPasswordRegx),
       ]),
-      image: new FormControl('')
+      image: new FormControl(''),
     });
   }
 
@@ -58,6 +60,9 @@ export class SignupComponent implements OnInit {
           },
           error => {
             this.loading = false;
+            this.toastr.error(error.error, 'Error', {
+              positionClass: 'toast-top-center',
+            });
           }
         );
     } else {

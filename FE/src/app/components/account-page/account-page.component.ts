@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ServicesService } from '../../services/services.service';
 import { Router } from '@angular/router';
 import { NgxLoadingModule } from 'ngx-loading';
@@ -28,27 +33,25 @@ export class AccountPageComponent implements OnInit {
     this.updateForm = new FormGroup({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
-      dob: new FormControl({value: '', disabled: true}),
-      email: new FormControl({value: '', disabled: true})
+      dob: new FormControl({ value: '', disabled: true }),
+      email: new FormControl({ value: '', disabled: true }),
     });
 
     const store = localStorage.getItem('user');
     const user = store ? this.service.decryption(store) : {};
 
-    this.service
-      .httpCall(this.service.getUser(user.id), {}, 'get')
-      .subscribe(
-        (res: any) => {
-          this.userData = res
-          this.userData.dob = moment(this.userData.dob).format('YYYY-MM-DD');
+    this.service.httpCall(this.service.getUser(user.id), {}, 'get').subscribe(
+      (res: any) => {
+        this.userData = res;
+        this.userData.dob = moment(this.userData.dob).format('YYYY-MM-DD');
 
-          this.updateForm.patchValue(this.userData);
-          this.loading = false;
-        },
-        error => {
-          this.loading = false;
-        }
-      );
+        this.updateForm.patchValue(this.userData);
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+      }
+    );
   }
 
   onSubmit() {
@@ -61,7 +64,11 @@ export class AccountPageComponent implements OnInit {
 
       // Send encryptedData to the API
       this.service
-        .httpCall(this.service.updateUser(this.userData.id), { data: encryptedData }, 'put')
+        .httpCall(
+          this.service.updateUser(this.userData.id),
+          { data: encryptedData },
+          'put'
+        )
         .subscribe(
           (res: any) => {
             this.loading = false;

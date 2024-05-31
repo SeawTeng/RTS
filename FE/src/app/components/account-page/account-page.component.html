@@ -13,12 +13,13 @@
               id="email"
               type="email"
               formControlName="email"
-              class="form-control"
-             />
+              class="form-control" />
           </div>
 
           <div class="col-md-8 col-sm-12 mt-2">
-            <label for="firstName">First Name:</label>
+            <label for="firstName"
+              >First Name:<span class="text-danger">*</span></label
+            >
             <input
               id="firstName"
               formControlName="firstName"
@@ -38,7 +39,9 @@
           </div>
 
           <div class="col-md-8 col-sm-12 mt-2">
-            <label for="lastName">Last Name:</label>
+            <label for="lastName"
+              >Last Name:<span class="text-danger">*</span></label
+            >
             <input
               id="lastName"
               formControlName="lastName"
@@ -63,8 +66,7 @@
               id="dob"
               type="date"
               formControlName="dob"
-              class="form-control"
-             />
+              class="form-control" />
           </div>
 
           <div class="col-md-12 col-sm-12 mt-3 text-center">
