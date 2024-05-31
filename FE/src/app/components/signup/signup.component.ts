@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ServicesService } from '../../services/services.service';
 import { NgxLoadingModule } from 'ngx-loading';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { StrongPasswordRegx } from '../../shared/constant';
 import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, NgxLoadingModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule, NgxLoadingModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })

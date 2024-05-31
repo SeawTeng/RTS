@@ -37,7 +37,10 @@
                             updateForm.get('firstName')?.touched)
                         "
                         class="text-danger">
-                        <div *ngIf="updateForm.get('firstName')?.hasError('required')">
+                        <div
+                          *ngIf="
+                            updateForm.get('firstName')?.hasError('required')
+                          ">
                           First Name is required.
                         </div>
                       </div>
@@ -59,7 +62,10 @@
                             updateForm.get('lastName')?.touched)
                         "
                         class="text-danger">
-                        <div *ngIf="updateForm.get('lastName')?.hasError('required')">
+                        <div
+                          *ngIf="
+                            updateForm.get('lastName')?.hasError('required')
+                          ">
                           Last Name is required.
                         </div>
                       </div>
