@@ -67,7 +67,6 @@ export class UpdatePasswordComponent implements OnInit {
             this.loading = false;
             this.service.logout();
             this.router.navigate(['home']);
-            
           },
           (error: any) => {
             this.toastr.error(error.error, 'Error', {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ServicesService } from './services/services.service';
@@ -14,20 +14,20 @@ import { ServicesService } from './services/services.service';
 export class AppComponent {
   title = 'RTS_FE';
   userInfo: any;
-  login = false;
 
   constructor(
-    private service: ServicesService
+    private service: ServicesService,
+    private router: Router
   ) {}
 
   get userLogin() {
     const store = localStorage.getItem('user');
     this.userInfo = store ? this.service.decryption(store) : {};
-    this.login = this.userInfo.email ? true : false;
-    return this.login;
+    return this.userInfo.email ? true : false;
   }
   
   logout() {
     this.service.logout();
+    this.router.navigate(['login']);
   }
 }
