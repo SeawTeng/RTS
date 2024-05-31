@@ -8,7 +8,7 @@
       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
         <div class="row justify-content-center">
           <div class="col-md-8 col-sm-12 mt-2">
-            <label for="email">Email:</label>
+            <label for="email">Email:<span class="text-danger">*</span></label>
             <input
               id="email"
               type="email"
@@ -32,7 +32,9 @@
           </div>
 
           <div class="col-md-8 col-sm-12 mt-2">
-            <label for="firstName">First Name:</label>
+            <label for="firstName"
+              >First Name:<span class="text-danger">*</span></label
+            >
             <input
               id="firstName"
               formControlName="firstName"
@@ -52,7 +54,9 @@
           </div>
 
           <div class="col-md-8 col-sm-12 mt-2">
-            <label for="lastName">Last Name:</label>
+            <label for="lastName"
+              >Last Name:<span class="text-danger">*</span></label
+            >
             <input
               id="lastName"
               formControlName="lastName"
@@ -72,7 +76,9 @@
           </div>
 
           <div class="col-md-8 col-sm-12 mt-2">
-            <label for="dob">Date of Birth:</label>
+            <label for="dob"
+              >Date of Birth:<span class="text-danger">*</span></label
+            >
             <input
               id="dob"
               type="date"
@@ -92,16 +98,10 @@
             </div>
           </div>
 
-          <!-- <div class="col-md-8 col-sm-12 mt-2">
-            <label for="id">ID:</label>
-            <input id="id" formControlName="id" class="form-control" required>
-            <div *ngIf="signupForm.get('id')?.invalid && (signupForm.get('id')?.dirty || signupForm.get('id')?.touched)" class="text-danger">
-              <div *ngIf="signupForm.get('id')?.hasError('required')">ID is required.</div>
-            </div>
-          </div> -->
-
           <div class="col-md-8 col-sm-12 mt-2">
-            <label for="password">Password:</label>
+            <label for="password"
+              >Password:<span class="text-danger">*</span></label
+            >
             <div class="input-group">
               <input
                 id="password"
