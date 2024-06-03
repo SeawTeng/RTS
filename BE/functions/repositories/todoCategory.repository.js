@@ -20,11 +20,11 @@ class TodoCategoryRepository extends FirebaseRepository {
     const token = req.headers["authorization"];
     const userId = jwt.decode(token, process.env.JWT_SECRET).id;
 
-    const categoryDocRef = await this.db
+    const userDocRef = await this.db
         .doc(`users/${userId}`);
 
     const response = await this.firebaseCollection
-        .where("userId", "==", categoryDocRef)
+        .where("userId", "==", userDocRef)
         .where("isDeleted", "==", false)
         .get();
     return this.processFirebaseResponse(response, true);

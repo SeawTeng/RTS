@@ -28,9 +28,9 @@ class TodoCategoryController {
     const userId = jwt.decode(token, process.env.JWT_SECRET).id;
 
     todoCategoryDto.isDeleted = false;
-    const categoryDocRef = await TodoCategoryRepository.db
+    const userDocRef = await TodoCategoryRepository.db
         .doc(`users/${userId}`);
-    todoCategoryDto.userId = categoryDocRef;
+    todoCategoryDto.userId = userDocRef;
 
     return await TodoCategoryRepository.add(req, todoCategoryDto);
   }

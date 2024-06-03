@@ -1,7 +1,9 @@
 import UserRoutes from "./user.routes.js";
-import TodoRoutes from "./todoCategory.routes.js";
+import TodoCategoryRoutes from "./todoCategory.routes.js";
+import TodoTaskRoutes from "./todoTask.routes.js";
 
 export {
   UserRoutes,
-  TodoRoutes,
+  TodoCategoryRoutes,
+  TodoTaskRoutes,
 };
