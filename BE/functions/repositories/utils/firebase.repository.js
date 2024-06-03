@@ -114,7 +114,7 @@ class FirebaseRepository {
     const response = await this.firebaseCollection
         .add(item);
 
-    return response.id;
+    return item;
   }
 
   /**
@@ -170,8 +170,16 @@ class FirebaseRepository {
    * @param {any} response
    * @return {any}
   */
-  processFirebaseResponse(response) {
-    return response.docs.map((itemRef) => itemRef.data());
+  processFirebaseResponse(response, getAll = false) {
+    const tempDoc = []
+    response.forEach((doc) => {
+      tempDoc.push({ ...doc.data(), id: doc.id })
+    })
+
+    if (getAll) {
+      return tempDoc;
+    }
+    return tempDoc[0];
   }
 
   /**
@@ -182,7 +190,7 @@ class FirebaseRepository {
     const data = {};
     for (const i in response._fieldsProto) {
       if (response._fieldsProto[i]) {
-        data[i] = response._fieldsProto[i].stringValue;
+        data[i] = response._fieldsProto[i][response._fieldsProto[i].valueType];
       }
     }
 

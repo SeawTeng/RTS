@@ -3,8 +3,7 @@ import * as functions from "firebase-functions";
 import express from "express";
 import cors from "cors";
 
-import {UserRoutes} from "./routes/index.js";
-// import auth from './utils/auth';
+import {UserRoutes, TodoRoutes} from "./routes/index.js";
 
 const app = express();
 
@@ -21,9 +20,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// app.use(auth);
-
 app.use("/users", UserRoutes);
+app.use("/todoCategory", TodoRoutes);
 
 const api = functions.https.onRequest(app);
 
