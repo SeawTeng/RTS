@@ -9,6 +9,7 @@ class TodoCategory extends Entity {
     * @param {string} id
     * @param {string} categoryName
     * @param {string} userId
+    * @param {string} icon
     * @param {string} lastCreatedBy
     * @param {string} lastUpdatedBy
     * @param {string} lastCreatedTime
@@ -19,6 +20,7 @@ class TodoCategory extends Entity {
       id,
       categoryName,
       userId,
+      icon,
       lastCreatedBy,
       lastUpdatedBy,
       lastCreatedTime,
@@ -32,6 +34,7 @@ class TodoCategory extends Entity {
 
     this.categoryName = categoryName;
     this.userId = userId;
+    this.icon = icon;
     this.lastCreatedTime =
         moment(lastCreatedTime).format("DD-MM-YYYY HH:mm:ss") ||
         moment().format("DD-MM-YYYY HH:mm:ss");
