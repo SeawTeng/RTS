@@ -15,27 +15,28 @@
     id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/quiz">Learning Style Assessment</a>
+        <a class="nav-link" [routerLinkActive]="['active']" routerLink="/quiz"
+          >Learning Style Assessment</a
+        >
       </li>
 
-      <li class="nav-item dropdown">
+      <li class="nav-item">
         <a
-          class="nav-link dropdown-toggle"
-          href="#"
-          role="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false">
-          Features
-        </a>
-        <ul class="dropdown-menu">
-          <li>
-            <a class="dropdown-item" routerLink="/pomodoro">Pomodoro Timer</a>
-          </li>
-          <li><a class="dropdown-item" routerLink="/todo">To Do List</a></li>
-        </ul>
+          class="nav-link"
+          [routerLinkActive]="['active']"
+          routerLink="/pomodoro"
+          >Pomodoro Timer</a
+        >
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" [routerLinkActive]="['active']" routerLink="/todo"
+          >To Do List</a
+        >
       </li>
     </ul>
   </div>
+
   <div class="mx-auto order-0">
     <a class="navbar-brand" href="/">
       <img
@@ -52,7 +53,7 @@
 
         <ng-template #loggedIn>
           <button
-            class="btn btn-outline-secondary my-2 my-sm-0"
+            class="btn btn-secondary btn-user my-2 my-sm-0"
             type="button"
             routerLink="/login">
             Log In
@@ -63,7 +64,7 @@
           <div class="btn-group" role="group">
             <button
               type="button"
-              class="btn btn-outline-secondary dropdown-toggle"
+              class="btn btn-secondary btn-user dropdown-toggle"
               data-bs-toggle="dropdown"
               aria-expanded="false">
               {{ userInfo?.email }}
