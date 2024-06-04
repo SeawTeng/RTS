@@ -3,10 +3,10 @@ import { CanActivateFn } from '@angular/router';
 import { AppService } from './services/app.service';
 
 export const authGuard: CanActivateFn = () => {
-  const store = localStorage.getItem('user');
-  const user = store ? inject(AppService).decryption(store) : {};
+  const cookie = inject(AppService).getToken();
 
-  if (!user.email) {
+  if (!cookie) {
+    inject(AppService).logout();
     return false;
   }
 

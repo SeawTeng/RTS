@@ -67,9 +67,7 @@ class FirebaseRepository {
       throw new Error("not found!");
     }
 
-    const id = response.docs[0].ref.id;
-    const data = this.processFirebaseResponse(response)[0];
-    data.id = id;
+    const data = this.processFirebaseResponse(response);
 
     const token = jwt.sign(data, process.env.JWT_SECRET);
     data.token = token;
