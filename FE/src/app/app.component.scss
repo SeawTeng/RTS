@@ -35,3 +35,10 @@
 .btn-user:active {
   background-color: rgb(48, 92, 124);
 }
+
+#navbarSupportedContent {
+  .nav-item {
+    max-width: 120px;
+    word-wrap: break-word;
+  }
+}
