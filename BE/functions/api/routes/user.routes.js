@@ -9,6 +9,11 @@ import {UserRepository} from "../../repositories/index.js";
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
+router.get("/checkToken", async (req, res) =>
+  await handleReadRequest(res, async () => {
+    return await UserController.checkAuth(req);
+  }));
+
 router.post("/login", async (req, res) =>
   await handleReadRequest(res, async () => {
     return await UserController.login(req, res);

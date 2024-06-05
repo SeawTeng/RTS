@@ -67,9 +67,7 @@ class FirebaseRepository {
       throw new Error("not found!");
     }
 
-    const id = response.docs[0].ref.id;
-    const data = this.processFirebaseResponse(response)[0];
-    data.id = id;
+    const data = this.processFirebaseResponse(response);
 
     const token = jwt.sign(data, process.env.JWT_SECRET);
     data.token = token;
@@ -85,7 +83,7 @@ class FirebaseRepository {
         .doc(id)
         .get();
 
-    if (response.empty) {
+    if (response.empty || response.isDeleted) {
       throw new Error(`${this.collection} with id ${id} does not exist!`);
     }
 
@@ -111,10 +109,10 @@ class FirebaseRepository {
     item.lastCreatedBy = decode ? decode.email : "SYSTEM";
     item.lastUpdatedBy = decode ? decode.email : "SYSTEM";
 
-    const response = await this.firebaseCollection
-        .add(item);
+    const res = await this.firebaseCollection.add(item);
+    item.id = res.id;
 
-    return response.id;
+    return item;
   }
 
   /**
@@ -133,12 +131,13 @@ class FirebaseRepository {
     item.lastCreatedBy = decode ? decode.email : "SYSTEM";
     item.lastUpdatedBy = decode ? decode.email : "SYSTEM";
 
-    await this.db
+    const response = await this.db
         .doc(`${this.collection}/${item.id}`)
         .update(item);
 
     return {
       message: `${this.collection} has successfully updated!`,
+      data: item
     };
   }
 
@@ -170,8 +169,16 @@ class FirebaseRepository {
    * @param {any} response
    * @return {any}
   */
-  processFirebaseResponse(response) {
-    return response.docs.map((itemRef) => itemRef.data());
+  processFirebaseResponse(response, getAll = false) {
+    const tempDoc = []
+    response.forEach((doc) => {
+      tempDoc.push({ ...doc.data(), id: doc.id })
+    })
+
+    if (getAll) {
+      return tempDoc;
+    }
+    return tempDoc[0];
   }
 
   /**
@@ -182,7 +189,7 @@ class FirebaseRepository {
     const data = {};
     for (const i in response._fieldsProto) {
       if (response._fieldsProto[i]) {
-        data[i] = response._fieldsProto[i].stringValue;
+        data[i] = response._fieldsProto[i][response._fieldsProto[i].valueType];
       }
     }
 

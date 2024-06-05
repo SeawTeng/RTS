@@ -8,6 +8,19 @@ import AES from "crypto-js/aes.js";
 */
 class UserController {
   /**
+   * check if token valid
+   * @param {any} req
+  */
+  async checkAuth(req) {
+    const auth = await UserRepository.checkAuthenticate(req);
+    if (auth.message) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * get all user data
   */
   async getAll() {
