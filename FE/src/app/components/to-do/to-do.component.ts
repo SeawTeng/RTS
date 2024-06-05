@@ -8,6 +8,7 @@ import { NgxLoadingModule } from 'ngx-loading';
 import { ToDoCategoryComponent } from './to-do-category-model/to-do-category-model.component';
 import { ToDoTaskComponent } from './to-do-task-model/to-do-task-model.component';
 import Swal from 'sweetalert2';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-to-do',
@@ -19,6 +20,7 @@ import Swal from 'sweetalert2';
     NgxLoadingModule,
     ToDoCategoryComponent,
     ToDoTaskComponent,
+    FormsModule,
   ],
   templateUrl: './to-do.component.html',
   styleUrl: './to-do.component.scss',
@@ -31,6 +33,7 @@ export class ToDoComponent implements OnInit {
   selectedCategoryId: any = null;
   selectedTask: any = null;
   selectedCategory: any = null;
+  showCompleted: boolean = true;
 
   constructor(
     private service: ServicesService,
@@ -39,18 +42,28 @@ export class ToDoComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.loading = true;
     await this.getAllCategory();
   }
 
   async getAllCategory() {
+    this.loading = true;
+    const api = this.selectedCategoryId
+      ? this.service.getAllTodoTaskByCategory(this.selectedCategoryId.id)
+      : this.service.getAllTodoTask();
+
     await this.service
       .httpCall(this.service.getAllTodoCategory(), {}, 'get')
       .subscribe(
         async (res: any) => {
           this.categoryList = res;
           await this.service
-            .httpCall(this.service.getAllTodoTask(), {}, 'get')
+            .httpCall(
+              api,
+              {
+                showCompleted: this.showCompleted,
+              },
+              'post'
+            )
             .subscribe((res: any) => {
               this.loading = false;
               this.taskList = res;
@@ -64,6 +77,13 @@ export class ToDoComponent implements OnInit {
         }
       );
   }
+
+  //   _            _
+  //  | |          | |
+  //  | |_ __ _ ___| | __
+  //  | __/ _` / __| |/ /
+  //  | || (_| \__ \   <
+  //   \__\__,_|___/_|\_\
 
   async deleteTask(task: any) {
     const { value: confirm } = await Swal.fire({
@@ -98,8 +118,8 @@ export class ToDoComponent implements OnInit {
     this.selectedTask.categoryId = task.categoryId._path.segments[1];
   }
 
-  editCategory() {
-    this.type = 'Edit';
+  createTask() {
+    this.type = 'Create';
     this.selectedCategory = JSON.parse(JSON.stringify(this.selectedCategoryId));
   }
 
@@ -134,6 +154,23 @@ export class ToDoComponent implements OnInit {
     }
   }
 
+  toggleShowCompleted() {
+    this.getAllCategory();
+  }
+
+  //             _
+  //            | |
+  //    ___ __ _| |_ ___  __ _  ___  _ __ _   _
+  //   / __/ _` | __/ _ \/ _` |/ _ \| '__| | | |
+  //  | (_| (_| | ||  __/ (_| | (_) | |  | |_| |
+  //   \___\__,_|\__\___|\__, |\___/|_|   \__, |
+  //                      __/ |            __/ |
+  //                     |___/            |___/
+  editCategory() {
+    this.type = 'Edit';
+    this.selectedCategory = JSON.parse(JSON.stringify(this.selectedCategoryId));
+  }
+
   async selectCategory(category: any) {
     if (
       this.selectedCategoryId == null ||
@@ -143,7 +180,11 @@ export class ToDoComponent implements OnInit {
       this.loading = true;
 
       await this.service
-        .httpCall(this.service.getAllTodoTaskByCategory(category.id), {}, 'get')
+        .httpCall(
+          this.service.getAllTodoTaskByCategory(category.id),
+          { showCompleted: this.showCompleted },
+          'post'
+        )
         .subscribe(
           async (res: any) => {
             this.taskList = res;
@@ -161,7 +202,11 @@ export class ToDoComponent implements OnInit {
       this.loading = true;
 
       await this.service
-        .httpCall(this.service.getAllTodoTask(), {}, 'get')
+        .httpCall(
+          this.service.getAllTodoTask(),
+          { showCompleted: this.showCompleted },
+          'post'
+        )
         .subscribe(
           async (res: any) => {
             this.taskList = res;
@@ -174,6 +219,48 @@ export class ToDoComponent implements OnInit {
             });
           }
         );
+    }
+  }
+
+  categorySubmit(res: any) {
+    if (res.data) {
+      this.selectedCategory = this.selectedCategoryId = JSON.parse(
+        JSON.stringify(res.data)
+      );
+    }
+
+    this.getAllCategory();
+  }
+
+  async deleteCategory() {
+    const { value: confirm } = await Swal.fire({
+      title: 'Delete Category',
+      text: 'Do you sure you want to delete this category? This action will also delete all the related tasks.',
+      showCancelButton: true,
+    });
+
+    if (confirm) {
+      this.loading = true;
+      await this.service
+        .httpCall(
+          this.service.deleteTodoCategory(this.selectedCategoryId.id),
+          {},
+          'delete'
+        )
+        .subscribe(
+          async (res: any) => {
+            this.selectedCategory = this.selectedCategoryId = null;
+            await this.getAllCategory();
+          },
+          error => {
+            this.loading = false;
+            this.toastr.error(error.error, 'Error', {
+              positionClass: 'toast-top-center',
+            });
+          }
+        );
+    } else {
+      this.loading = false;
     }
   }
 }

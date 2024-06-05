@@ -38,6 +38,7 @@ export class ToDoTaskComponent implements OnChanges {
   @Input() categoryList: any;
   @Input() type: any;
   @Input() selectedTask: any;
+  @Input() selectedCategory: any;
   @Output() submitted = new EventEmitter<boolean>();
 
   today: string = moment().format('YYYY-MM-DD');
@@ -51,6 +52,10 @@ export class ToDoTaskComponent implements OnChanges {
   ngOnChanges(): void {
     if (this.type == 'Edit') {
       this.taskForm.patchValue(this.selectedTask);
+    }
+
+    if (this.selectedCategory) {
+      this.taskForm.get('categoryId')?.setValue(this.selectedCategory.id);
     }
   }
 
@@ -81,6 +86,7 @@ export class ToDoTaskComponent implements OnChanges {
 
   clearForm() {
     this.selectedTask = null;
+    this.selectedCategory = null;
     this.taskForm.reset();
   }
 }

@@ -34,7 +34,7 @@ export class ToDoCategoryComponent implements OnChanges {
 
   categoryIcon = categoryIcon;
   loading = false;
-  @Output() submitted = new EventEmitter<boolean>();
+  @Output() submitted = new EventEmitter<any>();
   @Input() selectedCategory: any;
   @Input() type: any;
 
@@ -54,24 +54,29 @@ export class ToDoCategoryComponent implements OnChanges {
     const data = this.categoryForm.value;
     this.loading = true;
 
-    await this.service
-      .httpCall(this.service.createTodoCategory(), data, 'post')
-      .subscribe(
-        async (res: any) => {
-          this.loading = false;
-          this.submitted.emit(true);
-          this.clearForm();
-        },
-        error => {
-          this.loading = false;
-          this.toastr.error(error.error, 'Error', {
-            positionClass: 'toast-top-center',
-          });
-        }
-      );
+    const api =
+      this.type == 'Edit'
+        ? this.service.updateTodoCategory(this.selectedCategory.id)
+        : this.service.createTodoCategory();
+    const type = this.type == 'Edit' ? 'put' : 'post';
+
+    await this.service.httpCall(api, data, type).subscribe(
+      async (res: any) => {
+        this.loading = false;
+        this.submitted.emit(res);
+        this.clearForm();
+      },
+      error => {
+        this.loading = false;
+        this.toastr.error(error.error, 'Error', {
+          positionClass: 'toast-top-center',
+        });
+      }
+    );
   }
 
   clearForm() {
     this.categoryForm.reset();
+    this.selectedCategory = null;
   }
 }
