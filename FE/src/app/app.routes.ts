@@ -1,6 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { authGuard } from './auth.guard';
+import { QuizFormComponent } from './components/quiz-form/quiz-form.component';
 
 export const routes: Routes = [
   {
@@ -30,9 +31,22 @@ export const routes: Routes = [
   },
   {
     path: 'quiz',
-    loadComponent: () =>
-      import('./components/quiz/quiz.component').then(m => m.QuizComponent),
-    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./components/quiz/quiz.component').then(m => m.QuizComponent),
+        canActivate: [authGuard],
+      },
+      {
+        path: 'form',
+        loadComponent: () =>
+          import('./components/quiz-form/quiz-form.component').then(
+            m => m.QuizFormComponent
+          ),
+        canActivate: [authGuard],
+      },
+    ],
   },
   {
     path: 'todo',

@@ -1,0 +1,49 @@
+<div class="bg-color">
+  <div class="card quiz-form">
+    <div class="card-body justify-content-center">
+      <div class="text-center mt-4">
+        <h1 class="title mt-4">Learning Style Assessment</h1>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="quizQuestion">
+    <div class="card quiz-form mt-3">
+      <div class="card-body justify-content-center">
+        <h4>Learning Styles</h4>
+        <p class="m-0" *ngFor="let type of quizQuestion.typeList">
+          {{ type.typeOption }}: {{ type.typeName }}
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="card quiz-form mt-3"
+      *ngFor="let qns of quizQuestion.questionList">
+      <div class="card-body justify-content-center">
+        <h5>{{ qns.title }}</h5>
+        <div class="form-check" *ngFor="let opt of qns.options">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id="flexRadioDefault1" />
+          <label class="form-check-label" for="flexRadioDefault1">
+            {{ opt.type }}: {{ opt.text }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="container text-center mt-3">
+      <div class="row justify-content-center">
+        <div class="col col-lg-2">
+          <button type="button" class="btn btn-primary btn-lg">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>
