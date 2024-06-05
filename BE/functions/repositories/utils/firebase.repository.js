@@ -126,9 +126,7 @@ class FirebaseRepository {
       decode = jwt.verify(token, process.env.JWT_SECRET);
     }
 
-    item.lastCreatedTime = moment().format("DD-MM-YYYY HH:mm:ss");
     item.lastUpdatedTime = moment().format("DD-MM-YYYY HH:mm:ss");
-    item.lastCreatedBy = decode ? decode.email : "SYSTEM";
     item.lastUpdatedBy = decode ? decode.email : "SYSTEM";
 
     const response = await this.db
@@ -151,9 +149,7 @@ class FirebaseRepository {
       decode = jwt.verify(token, process.env.JWT_SECRET);
     }
     const data = {
-      lastCreatedTime: moment().format("DD-MM-YYYY HH:mm:ss"),
       lastUpdatedTime: moment().format("DD-MM-YYYY HH:mm:ss"),
-      lastCreatedBy: decode ? decode.email : "SYSTEM",
       lastUpdatedBy: decode ? decode.email : "SYSTEM",
       isDeleted: true,
     };
@@ -186,12 +182,8 @@ class FirebaseRepository {
    * @return {any}
   */
   processDBResponse(response) {
-    const data = {};
-    for (const i in response._fieldsProto) {
-      if (response._fieldsProto[i]) {
-        data[i] = response._fieldsProto[i][response._fieldsProto[i].valueType];
-      }
-    }
+    const data = response.data();
+    data.id = response.id;
 
     return data;
   }

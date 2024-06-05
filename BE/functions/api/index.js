@@ -5,7 +5,9 @@ import cors from "cors";
 
 import {UserRoutes,
   TodoCategoryRoutes,
-  TodoTaskRoutes} from "./routes/index.js";
+  TodoTaskRoutes,
+  QuizQuestionRoutes,
+  QuizAnswerRoutes} from "./routes/index.js";
 
 const app = express();
 
@@ -25,6 +27,8 @@ app.use(cors(corsOptions));
 app.use("/users", UserRoutes);
 app.use("/todoCategory", TodoCategoryRoutes);
 app.use("/todoTask", TodoTaskRoutes);
+app.use("/quizQuestion", QuizQuestionRoutes);
+app.use("/quizAnswer", QuizAnswerRoutes);
 
 const api = functions.https.onRequest(app);
 
