@@ -46,10 +46,33 @@ class TodoCategoryController {
   }
 
   /**
-   *  @param {string} id
+   *  @param {any} req
   */
-  async delete(id) {
-    const existingUser = await TodoCategoryRepository.delete(id);
+  async delete(req) {
+    const categoryDocRef = await TodoCategoryRepository.db
+        .doc(`todoCategory/${req.params.id}`);
+
+    const response = await TodoCategoryRepository
+        .db.collection("todoTask")
+        .where("categoryId", "==", categoryDocRef)
+        .where("status", "==", "active")
+        .get();
+
+    if (!response.empty) {
+      throw new Error(
+          "There are tasks under this category that are not completed!");
+    } else {
+      const taskRes = await TodoCategoryRepository
+          .db.collection("todoTask")
+          .where("categoryId", "==", categoryDocRef).get();
+      taskRes.forEach(async (element) => {
+        await TodoCategoryRepository.db
+            .doc(`todoTask/${element.id}`)
+            .update({isDeleted: true});
+      });
+    }
+
+    const existingUser = await TodoCategoryRepository.delete(req);
     if (!existingUser) throw new Error("Error");
 
     return {

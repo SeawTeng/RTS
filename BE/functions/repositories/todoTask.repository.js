@@ -23,10 +23,23 @@ class TodoTaskRepository extends FirebaseRepository {
     const userDocRef = await this.db
         .doc(`users/${userId}`);
 
-    const response = await this.firebaseCollection
-        .where("userId", "==", userDocRef)
-        .where("isDeleted", "==", false)
-        .get();
+    let response = null;
+
+    if (!req.body.showCompleted) {
+      response = await this.firebaseCollection
+          .where("userId", "==", userDocRef)
+          .where("isDeleted", "==", false)
+          .where("status", "==", "active")
+          .orderBy("endDate")
+          .get();
+    } else {
+      response = await this.firebaseCollection
+          .where("userId", "==", userDocRef)
+          .where("isDeleted", "==", false)
+          .orderBy("endDate")
+          .get();
+    }
+
     return this.processFirebaseResponse(response, true);
   }
 
@@ -43,11 +56,23 @@ class TodoTaskRepository extends FirebaseRepository {
     const categoryDocRef = await this.db
         .doc(`todoCategory/${req.params.id}`);
 
-    const response = await this.firebaseCollection
-        .where("userId", "==", userDocRef)
-        .where("categoryId", "==", categoryDocRef)
-        .where("isDeleted", "==", false)
-        .get();
+    let response = null;
+    if (!req.body.showCompleted) {
+      response = await this.firebaseCollection
+          .where("userId", "==", userDocRef)
+          .where("categoryId", "==", categoryDocRef)
+          .where("isDeleted", "==", false)
+          .where("status", "==", "active")
+          .orderBy("endDate")
+          .get();
+    } else {
+      response = await this.firebaseCollection
+          .where("userId", "==", userDocRef)
+          .where("categoryId", "==", categoryDocRef)
+          .where("isDeleted", "==", false)
+          .orderBy("endDate")
+          .get();
+    }
     return this.processFirebaseResponse(response, true);
   }
 }

@@ -66,10 +66,10 @@ class TodoTaskController {
   }
 
   /**
-   *  @param {string} id
+   *  @param {string} req
   */
-  async delete(id) {
-    const existingUser = await TodoTaskRepository.delete(id);
+  async delete(req) {
+    const existingUser = await TodoTaskRepository.delete(req);
     if (!existingUser) throw new Error("Error");
 
     return {

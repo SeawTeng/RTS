@@ -10,7 +10,7 @@ import {TodoTaskRepository} from "../../repositories/index.js";
 const router = express.Router();
 
 // get all category of the user
-router.get("/getAll", async (req, res) =>
+router.post("/getAll", async (req, res) =>
   await handleReadRequest(res, async () => {
     const auth = await TodoTaskRepository.checkAuthenticate(req, res);
     if (auth.message) {
@@ -20,7 +20,7 @@ router.get("/getAll", async (req, res) =>
     }
   }));
 
-router.get("/getAll/:id", async (req, res) =>
+router.post("/getAll/:id", async (req, res) =>
   await handleReadRequest(res, async () => {
     const auth = await TodoTaskRepository.checkAuthenticate(req, res);
     if (auth.message) {

@@ -83,7 +83,7 @@ class FirebaseRepository {
         .doc(id)
         .get();
 
-    if (response.empty) {
+    if (response.empty || response.isDeleted) {
       throw new Error(`${this.collection} with id ${id} does not exist!`);
     }
 
@@ -109,8 +109,8 @@ class FirebaseRepository {
     item.lastCreatedBy = decode ? decode.email : "SYSTEM";
     item.lastUpdatedBy = decode ? decode.email : "SYSTEM";
 
-    const response = await this.firebaseCollection
-        .add(item);
+    const res = await this.firebaseCollection.add(item);
+    item.id = res.id;
 
     return item;
   }
@@ -131,12 +131,13 @@ class FirebaseRepository {
     item.lastCreatedBy = decode ? decode.email : "SYSTEM";
     item.lastUpdatedBy = decode ? decode.email : "SYSTEM";
 
-    await this.db
+    const response = await this.db
         .doc(`${this.collection}/${item.id}`)
         .update(item);
 
     return {
       message: `${this.collection} has successfully updated!`,
+      data: item
     };
   }
 
