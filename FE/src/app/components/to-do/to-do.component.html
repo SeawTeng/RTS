@@ -1,13 +1,12 @@
-<div class="bg-color">
-  <div class="card banner-card">
-    <div class="card-body justify-content-center w-100">
-      <div class="text-center mt-4">
-        <h1>To-Do List</h1>
-      </div>
+<div class="card banner-card">
+  <div class="card-body justify-content-center w-100">
+    <div class="text-center mt-4">
+      <h1>To-Do List</h1>
     </div>
   </div>
+</div>
 
-  <!-- _                              
+<!-- _                              
              | |                             
      ___ __ _| |_ ___  __ _  ___  _ __ _   _ 
     / __/ _` | __/ _ \/ _` |/ _ \| '__| | | |
@@ -15,160 +14,155 @@
     \___\__,_|\__\___|\__, |\___/|_|   \__, |
                        __/ |            __/ |
                       |___/            |___/  -->
-  <div class="container mt-5">
-    <div class="card todo-card">
-      <div class="card-body">
-        <div class="row align-items-center">
-          <div class="col-md-8">
-            <h4 class="m-0">Categories</h4>
-          </div>
-          <div class="col-md-4">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button
-                type="button"
-                class="btn btn-outline-primary btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#categoryModel">
-                <i class="fa fa-plus"></i>
-              </button>
-            </div>
+<div class="container mt-5">
+  <div class="card todo-card">
+    <div class="card-body">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h4 class="m-0">Categories</h4>
+        </div>
+        <div class="col-md-4">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm"
+              data-bs-toggle="modal"
+              data-bs-target="#categoryModel">
+              <i class="fa fa-plus"></i>
+            </button>
           </div>
         </div>
+      </div>
 
-        <div class="category-list mt-4">
-          <div
-            class="category mb-2"
-            (click)="selectCategory(cat)"
-            [ngClass]="selectedCategoryId?.id === cat.id ? 'active' : ''"
-            *ngFor="let cat of categoryList">
-            <div class="cat-icon">
-              <i [ngClass]="cat.icon"></i>
-            </div>
-            <p class="mb-0">{{ cat.categoryName }}</p>
+      <div class="category-list mt-4">
+        <div
+          class="category mb-2"
+          (click)="selectCategory(cat)"
+          [ngClass]="selectedCategoryId?.id === cat.id ? 'active' : ''"
+          *ngFor="let cat of categoryList">
+          <div class="cat-icon">
+            <i [ngClass]="cat.icon"></i>
           </div>
+          <p class="mb-0">{{ cat.categoryName }}</p>
         </div>
+      </div>
 
-        <!-- _            _    
+      <!-- _            _    
             | |          | |   
             | |_ __ _ ___| | __
             | __/ _` / __| |/ /
             | || (_| \__ \   < 
               \__\__,_|___/_|\_\
                             -->
-        <div class="row align-items-center mt-5 mb-4">
-          <div class="col-md-8">
-            <h4 class="m-0">
-              {{
-                selectedCategoryId
-                  ? selectedCategoryId.categoryName
-                  : 'All Tasks'
-              }}
+      <div class="row align-items-center mt-5 mb-4">
+        <div class="col-md-8">
+          <h4 class="m-0">
+            {{
+              selectedCategoryId ? selectedCategoryId.categoryName : 'All Tasks'
+            }}
 
-              <button
-                *ngIf="selectedCategoryId && selectedCategoryId.categoryName"
-                type="button"
-                class="btn btn-outline-primary btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#categoryModel"
-                (click)="editCategory()">
-                <i class="fa fa-edit"></i>
-              </button>
+            <button
+              *ngIf="selectedCategoryId && selectedCategoryId.categoryName"
+              type="button"
+              class="btn btn-outline-primary btn-sm"
+              data-bs-toggle="modal"
+              data-bs-target="#categoryModel"
+              (click)="editCategory()">
+              <i class="fa fa-edit"></i>
+            </button>
 
-              <button
-                *ngIf="selectedCategoryId && selectedCategoryId.categoryName"
-                type="button"
-                class="btn btn-outline-danger btn-sm"
-                style="margin-left: 5px"
-                (click)="deleteCategory()">
-                <i class="fa fa-trash"></i>
-              </button>
-            </h4>
-          </div>
-          <div class="col-md-4">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  [(ngModel)]="showCompleted"
-                  (change)="toggleShowCompleted()"
-                  id="flexCheckChecked" />
-                <label class="form-check-label" for="flexCheckChecked">
-                  Show Completed
-                </label>
-              </div>
-              <button
-                type="button"
-                class="btn btn-outline-primary btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#taskModel"
-                (click)="createTask()">
-                <i class="fa fa-plus"></i>
-              </button>
+            <button
+              *ngIf="selectedCategoryId && selectedCategoryId.categoryName"
+              type="button"
+              class="btn btn-outline-danger btn-sm"
+              style="margin-left: 5px"
+              (click)="deleteCategory()">
+              <i class="fa fa-trash"></i>
+            </button>
+          </h4>
+        </div>
+        <div class="col-md-4">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [(ngModel)]="showCompleted"
+                (change)="toggleShowCompleted()"
+                id="flexCheckChecked" />
+              <label class="form-check-label" for="flexCheckChecked">
+                Show Completed
+              </label>
             </div>
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm"
+              data-bs-toggle="modal"
+              data-bs-target="#taskModel"
+              (click)="createTask()">
+              <i class="fa fa-plus"></i>
+            </button>
           </div>
         </div>
+      </div>
 
-        <div class="card w-100 mb-2" *ngFor="let task of taskList">
-          <div class="card-body">
-            <div class="row align-items-center">
-              <div class="col-md-1">
-                <div
-                  (click)="
+      <div class="card w-100 mb-2" *ngFor="let task of taskList">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-md-1">
+              <div
+                (click)="
+                  task.status === 'completed' ? false : markTaskAsComplete(task)
+                ">
+                <i
+                  style="font-size: 25px; cursor: pointer"
+                  [ngClass]="
                     task.status === 'completed'
-                      ? false
-                      : markTaskAsComplete(task)
-                  ">
-                  <i
-                    style="font-size: 25px; cursor: pointer"
-                    [ngClass]="
-                      task.status === 'completed'
-                        ? 'fa fa-check-square-o'
-                        : 'fa fa-square-o'
-                    "></i>
-                </div>
+                      ? 'fa fa-check-square-o'
+                      : 'fa fa-square-o'
+                  "></i>
               </div>
+            </div>
 
-              <div class="col-md-7">
-                <p class="m-0">
-                  {{ task.title }}
-                  <span
-                    class="badge text-bg-warning"
-                    *ngIf="task.status === 'active'"
-                    >In progress</span
-                  >
-                  <span
-                    class="badge text-bg-success"
-                    *ngIf="task.status === 'completed'"
-                    >Completed</span
-                  >
-                </p>
-                <p class="task-due m-0">
-                  {{ task.description }}
-                </p>
-                <p class="task-due m-0">
-                  {{ task.endDate }}
-                </p>
-              </div>
+            <div class="col-md-7">
+              <p class="m-0">
+                {{ task.title }}
+                <span
+                  class="badge text-bg-warning"
+                  *ngIf="task.status === 'active'"
+                  >In progress</span
+                >
+                <span
+                  class="badge text-bg-success"
+                  *ngIf="task.status === 'completed'"
+                  >Completed</span
+                >
+              </p>
+              <p class="task-due m-0">
+                {{ task.description }}
+              </p>
+              <p class="task-due m-0">
+                {{ task.endDate }}
+              </p>
+            </div>
 
-              <div class="col-md-4">
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                  <button
-                    type="button"
-                    class="btn btn-outline-primary btn-sm"
-                    data-bs-toggle="modal"
-                    data-bs-target="#taskModel"
-                    (click)="editTask(task)">
-                    <i class="fa fa-edit"></i>
-                  </button>
+            <div class="col-md-4">
+              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#taskModel"
+                  (click)="editTask(task)">
+                  <i class="fa fa-edit"></i>
+                </button>
 
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger btn-sm ml-2"
-                    (click)="deleteTask(task)">
-                    <i class="fa fa-trash"></i>
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  class="btn btn-outline-danger btn-sm ml-2"
+                  (click)="deleteTask(task)">
+                  <i class="fa fa-trash"></i>
+                </button>
               </div>
             </div>
           </div>

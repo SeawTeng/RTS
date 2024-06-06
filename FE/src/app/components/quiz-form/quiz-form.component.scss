@@ -11,3 +11,25 @@
     opacity: 70%;
   }
 }
+
+.submit-btn {
+  background-color: #90bad0;
+  color: #fff;
+  min-height: 30px;
+  min-width: 100%;
+  border: none;
+  border-radius: 5px;
+}
+
+.submit-btn:not([disabled]):hover,
+.submit-btn:not([disabled]):active {
+  background-color: #3f647d;
+}
+
+.answer-card {
+  top: 25%;
+  width: 45%;
+  position: absolute;
+  left: 26%;
+  padding: 10px 25px;
+}
