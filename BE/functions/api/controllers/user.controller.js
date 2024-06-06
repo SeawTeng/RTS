@@ -64,7 +64,6 @@ class UserController {
       );
     }
 
-    decryptedData.type = "normal";
     decryptedData.planType = "basic";
     decryptedData.planid = "";
     decryptedData.status = "active";

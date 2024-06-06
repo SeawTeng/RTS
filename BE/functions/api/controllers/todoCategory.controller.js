@@ -72,8 +72,8 @@ class TodoCategoryController {
       });
     }
 
-    const existingUser = await TodoCategoryRepository.delete(req);
-    if (!existingUser) throw new Error("Error");
+    const existingCat = await TodoCategoryRepository.delete(req);
+    if (!existingCat) throw new Error("Error");
 
     return {
       message: "Category have been successfully deleted!",

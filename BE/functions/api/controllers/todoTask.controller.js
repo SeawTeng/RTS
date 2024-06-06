@@ -69,11 +69,11 @@ class TodoTaskController {
    *  @param {string} req
   */
   async delete(req) {
-    const existingUser = await TodoTaskRepository.delete(req);
-    if (!existingUser) throw new Error("Error");
+    const existingTask = await TodoTaskRepository.delete(req);
+    if (!existingTask) throw new Error("Error");
 
     return {
-      message: "Category have been successfully deleted!",
+      message: "Task have been successfully deleted!",
     };
   }
 }

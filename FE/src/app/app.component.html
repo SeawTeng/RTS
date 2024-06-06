@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md nav-light-blue">
+<nav class="navbar sticky-top navbar-expand-md nav-light-blue">
   <button
     class="navbar-toggler"
     type="button"
@@ -13,7 +13,7 @@
   <div
     class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2"
     id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto align-items-center">
+    <ul class="navbar-nav mr-auto align-items-center" *ngIf="userLogin">
       <li class="nav-item">
         <a class="nav-link" [routerLinkActive]="['active']" routerLink="/quiz"
           >Learning Style Assessment</a
@@ -96,4 +96,6 @@
   </div>
 </nav>
 
-<router-outlet></router-outlet>
+<div class="bg-color">
+  <router-outlet></router-outlet>
+</div>

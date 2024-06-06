@@ -97,4 +97,66 @@ export class ServicesService extends AppService {
   updateTodoTask(id: string) {
     return `/todoTask/${id}`;
   }
+
+  //               _                             _   _
+  //              (_)                           | | (_)
+  //    __ _ _   _ _ ____   __ _ _   _  ___  ___| |_ _  ___  _ __
+  //   / _` | | | | |_  /  / _` | | | |/ _ \/ __| __| |/ _ \| '_ \
+  //  | (_| | |_| | |/ /  | (_| | |_| |  __/\__ \ |_| | (_) | | | |
+  //   \__, |\__,_|_/___|  \__, |\__,_|\___||___/\__|_|\___/|_| |_|
+  //      | |                 | |
+  //      |_|                 |_|
+
+  getAllQuizQuestion() {
+    return '/quizQuestion/getAll';
+  }
+
+  getOneQuizQuestion(id: string) {
+    return `/quizQuestion/${id}`;
+  }
+
+  getActiveQuizQuestion() {
+    return '/quizQuestion/active';
+  }
+
+  createQuizQuestion() {
+    return '/quizQuestion/create';
+  }
+
+  deleteQuizQuestion(id: string) {
+    return `/quizQuestion/${id}`;
+  }
+
+  updateQuizQuestion(id: string) {
+    return `/quizQuestion/${id}`;
+  }
+
+  //               _
+  //              (_)
+  //    __ _ _   _ _ ____   __ _ _ __  _____      _____ _ __
+  //   / _` | | | | |_  /  / _` | '_ \/ __\ \ /\ / / _ \ '__|
+  //  | (_| | |_| | |/ /  | (_| | | | \__ \\ V  V /  __/ |
+  //   \__, |\__,_|_/___|  \__,_|_| |_|___/ \_/\_/ \___|_|
+  //      | |
+  //      |_|
+
+  getAllQuizAnswer() {
+    return '/quizAnswer/getAll';
+  }
+
+  getOneQuizAnswer(id: string) {
+    return `/quizAnswer/${id}`;
+  }
+
+  createQuizAnswer() {
+    return '/quizAnswer/create';
+  }
+
+  deleteQuizAnswer(id: string) {
+    return `/quizAnswer/${id}`;
+  }
+
+  updateQuizAnswer(id: string) {
+    return `/quizAnswer/${id}`;
+  }
 }
