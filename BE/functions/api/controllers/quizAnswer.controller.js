@@ -36,6 +36,33 @@ class QuizAnswerController {
     quizAnswerDto.userId = userDocRef;
     quizAnswerDto.questionId = questionDocRef;
 
+    const count = {};
+    for (const type of quizAnswerDto.typeList) {
+      count[type.typeOption] = 0;
+    }
+
+    let biggest = 0;
+    for (const ans of quizAnswerDto.questionAnswer) {
+      count[ans.type] += 1;
+
+      if (biggest < count[ans.type]) {
+        biggest = count[ans.type];
+      }
+    }
+
+    quizAnswerDto.learnerType = [];
+    for (const type of quizAnswerDto.typeList) {
+      if (count[type.typeOption] == biggest) {
+        quizAnswerDto.learnerType.push({
+          typeName: type.typeName,
+          explanation: type.explanation,
+          typeOption: type.typeOption,
+        });
+      }
+    }
+
+    delete quizAnswerDto.typeList;
+
     return await QuizAnswerRepository.add(req, quizAnswerDto);
   }
 

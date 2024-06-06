@@ -28,6 +28,7 @@ class QuizAnswerRepository extends FirebaseRepository {
         .where("userId", "==", userDocRef)
         .orderBy("lastUpdatedTime", "desc")
         .get();
+
     return this.processFirebaseResponse(response, true);
   }
 }
