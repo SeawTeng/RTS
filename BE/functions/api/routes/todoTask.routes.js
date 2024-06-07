@@ -30,6 +30,16 @@ router.post("/getAll/:id", async (req, res) =>
     }
   }));
 
+router.get("/downloadActiveTask", async (req, res) =>
+  await handleReadRequest(res, async () => {
+    const auth = await TodoTaskRepository.checkAuthenticate(req, res);
+    if (auth.message) {
+      return await TodoTaskController.getActiveTask(req);
+    } else {
+      return auth;
+    }
+  }));
+
 // get one category with its id
 router.get("/:id", async (req, res) =>
   await handleReadRequest(res, async () => {

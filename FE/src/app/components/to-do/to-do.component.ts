@@ -9,6 +9,7 @@ import { ToDoCategoryComponent } from './to-do-category-model/to-do-category-mod
 import { ToDoTaskComponent } from './to-do-task-model/to-do-task-model.component';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
+import * as ics from 'ics';
 
 @Component({
   selector: 'app-to-do',
@@ -262,5 +263,46 @@ export class ToDoComponent implements OnInit {
     } else {
       this.loading = false;
     }
+  }
+
+  async downloadTask() {
+    this.loading = true;
+    await this.service
+      .httpCall(this.service.downloadActiveTodoTask(), {}, 'get')
+      .subscribe(
+        async (res: any) => {
+          const events = res;
+
+          const filename = 'activeTask.ics';
+          const file = await new Promise((resolve, reject) => {
+            ics.createEvents(events, (error, value) => {
+              if (error) {
+                reject(error);
+              }
+
+              resolve(new File([value], filename, { type: 'text/calendar' }));
+            });
+          });
+          const url = URL.createObjectURL(file as any);
+
+          const anchor = document.createElement('a');
+          anchor.href = url;
+          anchor.download = filename;
+
+          document.body.appendChild(anchor);
+          anchor.click();
+          document.body.removeChild(anchor);
+
+          URL.revokeObjectURL(url);
+
+          this.loading = false;
+        },
+        error => {
+          this.loading = false;
+          this.toastr.error(error.error, 'Error', {
+            positionClass: 'toast-top-center',
+          });
+        }
+      );
   }
 }

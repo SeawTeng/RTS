@@ -16,8 +16,8 @@ import { Router, RouterModule } from '@angular/router';
 import { ServicesService } from '../../../services/services.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxLoadingModule } from 'ngx-loading';
-import $ from 'jquery';
 import moment from 'moment';
+import { hours, minutes } from '../../../shared/constant';
 
 @Component({
   selector: 'app-to-do-task',
@@ -32,6 +32,8 @@ export class ToDoTaskComponent implements OnChanges {
     description: new FormControl('', [Validators.required]),
     categoryId: new FormControl('', [Validators.required]),
     endDate: new FormControl('', [Validators.required]),
+    hour: new FormControl('', [Validators.required]),
+    minute: new FormControl('', [Validators.required]),
   });
 
   loading = false;
@@ -42,6 +44,8 @@ export class ToDoTaskComponent implements OnChanges {
   @Output() submitted = new EventEmitter<boolean>();
 
   today: string = moment().format('YYYY-MM-DD');
+  hours = hours;
+  minutes = minutes;
 
   constructor(
     private service: ServicesService,
@@ -52,6 +56,16 @@ export class ToDoTaskComponent implements OnChanges {
   ngOnChanges(): void {
     if (this.type == 'Edit') {
       this.taskForm.patchValue(this.selectedTask);
+      if (this.selectedTask && this.selectedTask.endDate) {
+        const date = this.selectedTask.endDate.split(' ');
+        this.taskForm.get('endDate')?.setValue(date[0]);
+        let time: any;
+        if (date[1]) {
+          time = date[1].split(':');
+          this.taskForm.get('hour')?.setValue(time[0]);
+          this.taskForm.get('minute')?.setValue(time[1]);
+        }
+      }
     }
 
     if (this.selectedCategory) {
@@ -61,6 +75,10 @@ export class ToDoTaskComponent implements OnChanges {
 
   async createTask() {
     const data = this.taskForm.value;
+    data.endDate = `${data.endDate} ${data.hour}:${data.minute}:00`;
+    delete data.hour;
+    delete data.minute;
+
     this.loading = true;
 
     const api =

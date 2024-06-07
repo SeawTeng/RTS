@@ -79,31 +79,36 @@ export class AccountPageComponent implements OnInit {
     this.activePage = tab;
     this.loading = true;
 
-    if (this.activePage == "user-info") {
-      this.service.httpCall(this.service.getUser(this.user.id), {}, 'get').subscribe(
-        (res: any) => {
-          this.userData = res;
-          this.userData.dob = moment(this.userData.dob).format('YYYY-MM-DD');
+    if (this.activePage == 'user-info') {
+      this.service
+        .httpCall(this.service.getUser(this.user.id), {}, 'get')
+        .subscribe(
+          (res: any) => {
+            this.userData = res;
+            this.userData.dob = moment(this.userData.dob).format('YYYY-MM-DD');
 
-          this.updateForm.patchValue(this.userData);
-          this.loading = false;
-        },
-        error => {
-          this.loading = false;
-        }
-      );
-    } else if (this.activePage == "learning-style") {
-      this.service.httpCall(this.service.getAllQuizAnswer(), {}, 'get').subscribe(
-        (res: any) => {
-          this.learnerStyle = res.sort((a: any, b: any) => {
-            return moment(a.lastCreatedTime).isBefore(moment(b.lastCreatedTime));
-          });
-          this.loading = false;
-        },
-        error => {
-          this.loading = false;
-        }
-      );
+            this.updateForm.patchValue(this.userData);
+            this.loading = false;
+          },
+          error => {
+            this.loading = false;
+          }
+        );
+    } else if (this.activePage == 'learning-style') {
+      this.service
+        .httpCall(this.service.getAllQuizAnswer(), {}, 'get')
+        .subscribe(
+          (res: any) => {
+            this.learnerStyle = res;
+            this.learnerStyle[0].lastCreatedTime = moment(
+              this.learnerStyle[0].lastCreatedTime
+            ).format('DD-MM-YYYY');
+            this.loading = false;
+          },
+          error => {
+            this.loading = false;
+          }
+        );
     }
   }
 }

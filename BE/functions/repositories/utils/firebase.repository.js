@@ -64,7 +64,7 @@ class FirebaseRepository {
         .get();
 
     if (response.empty) {
-      throw new Error("not found!");
+      throw new Error("Plase check again your email and password!");
     }
 
     const data = this.processFirebaseResponse(response);

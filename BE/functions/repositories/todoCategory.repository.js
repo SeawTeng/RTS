@@ -23,12 +23,18 @@ class TodoCategoryRepository extends FirebaseRepository {
     const userDocRef = await this.db
         .doc(`users/${userId}`);
 
-    const response = await this.firebaseCollection
+    let response = await this.firebaseCollection
         .where("userId", "==", userDocRef)
         .where("isDeleted", "==", false)
         .orderBy("categoryName", "asc")
         .get();
-    return this.processFirebaseResponse(response, true);
+
+    response = this.processFirebaseResponse(response, true);
+    response.sort((a, b) => {
+      return a.categoryName.localeCompare(b.categoryName);
+    });
+
+    return response;
   }
 }
 

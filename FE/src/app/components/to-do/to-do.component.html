@@ -14,11 +14,23 @@
     \___\__,_|\__\___|\__, |\___/|_|   \__, |
                        __/ |            __/ |
                       |___/            |___/  -->
-<div class="container mt-5">
+<div class="container mt-5" *ngIf="categoryList.length">
   <div class="card todo-card">
+    <div class="row">
+      <div class="col">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="downloadTask()">
+            Export Active Tasks
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="card-body">
       <div class="row align-items-center">
-        <div class="col-md-8">
+        <div class="col-md-8 mt-4">
           <h4 class="m-0">Categories</h4>
         </div>
         <div class="col-md-4">
@@ -141,9 +153,7 @@
               <p class="task-due m-0">
                 {{ task.description }}
               </p>
-              <p class="task-due m-0">
-                {{ task.endDate }}
-              </p>
+              <p class="task-due m-0">Due Date: {{ task.endDate }}</p>
             </div>
 
             <div class="col-md-4">
