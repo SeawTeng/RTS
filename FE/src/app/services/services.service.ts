@@ -98,6 +98,10 @@ export class ServicesService extends AppService {
     return `/todoTask/${id}`;
   }
 
+  downloadActiveTodoTask() {
+    return '/todoTask/downloadActiveTask';
+  }
+
   //               _                             _   _
   //              (_)                           | | (_)
   //    __ _ _   _ _ ____   __ _ _   _  ___  ___| |_ _  ___  _ __

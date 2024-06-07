@@ -119,18 +119,21 @@
             <div class="card-body w-100">
               <div class="form-container">
                 <div class="text-center mb-3">
-                  <img src="../../../assets/logo2.png" alt="logo" style="width: 35%;" />
+                  <img
+                    src="../../../assets/logo2.png"
+                    alt="logo"
+                    style="width: 35%" />
                 </div>
 
                 <div *ngFor="let style of learnerStyle[0].learnerType">
-                  <strong style="font-size: 20px;">{{ style.typeName }}</strong>
+                  <strong style="font-size: 20px">{{ style.typeName }}</strong>
 
                   <p class="m-0 mt-3">
                     {{ style.explanation }}
                   </p>
                 </div>
 
-                <div class="mt-5" style="text-align: end;">
+                <div class="mt-5" style="text-align: end">
                   <p class="m-0">
                     Last Updated: {{ learnerStyle[0].lastCreatedTime }}
                   </p>

@@ -108,6 +108,53 @@
                 </div>
               </div>
             </div>
+          </div>
+
+          <div class="row justify-content-center">
+            <div class="col-md-4 col-sm-12 mt-2">
+              <label for="hour">Hour:<span class="text-danger">*</span></label>
+
+              <select class="custom-input" formControlName="hour">
+                <option *ngFor="let h of hours" [value]="h">
+                  {{ h }}
+                </option>
+              </select>
+
+              <div
+                *ngIf="
+                  taskForm.get('hour')?.invalid &&
+                  (taskForm.get('hour')?.dirty || taskForm.get('hour')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="taskForm.get('hour')?.hasError('required')">
+                  Hour is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 col-sm-12 mt-2">
+              <label for="minute"
+                >Minute:<span class="text-danger">*</span></label
+              >
+
+              <select class="custom-input" formControlName="minute">
+                <option *ngFor="let m of minutes" [value]="m">
+                  {{ m }}
+                </option>
+              </select>
+
+              <div
+                *ngIf="
+                  taskForm.get('minute')?.invalid &&
+                  (taskForm.get('minute')?.dirty ||
+                    taskForm.get('minute')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="taskForm.get('minute')?.hasError('required')">
+                  Minute is required.
+                </div>
+              </div>
+            </div>
 
             <div class="col-md-8 col-sm-12 mt-3 text-center">
               <button
