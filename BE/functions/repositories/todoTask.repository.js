@@ -40,7 +40,13 @@ class TodoTaskRepository extends FirebaseRepository {
           .get();
     }
 
-    return this.processFirebaseResponse(response, true);
+    response = this.processFirebaseResponse(response, true);
+    response = [
+      ...response.filter((x) => x.status == "active"),
+      ...response.filter((x) => x.status != "active"),
+    ];
+
+    return response;
   }
 
   /**
@@ -73,7 +79,14 @@ class TodoTaskRepository extends FirebaseRepository {
           .orderBy("endDate")
           .get();
     }
-    return this.processFirebaseResponse(response, true);
+
+    response = this.processFirebaseResponse(response, true);
+
+    response = [
+      ...response.filter((x) => x.status == "active"),
+      ...response.filter((x) => x.status != "active"),
+    ];
+    return response;
   }
 }
 

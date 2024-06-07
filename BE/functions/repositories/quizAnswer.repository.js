@@ -1,5 +1,6 @@
 import FirebaseRepository from "./utils/firebase.repository.js";
 import jwt from "jsonwebtoken";
+import moment from "moment";
 
 /**
  * QuizAnswerRepository
@@ -23,13 +24,18 @@ class QuizAnswerRepository extends FirebaseRepository {
     const userDocRef = await this.db
         .doc(`users/${userId}`);
 
-    const response = await this.firebaseCollection
+    let response = await this.firebaseCollection
         .where("isDeleted", "==", false)
         .where("userId", "==", userDocRef)
         .orderBy("lastUpdatedTime", "desc")
         .get();
 
-    return this.processFirebaseResponse(response, true);
+    response = this.processFirebaseResponse(response, true);
+    response.sort((a, b) => {
+      return moment(a.lastCreatedTime).isBefore(moment(b.lastCreatedTime));
+    });
+
+    return response;
   }
 }
 
