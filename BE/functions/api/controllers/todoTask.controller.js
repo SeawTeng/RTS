@@ -20,6 +20,13 @@ class TodoTaskController {
   }
 
   /**
+   *  @param {any} req
+  */
+  async getActiveTask(req) {
+    return await TodoTaskRepository.getActiveTask(req);
+  }
+
+  /**
    *  @param {string} id
   */
   async getById(id) {

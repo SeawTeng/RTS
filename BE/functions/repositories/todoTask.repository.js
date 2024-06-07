@@ -88,6 +88,46 @@ class TodoTaskRepository extends FirebaseRepository {
     ];
     return response;
   }
+
+  /**
+   * get all active task
+   * @param {any} req
+  */
+  async getActiveTask(req) {
+    const data = [];
+    const response = await this.getAllByUser(req);
+
+    const alarms = [];
+    alarms.push({
+      action: "audio",
+      description: "Reminder",
+      trigger: {hours: 2, minutes: 30, before: true},
+      repeat: 2,
+      attachType: "VALUE=URI",
+      attach: "Glass",
+    });
+
+    for (const r of response) {
+      const date = r.endDate.split(" ")[0].split("-");
+      const time = r.endDate.split(" ")[1].split(":");
+      const event = {
+        start: [
+          Number(date[0]),
+          Number(date[1]),
+          Number(date[2]),
+          Number(time[0]),
+          Number(time[1]),
+        ],
+        duration: {hours: 1},
+        title: r.title,
+        description: r.description,
+        alarms: alarms,
+      };
+
+      data.push(event);
+    }
+    return data;
+  }
 }
 
 export default new TodoTaskRepository();
