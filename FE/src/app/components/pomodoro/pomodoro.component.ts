@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './pomodoro.component.html',
-  styleUrl: './pomodoro.component.scss'
+  styleUrl: './pomodoro.component.scss',
 })
-export class PomodoroComponent {
-
-}
+export class PomodoroComponent {}

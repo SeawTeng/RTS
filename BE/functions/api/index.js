@@ -4,7 +4,6 @@ import express from "express";
 import cors from "cors";
 
 import {UserRoutes} from "./routes/index.js";
-import cookieParser from "cookie-parser";
 // import auth from './utils/auth';
 
 const app = express();
@@ -13,14 +12,14 @@ const port = process.env.HOST_PORT || 4000;
 
 const corsOptions = {
   origin: [
-    "https://rts-24.firebaseapp.com",
     "http://127.0.0.1:5001",
+    "http://localhost:4200",
+    "https://rts-tkik.onrender.com",
   ],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
-
-app.use(cookieParser());
 
 // app.use(auth);
 

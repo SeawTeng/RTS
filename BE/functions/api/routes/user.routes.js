@@ -14,15 +14,10 @@ router.post("/login", async (req, res) =>
     return await UserController.login(req, res);
   }));
 
-router.post("/logout", async (req, res) =>
-  await handleReadRequest(res, async () => {
-    return await UserController.logout(req, res);
-  }));
-
 router.get("/:id", async (req, res) =>
   await handleReadRequest(res, async () => {
     const auth = await UserRepository.checkAuthenticate(req, res);
-    if (auth.success) {
+    if (auth.message) {
       return await UserController.getById(req.params.id);
     } else {
       return auth;
@@ -31,19 +26,14 @@ router.get("/:id", async (req, res) =>
 
 router.post("/create", async (req, res) =>
   await handleWriteRequest(res, async () => {
-    const auth = await UserRepository.checkAuthenticate(req, res);
-    if (auth.success) {
-      return await UserController.create(req.body);
-    } else {
-      return auth;
-    }
+    return await UserController.create(req);
   }, 201));
 
 router.put("/:id", async (req, res) =>
   await handleWriteRequest(res, async () => {
     const auth = await UserRepository.checkAuthenticate(req, res);
-    if (auth.success) {
-      return await UserController.update(req.params.id, req.body);
+    if (auth.message) {
+      return await UserController.update(req);
     } else {
       return auth;
     }
@@ -52,8 +42,8 @@ router.put("/:id", async (req, res) =>
 router.delete("/:id", async (req, res) =>
   await handleWriteRequest(res, async () => {
     const auth = await UserRepository.checkAuthenticate(req, res);
-    if (auth.success) {
-      return await UserController.delete(req.params.id);
+    if (auth.message) {
+      return await UserController.delete(req);
     } else {
       return auth;
     }
@@ -62,7 +52,7 @@ router.delete("/:id", async (req, res) =>
 router.post("/updatePassword", async (req, res) =>
   await handleWriteRequest(res, async () => {
     const auth = await UserRepository.checkAuthenticate(req, res);
-    if (auth.success) {
+    if (auth.message) {
       return await UserController.updatePassword(req);
     } else {
       return auth;

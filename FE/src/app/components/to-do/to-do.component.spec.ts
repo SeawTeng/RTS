@@ -8,10 +8,9 @@ describe('ToDoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ToDoComponent]
-    })
-    .compileComponents();
-    
+      imports: [ToDoComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ToDoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

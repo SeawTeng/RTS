@@ -1,0 +1,179 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12 col-sm-12 text-center">
+      <h2>Sign Up</h2>
+    </div>
+
+    <div class="col-md-12 col-sm-12">
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-sm-12 mt-2">
+            <label for="email">Email:<span class="text-danger">*</span></label>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              class="form-control"
+              required />
+            <div
+              *ngIf="
+                signupForm.get('email')?.invalid &&
+                (signupForm.get('email')?.dirty ||
+                  signupForm.get('email')?.touched)
+              "
+              class="text-danger">
+              <div *ngIf="signupForm.get('email')?.hasError('required')">
+                Email is required.
+              </div>
+              <div *ngIf="signupForm.get('email')?.hasError('email')">
+                Invalid email format.
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8 col-sm-12 mt-2">
+            <label for="firstName"
+              >First Name:<span class="text-danger">*</span></label
+            >
+            <input
+              id="firstName"
+              formControlName="firstName"
+              class="form-control"
+              required />
+            <div
+              *ngIf="
+                signupForm.get('firstName')?.invalid &&
+                (signupForm.get('firstName')?.dirty ||
+                  signupForm.get('firstName')?.touched)
+              "
+              class="text-danger">
+              <div *ngIf="signupForm.get('firstName')?.hasError('required')">
+                First Name is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8 col-sm-12 mt-2">
+            <label for="lastName"
+              >Last Name:<span class="text-danger">*</span></label
+            >
+            <input
+              id="lastName"
+              formControlName="lastName"
+              class="form-control"
+              required />
+            <div
+              *ngIf="
+                signupForm.get('lastName')?.invalid &&
+                (signupForm.get('lastName')?.dirty ||
+                  signupForm.get('lastName')?.touched)
+              "
+              class="text-danger">
+              <div *ngIf="signupForm.get('lastName')?.hasError('required')">
+                Last Name is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8 col-sm-12 mt-2">
+            <label for="dob"
+              >Date of Birth:<span class="text-danger">*</span></label
+            >
+            <input
+              id="dob"
+              type="date"
+              formControlName="dob"
+              class="form-control"
+              [max]="today"
+              required />
+            <div
+              *ngIf="
+                signupForm.get('dob')?.invalid &&
+                (signupForm.get('dob')?.dirty || signupForm.get('dob')?.touched)
+              "
+              class="text-danger">
+              <div *ngIf="signupForm.get('dob')?.hasError('required')">
+                Date of Birth is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8 col-sm-12 mt-2">
+            <label for="password"
+              >Password:<span class="text-danger">*</span></label
+            >
+            <div class="input-group">
+              <input
+                id="password"
+                [type]="passwordShow ? 'text' : 'password'"
+                formControlName="password"
+                class="form-control password-input"
+                required />
+              <span class="input-group-append">
+                <button
+                  class="btn btn-outline-secondary bg-white border-start-0 border ms-n5"
+                  type="button"
+                  (click)="passwordShow = !passwordShow">
+                  <i
+                    [class]="passwordShow ? 'fa fa-eye-slash' : 'fa fa-eye'"
+                    style="font-size: 24px"></i>
+                </button>
+              </span>
+            </div>
+            <div
+              *ngIf="
+                signupForm.get('password')?.invalid &&
+                (signupForm.get('password')?.dirty ||
+                  signupForm.get('password')?.touched)
+              "
+              class="text-danger">
+              <div *ngIf="signupForm.get('password')?.hasError('required')">
+                Password is required.
+              </div>
+              <div
+                *ngIf="
+                  !signupForm.get('password')?.value?.match('^(?=.*[A-Z])')
+                ">
+                At least one uppercase letter.
+              </div>
+              <div
+                *ngIf="
+                  !signupForm.get('password')?.value?.match('(?=.*[a-z])')
+                ">
+                At least one lowercase letter.
+              </div>
+              <div
+                *ngIf="
+                  !signupForm.get('password')?.value?.match('(.*[0-9].*)')
+                ">
+                At least one digit.
+              </div>
+              <div
+                *ngIf="
+                  !signupForm.get('password')?.value?.match('(?=.*[!@#$%^&*])')
+                ">
+                At least one special character.
+              </div>
+              <div *ngIf="!signupForm.get('password')?.value?.match('.{8,}')">
+                At least 8 characters long.
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 col-sm-12 mt-3 text-center">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="signupForm.invalid">
+              Sign Up
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <ngx-loading
+    [show]="loading"
+    [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+</div>
