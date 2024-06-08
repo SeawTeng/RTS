@@ -27,7 +27,7 @@ router.post("/create", async (req, res) =>
   await handleWriteRequest(res, async () => {
     const auth = await PomodoroRepository.checkAuthenticate(req, res);
     if (auth.message) {
-      return await PomodoroRepository.create(req, req.body);
+      return await PomodoroController.create(req, req.body);
     } else {
       return auth;
     }

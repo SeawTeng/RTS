@@ -13,7 +13,7 @@ class PomodoroController {
 
     /**
      *  @param {any} req
-     *  @param {pomodoroSession} pomodoroSessions
+     *  @param {any} pomodoroSessions
     */
     async create(req, pomodoroSessions) {
         const token = req.headers["authorization"];
@@ -23,7 +23,7 @@ class PomodoroController {
             .doc(`users/${userId}`);
         pomodoroSessions.userId = userDocRef;
 
-        return await TodoTaskRepository.add(req, pomodoroSessions);
+        return await PomodoroRepository.add(req, pomodoroSessions);
     }
 
 }
