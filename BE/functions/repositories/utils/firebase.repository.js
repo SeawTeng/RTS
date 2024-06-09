@@ -129,13 +129,13 @@ class FirebaseRepository {
     item.lastUpdatedTime = moment().format("DD-MM-YYYY HH:mm:ss");
     item.lastUpdatedBy = decode ? decode.email : "SYSTEM";
 
-    const response = await this.db
+    await this.db
         .doc(`${this.collection}/${item.id}`)
         .update(item);
 
     return {
       message: `${this.collection} has successfully updated!`,
-      data: item
+      data: item,
     };
   }
 
@@ -163,13 +163,14 @@ class FirebaseRepository {
 
   /**
    * @param {any} response
+   * @param {boolean} getAll
    * @return {any}
   */
   processFirebaseResponse(response, getAll = false) {
-    const tempDoc = []
+    const tempDoc = [];
     response.forEach((doc) => {
-      tempDoc.push({ ...doc.data(), id: doc.id })
-    })
+      tempDoc.push({...doc.data(), id: doc.id});
+    });
 
     if (getAll) {
       return tempDoc;
