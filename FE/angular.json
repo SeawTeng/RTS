@@ -33,7 +33,7 @@
               "node_modules/jquery/dist/jquery.min.js",
               "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ],
-            "allowedCommonJsDependencies": ["crypto-js", "moment"]
+            "allowedCommonJsDependencies": ["crypto-js", "moment", "sweetalert2", "ics"]
           },
           "configurations": {
             "production": {
