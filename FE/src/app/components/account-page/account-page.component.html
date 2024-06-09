@@ -1,9 +1,28 @@
-<div class="container mt-5">
+<div class="container pt-5">
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card upd-card mb-3" style="height: 100%">
         <div class="row g-0 h-100">
-          <div class="col-md-12 d-flex align-items-center">
+          <div class="col-md-2 side-nav-bar">
+            <nav class="nav flex-column">
+              <a
+                class="nav-link"
+                [ngClass]="{ active: activePage === 'user-info' }"
+                (click)="tabChange('user-info')"
+                >User Detail</a
+              >
+              <a
+                class="nav-link"
+                [ngClass]="{ active: activePage === 'learning-style' }"
+                (click)="tabChange('learning-style')"
+                >Learning Style</a
+              >
+            </nav>
+          </div>
+
+          <div
+            class="col-md-10 d-flex align-items-center"
+            *ngIf="activePage === 'user-info'">
             <div class="card-body w-100">
               <div class="form-container">
                 <div class="text-center mb-3">
@@ -92,13 +111,41 @@
                 </form>
               </div>
             </div>
+          </div>
 
-            <ngx-loading
-              [show]="loading"
-              [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+          <div
+            class="col-md-10 d-flex align-items-center"
+            *ngIf="activePage === 'learning-style' && learnerStyle">
+            <div class="card-body w-100">
+              <div class="form-container">
+                <div class="text-center mb-3">
+                  <img
+                    src="../../../assets/logo2.png"
+                    alt="logo"
+                    style="width: 35%" />
+                </div>
+
+                <div *ngFor="let style of learnerStyle[0].learnerType">
+                  <strong style="font-size: 20px">{{ style.typeName }}</strong>
+
+                  <p class="m-0 mt-3">
+                    {{ style.explanation }}
+                  </p>
+                </div>
+
+                <div class="mt-5" style="text-align: end">
+                  <p class="m-0">
+                    Last Updated: {{ learnerStyle[0].lastCreatedTime }}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>

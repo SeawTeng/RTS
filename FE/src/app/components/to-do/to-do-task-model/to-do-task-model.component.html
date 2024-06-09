@@ -1,0 +1,176 @@
+<div
+  class="modal fade"
+  id="taskModel"
+  tabindex="-1"
+  aria-labelledby="taskModelLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="taskModelLabel">
+          {{ type }} To-do Task
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          (click)="clearForm()"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="taskForm" (ngSubmit)="createTask()">
+          <div class="row justify-content-center">
+            <div class="col-md-8 col-sm-12 mt-2">
+              <label for="title"
+                >Title:<span class="text-danger">*</span></label
+              >
+              <input formControlName="title" class="custom-input" required />
+              <div
+                *ngIf="
+                  taskForm.get('title')?.invalid &&
+                  (taskForm.get('title')?.dirty ||
+                    taskForm.get('title')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="taskForm.get('title')?.hasError('required')">
+                  Title is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-8 col-sm-12 mt-2">
+              <label for="description"
+                >Description:<span class="text-danger">*</span></label
+              >
+              <input
+                formControlName="description"
+                class="custom-input"
+                required />
+              <div
+                *ngIf="
+                  taskForm.get('description')?.invalid &&
+                  (taskForm.get('description')?.dirty ||
+                    taskForm.get('description')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="taskForm.get('description')?.hasError('required')">
+                  Description is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-8 col-sm-12 mt-2">
+              <label for="categoryId"
+                >Category:<span class="text-danger">*</span></label
+              >
+
+              <select class="custom-input" formControlName="categoryId">
+                <option *ngFor="let cat of categoryList" [value]="cat.id">
+                  {{ cat.categoryName }}
+                </option>
+              </select>
+
+              <div
+                *ngIf="
+                  taskForm.get('categoryId')?.invalid &&
+                  (taskForm.get('categoryId')?.dirty ||
+                    taskForm.get('categoryId')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="taskForm.get('categoryId')?.hasError('required')">
+                  Category is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-8 col-sm-12 mt-2">
+              <label for="endDate"
+                >End Date:<span class="text-danger">*</span></label
+              >
+              <input
+                id="endDate"
+                type="date"
+                formControlName="endDate"
+                class="custom-input"
+                [min]="today"
+                required />
+              <div
+                *ngIf="
+                  taskForm.get('endDate')?.invalid &&
+                  (taskForm.get('endDate')?.dirty ||
+                    taskForm.get('endDate')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="taskForm.get('endDate')?.hasError('required')">
+                  End Date is required.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-center">
+            <div class="col-md-4 col-sm-12 mt-2">
+              <label for="hour">Hour:<span class="text-danger">*</span></label>
+
+              <select class="custom-input" formControlName="hour">
+                <option *ngFor="let h of hours" [value]="h">
+                  {{ h }}
+                </option>
+              </select>
+
+              <div
+                *ngIf="
+                  taskForm.get('hour')?.invalid &&
+                  (taskForm.get('hour')?.dirty || taskForm.get('hour')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="taskForm.get('hour')?.hasError('required')">
+                  Hour is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 col-sm-12 mt-2">
+              <label for="minute"
+                >Minute:<span class="text-danger">*</span></label
+              >
+
+              <select class="custom-input" formControlName="minute">
+                <option *ngFor="let m of minutes" [value]="m">
+                  {{ m }}
+                </option>
+              </select>
+
+              <div
+                *ngIf="
+                  taskForm.get('minute')?.invalid &&
+                  (taskForm.get('minute')?.dirty ||
+                    taskForm.get('minute')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="taskForm.get('minute')?.hasError('required')">
+                  Minute is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-8 col-sm-12 mt-3 text-center">
+              <button
+                type="submit"
+                data-bs-dismiss="modal"
+                class="btn btn-info submit-btn"
+                [disabled]="taskForm.invalid">
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>

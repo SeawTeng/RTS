@@ -1,5 +1,6 @@
 body {
   font-family: 'Roboto', sans-serif;
+  background-color: #eaecf194;
 }
 
 .toast-success {
@@ -34,4 +35,36 @@ body {
   .toast-message {
     color: #58151c !important;
   }
+}
+
+.bg-color {
+  background-color: #eaecf194;
+  background-image: linear-gradient(#b4eef0, #7092af);
+  min-height: 95vh;
+}
+
+.modal-backdrop {
+  --bs-backdrop-opacity: 20%;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

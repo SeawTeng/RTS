@@ -47,6 +47,7 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     if (this.signupForm.valid) {
       const formValues = this.signupForm.value;
+      formValues.type = 'normal';
       const encryptedData = this.service.encryption(formValues);
       this.loading = true;
 

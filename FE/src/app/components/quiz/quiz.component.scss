@@ -1,0 +1,15 @@
+.quiz-card {
+  top: 20%;
+  width: 45%;
+  position: absolute;
+  left: 26%;
+  padding: 10px 25px;
+
+  .title {
+    font-weight: 700;
+  }
+
+  .subtitle {
+    opacity: 70%;
+  }
+}

@@ -1,0 +1,96 @@
+<div
+  class="modal fade"
+  id="categoryModel"
+  tabindex="-1"
+  aria-labelledby="categoryModelLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="categoryModelLabel">
+          {{ type }} To-do Category
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          (click)="clearForm()"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="categoryForm" (ngSubmit)="createCategory()">
+          <div class="row justify-content-center">
+            <div class="col-md-8 col-sm-12 mt-2">
+              <label for="categoryName"
+                >Category Name:<span class="text-danger">*</span></label
+              >
+              <input
+                formControlName="categoryName"
+                class="custom-input"
+                required />
+              <div
+                *ngIf="
+                  categoryForm.get('categoryName')?.invalid &&
+                  (categoryForm.get('categoryName')?.dirty ||
+                    categoryForm.get('categoryName')?.touched)
+                "
+                class="text-danger">
+                <div
+                  *ngIf="
+                    categoryForm.get('categoryName')?.hasError('required')
+                  ">
+                  Category Name is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-8 col-sm-12 mt-2">
+              <label for="icon">Icon:<span class="text-danger">*</span></label>
+
+              <div class="input-group mb-3">
+                <span class="input-group-text icon-select">
+                  <i [ngClass]="categoryForm.get('icon')?.value"></i>
+                </span>
+                <div class="form-floating">
+                  <select class="custom-input" formControlName="icon">
+                    <option
+                      *ngFor="let icon of categoryIcon"
+                      [value]="icon.icon">
+                      {{ icon.text }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div
+                *ngIf="
+                  categoryForm.get('icon')?.invalid &&
+                  (categoryForm.get('icon')?.dirty ||
+                    categoryForm.get('icon')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="categoryForm.get('icon')?.hasError('required')">
+                  Icon is required.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8 col-sm-12 mt-3 text-center">
+              <button
+                type="submit"
+                data-bs-dismiss="modal"
+                class="btn btn-info submit-btn"
+                [disabled]="categoryForm.invalid">
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>

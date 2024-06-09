@@ -1,0 +1,147 @@
+<div class="container pt-5">
+  <ng-container *ngIf="!submitted; then qnsDiv; else ansDiv"> </ng-container>
+
+  <ng-template #qnsDiv>
+    <div class="card quiz-form">
+      <div class="card-body justify-content-center">
+        <div class="text-center mt-4">
+          <h1 class="title mt-4">Learning Style Assessment</h1>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="quizQuestion">
+      <div class="card quiz-form mt-3">
+        <div class="card-body justify-content-center">
+          <h4 style="text-decoration: underline; font-weight: 600">
+            Learning Styles
+          </h4>
+          <p class="m-0" *ngFor="let type of quizQuestion.typeList">
+            {{ type.typeOption }}: {{ type.typeName }}
+          </p>
+        </div>
+      </div>
+
+      <div class="add-lessons-form" [formGroup]="quizForm">
+        <ng-container formArrayName="questionAnswer">
+          <div
+            class="card quiz-form mt-3"
+            *ngFor="let questionForm of questions.controls; let i = index">
+            <div
+              class="card-body justify-content-center"
+              [formGroup]="questionForm">
+              <h5>
+                {{ i + 1 }}. {{ questionForm.get('title')?.value
+                }}<span class="text-danger">*</span>
+              </h5>
+
+              <div
+                class="form-check"
+                *ngFor="let opt of quizQuestion.questionList[i].options">
+                <input
+                  formControlName="type"
+                  class="form-check-input"
+                  [value]="opt.type"
+                  type="radio" />
+                <label class="form-check-label">
+                  {{ opt.type }}: {{ opt.text }}
+                </label>
+              </div>
+
+              <div
+                *ngIf="
+                  questionForm.get('type')?.invalid &&
+                  (questionForm.get('type')?.dirty ||
+                    questionForm.get('type')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="questionForm.get('type')?.hasError('required')">
+                  Please select a option.
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="card quiz-form mt-3">
+        <div class="card-body row justify-content-center">
+          <div class="col col-lg-2">
+            <button
+              type="button"
+              class="btn btn-primary submit-btn"
+              (click)="onSubmit()"
+              [disabled]="quizForm.invalid">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #ansDiv>
+    <div class="container card answer-card">
+      <div class="card-body justify-content-center">
+        <div class="text-center mt-4">
+          <img src="../../../assets/logo2.png" alt="logo" />
+
+          <h4 class="subtitle mt-4">
+            Based on your assessment result you might possibly:
+          </h4>
+          <span
+            style="font-size: 20px"
+            *ngFor="
+              let learner of answer.learnerType;
+              let learnerIndex = index
+            ">
+            <strong>
+              {{
+                learnerIndex > 0 ? ' and ' + learner.typeName : learner.typeName
+              }}
+            </strong>
+            <span class="d-inline-block" tabindex="0">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm submit-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#typeModal"
+                (click)="viewType = learner.typeName">
+                <i class="fa fa-search"></i>
+              </button>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<div
+  class="modal fade"
+  v-if="submitted"
+  id="typeModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          {{ viewType }}
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{ getTypeDescription() }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>

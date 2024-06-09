@@ -16,7 +16,29 @@
   color: #153448;
 }
 
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.show {
+  color: #4083af;
+}
+
 .nav-light-blue {
   background-color: #eef7ff !important;
   box-shadow: 0px 0px 6px 6px #cde8e5 !important;
+}
+
+.btn-user {
+  background-color: #4083af;
+  color: #ffffff;
+}
+
+.btn-user:hover,
+.btn-user:active {
+  background-color: rgb(48, 92, 124);
+}
+
+#navbarSupportedContent {
+  .nav-item {
+    max-width: 120px;
+    word-wrap: break-word;
+  }
 }
