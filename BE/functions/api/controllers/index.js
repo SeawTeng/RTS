@@ -3,6 +3,7 @@ import todoCategoryController from "./todoCategory.controller.js";
 import TodoTaskController from "./todoTask.controller.js";
 import QuizQuestionController from "./quizQuestion.controller.js";
 import QuizAnswerController from "./quizAnswer.controller.js";
+import pomodoroTimerController from "./pomodoroTimer.controller.js";
 
 export {
   UserController,
@@ -10,4 +11,5 @@ export {
   TodoTaskController,
   QuizQuestionController,
   QuizAnswerController,
+  pomodoroTimerController
 };
