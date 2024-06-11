@@ -3,11 +3,14 @@ import * as functions from "firebase-functions";
 import express from "express";
 import cors from "cors";
 
-import {UserRoutes,
+import {
+  UserRoutes,
   TodoCategoryRoutes,
   TodoTaskRoutes,
   QuizQuestionRoutes,
-  QuizAnswerRoutes} from "./routes/index.js";
+  QuizAnswerRoutes,
+  pomodoroTimerRoutes
+} from "./routes/index.js";
 
 const app = express();
 
@@ -29,6 +32,7 @@ app.use("/todoCategory", TodoCategoryRoutes);
 app.use("/todoTask", TodoTaskRoutes);
 app.use("/quizQuestion", QuizQuestionRoutes);
 app.use("/quizAnswer", QuizAnswerRoutes);
+app.use("/pomodoroTimer", pomodoroTimerRoutes);
 
 const api = functions.https.onRequest(app);
 
