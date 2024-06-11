@@ -1,1 +1,25 @@
-<p>pomodoro works!</p>
+<div class="vh-100 d-flex justify-content-center align-items-center">
+    <div class="child">
+        <button (click)="pomoPage()"> Pomodoro</button>
+        <button (click)="breakPage()">Break </button>
+        <div class="pomo" *ngIf="!isBreak && !isBreakPage">
+            <div class="d-flex align-items-center">
+                <button (click)="decrease()">-</button>
+                <h2 class="timer my-0">{{mins}} : {{secs < 10 ? "0" + secs : secs}}</h2>
+                        <button (click)="increase()">+</button>
+            </div>
+        </div>
+        <div *ngIf="isBreakPage" class="break">
+            <div class="d-flex align-items-center">
+                <button class="change" (click)="decreaseBreak()">-</button>
+                <h2 class="timer"> {{breakMins}} : {{breakSecs < 10 ? "0" + breakSecs : breakSecs}}</h2>
+                <button class="change" (click)="increaseBreak()">+</button>
+            </div>
+        </div>
+        <div class="button-container">
+            <button *ngIf="isRunning !== true  && isPomoPage " (click)="run()">Start</button>
+            <button *ngIf="isRunning !== false || isBreak" (click)="pause()">Pause</button>
+            <button *ngIf="isRunning !== false && isPomoPage" (click)="reset()">Reset</button>
+        </div>
+    </div>
+</div>
