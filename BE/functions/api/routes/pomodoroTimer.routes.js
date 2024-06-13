@@ -10,7 +10,7 @@ import {pomodoroTimerRepository} from "../../repositories/index.js";
 const router = express.Router();
 
 // get all category of the user
-router.post("/getAll", async (req, res) =>
+router.get("/getAll", async (req, res) =>
   await handleReadRequest(res, async () => {
     const auth = await pomodoroTimerRepository.checkAuthenticate(req, res);
     if (auth.message) {
@@ -21,8 +21,7 @@ router.post("/getAll", async (req, res) =>
   }));
 
 
-
-// create one pomodoro session 
+// create one pomodoro session
 router.post("/create", async (req, res) =>
   await handleWriteRequest(res, async () => {
     const auth = await pomodoroTimerRepository.checkAuthenticate(req, res);
@@ -32,9 +31,6 @@ router.post("/create", async (req, res) =>
       return auth;
     }
   }, 201));
-
-
-
 
 
 export default router;

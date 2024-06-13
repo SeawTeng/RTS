@@ -2,9 +2,9 @@ import FirebaseRepository from "./utils/firebase.repository.js";
 import jwt from "jsonwebtoken";
 
 /**
- * TodoTaskRepository
+ * PomodoroTimerRepository
  */
-class pomodoroTimerRepository extends FirebaseRepository {
+class PomodoroTimerRepository extends FirebaseRepository {
   /**
    * collection todo task
    */
@@ -47,7 +47,6 @@ class pomodoroTimerRepository extends FirebaseRepository {
 
     return response;
   }
-
 }
 
-export default new pomodoroTimerRepository();
+export default new PomodoroTimerRepository();
