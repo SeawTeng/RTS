@@ -1,16 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ServicesService } from '../../services/services.service';
+import { ToDoCategoryComponent } from '../to-do/to-do-category-model/to-do-category-model.component';
+import { ToDoTaskComponent } from '../to-do/to-do-task-model/to-do-task-model.component';
+import { ToDoComponent } from '../to-do/to-do.component';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pomodoro',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ToDoCategoryComponent,
+    ToDoTaskComponent,],
   templateUrl: './pomodoro.component.html',
   styleUrl: './pomodoro.component.scss',
 })
-export class PomodoroComponent {
+export class PomodoroComponent implements OnInit {
   initialMins = 25;
   mins = 25;
   secs = 0;
@@ -22,6 +28,97 @@ export class PomodoroComponent {
 
   isPomoPage = true;
   isBreakPage = false;
+
+
+  categoryList: any = [];
+  taskList: any = [];
+  loading = false;
+  type = 'Create';
+  selectedCategoryId: any = null;
+  selectedTask: any = null;
+  selectedCategory: any = null;
+  showCompleted: boolean = true;
+
+
+  constructor(
+    private service: ServicesService,
+    private toastr: ToastrService,
+    public router: Router
+  ) { }
+
+  async ngOnInit() {
+    await this.getAllCategory();
+  }
+
+  chooseTask(task: any) {
+    this.selectedTask = task;
+  }
+
+  async getAllCategory() {
+    this.loading = true;
+    const api = this.selectedCategoryId
+      ? this.service.getAllTodoTaskByCategory(this.selectedCategoryId.id)
+      : this.service.getAllTodoTask();
+
+    await this.service
+      .httpCall(this.service.getAllTodoCategory(), {}, 'get')
+      .subscribe(
+        async (res: any) => {
+          this.categoryList = res;
+          await this.service
+            .httpCall(
+              api,
+              {
+
+              },
+              'post'
+            )
+            .subscribe((res: any) => {
+              this.loading = false;
+              this.taskList = res;
+            });
+        },
+        error => {
+          this.loading = false;
+          this.toastr.error(error.error, 'Error', {
+            positionClass: 'toast-top-center',
+          });
+        }
+      );
+  }
+
+
+  async markTaskAsComplete(task: any) {
+    const data = {
+      status: 'completed',
+    };
+
+    const { value: confirm } = await Swal.fire({
+      title: 'Complete Task',
+      text: 'Do you sure you want to mark this task as completed?',
+      showCancelButton: true,
+    });
+
+    if (confirm) {
+      this.loading = true;
+      await this.service
+        .httpCall(this.service.updateTodoTask(task.id), data, 'put')
+        .subscribe(
+          async (res: any) => {
+            await this.getAllCategory();
+          },
+          error => {
+            this.loading = false;
+            this.toastr.error(error.error, 'Error', {
+              positionClass: 'toast-top-center',
+            });
+          }
+        );
+    } else {
+      this.loading = false;
+    }
+  }
+
 
   pomoPage() {
     this.isPomoPage = true;
@@ -97,6 +194,8 @@ export class PomodoroComponent {
         this.breakTime();
         this.isRunning = false;
         this.isBreak = true;
+
+        this.markTaskAsComplete(this.selectedTask);
         this.reset();
       };
 
@@ -119,6 +218,7 @@ export class PomodoroComponent {
         this.counter();
         this.isRunning = true;
         this.isBreak = false;
+        this.pomoPage();
         this.reset();
       };
 

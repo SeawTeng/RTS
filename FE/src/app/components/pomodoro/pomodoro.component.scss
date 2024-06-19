@@ -1,0 +1,47 @@
+.task-content {
+    width: 90%;
+    height: 40vh;
+    overflow: auto;
+}
+
+.btn-group button {
+    background-color: #4083af;
+    color: #ffffff;
+    border: none;
+    padding: 5px 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    width: 120px;
+}
+
+.button-container button {
+    background-color: #4083af;
+    color: #ffffff;
+    border: none;
+    padding: 5px 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    width: 120px;
+}
+
+.timer {
+    font-size: 100px;
+}
+.pomo{
+    align-items: center;
+}
+
+.custom-min {
+    background-color: #4083af;
+    color: #ffffff;
+    border: none;
+    width: 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
