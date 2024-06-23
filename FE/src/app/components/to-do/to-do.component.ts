@@ -35,6 +35,7 @@ export class ToDoComponent implements OnInit {
   selectedTask: any = null;
   selectedCategory: any = null;
   showCompleted: boolean = true;
+  componentLoaded: boolean = false;
 
   constructor(
     private service: ServicesService,
@@ -67,11 +68,13 @@ export class ToDoComponent implements OnInit {
             )
             .subscribe((res: any) => {
               this.loading = false;
+              this.componentLoaded = true;
               this.taskList = res;
             });
         },
         error => {
           this.loading = false;
+          this.componentLoaded = true;
           this.toastr.error(error.error, 'Error', {
             positionClass: 'toast-top-center',
           });
