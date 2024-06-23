@@ -32,6 +32,7 @@ export class PomodoroComponent implements OnInit {
 
   categoryList: any = [];
   taskList: any = [];
+  pomoList: any = [];
   loading = false;
   type = 'Create';
   selectedCategoryId: any = null;
@@ -45,6 +46,13 @@ export class PomodoroComponent implements OnInit {
     private toastr: ToastrService,
     public router: Router
   ) { }
+
+  //   _                 _         _            _
+  //  | |               | |       | |          | |
+  //  | |_ ___ ______ __| | ___   | |_ __ _ ___| | __
+  //  | __/ _ \______/ _` |/ _ \  | __/ _` / __| |/ /
+  //  | || (_) |    | (_| | (_) | | || (_| \__ \   <
+  //   \__\___/      \__,_|\___/   \__\__,_|___/_|\_\
 
   async ngOnInit() {
     await this.getAllCategory();
@@ -119,6 +127,70 @@ export class PomodoroComponent implements OnInit {
     }
   }
 
+  // ____                           _                 
+  // |  _ \ ___  _ __ ___   ___   __| | ___  _ __ ___  
+  // | |_) / _ \| '_ ` _ \ / _ \ / _` |/ _ \| '__/ _ \ 
+  // |  __/ (_) | | | | | | (_) | (_| | (_) | | | (_) |
+  // |_|___\___/|_| |_| |_|\___/ \__,_|\___/|_|  \___/ 
+  // |_   _(_)_ __ ___   ___ _ __                      
+  //   | | | | '_ ` _ \ / _ \ '__|                     
+  //   | | | | | | | | |  __/ |                        
+  //   |_| |_|_| |_| |_|\___|_|            
+
+
+  async createPomoSess() {
+    const endDateTime = new Date();
+    const data = {
+      breakSession: false,
+      minutesTaken: this.initialMins,
+      secondsTaken: 0,
+      pomodoroSession: true,
+      taskName: this.selectedTask.title,
+      endDateTime: endDateTime,
+      startDateTime: new Date(endDateTime.getTime() - this.initialMins * 60 * 1000)
+    }
+
+    const api = this.service.createPomoSess();
+    const type = 'post';
+
+    await this.service.httpCall(api, data, type).subscribe(
+      () => { },
+      error => {
+        this.loading = false;
+        this.toastr.error(error.error, 'Error', {
+          positionClass: 'toast-top-center',
+        });
+      }
+    );
+  }
+
+
+  async getAllPomoSess() {
+    const api = this.service.getAllPomoSess();
+
+    await this.service
+      .httpCall(this.service.getAllPomoSess(), {}, 'get')
+      .subscribe(
+        async (res: any) => {
+          this.pomoList = res;
+          await this.service
+            .httpCall(
+              api,
+              {
+              },
+              'post'
+            )
+            .subscribe((res: any) => {
+              this.pomoList = res;
+            });
+        },
+        error => {
+          this.toastr.error(error.error, 'Error', {
+            positionClass: 'toast-top-center',
+          });
+        }
+      );
+  }
 
   pomoPage() {
     this.isPomoPage = true;
@@ -131,9 +203,17 @@ export class PomodoroComponent implements OnInit {
   }
 
   run() {
-    this.isRunning = true;
-    this.counter();
-    this.isBreak = false;
+    if (this.selectedTask != null) {
+      this.isRunning = true;
+      this.counter();
+      this.isBreak = false;
+    }
+    else {
+      this.toastr.error("Select a task you want to work on", 'Error', {
+        positionClass: 'toast-top-center',
+      });
+    }
+
 
   }
 
@@ -147,12 +227,19 @@ export class PomodoroComponent implements OnInit {
     this.isRunning = false;
   }
   increase() {
-    if (!this.isRunning)
+    if (!this.isRunning) {
       this.mins += 1;
+      this.initialMins += 1;
+
+    }
+
   }
   decrease() {
-    if (!this.isRunning && this.mins > 0)
+    if (!this.isRunning && this.mins > 0) {
       this.mins -= 1;
+      this.initialMins -= 1;
+    }
+
   }
   increaseBreak() {
     if (!this.isRunning)
@@ -195,6 +282,7 @@ export class PomodoroComponent implements OnInit {
         this.isRunning = false;
         this.isBreak = true;
 
+        this.createPomoSess();
         this.markTaskAsComplete(this.selectedTask);
         this.reset();
       };
