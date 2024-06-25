@@ -135,6 +135,10 @@ export class ServicesService extends AppService {
     return `/quizQuestion/${id}`;
   }
 
+  setDefaultQuizQuestion(id: string) {
+    return `/quizQuestion/default/${id}`;
+  }
+
   //               _
   //              (_)
   //    __ _ _   _ _ ____   __ _ _ __  _____      _____ _ __
@@ -162,5 +166,21 @@ export class ServicesService extends AppService {
 
   updateQuizAnswer(id: string) {
     return `/quizAnswer/${id}`;
+  }
+
+  //                                   _                   _   _
+  //                                  | |                 | | (_)
+  //   _ __   ___  _ __ ___   ___   __| | ___  _ __ ___   | |_ _ _ __ ___   ___ _ __
+  //  | '_ \ / _ \| '_ ` _ \ / _ \ / _` |/ _ \| '__/ _ \  | __| | '_ ` _ \ / _ \ '__|
+  //  | |_) | (_) | | | | | | (_) | (_| | (_) | | | (_) | | |_| | | | | | |  __/ |
+  //  | .__/ \___/|_| |_| |_|\___/ \__,_|\___/|_|  \___/   \__|_|_| |_| |_|\___|_|
+  //  | |
+  //  |_|
+  createPomoSess() {
+    return `/pomodoroTimer/create`;
+  }
+
+  getAllPomoSess() {
+    return `/pomodoroTimer/getAll`;
   }
 }

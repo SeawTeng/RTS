@@ -1,0 +1,268 @@
+<div class="container pt-5">
+  <div class="card quiz-form">
+    <div class="card-body justify-content-center">
+      <div class="text-center mt-4">
+        <h1 class="title mt-4">
+          <span style="text-transform: capitalize">{{ type }} </span>
+          Learning Style Assessment
+        </h1>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="quizQuestion && type === 'edit' || type === 'create'">
+    <div class="add-lessons-form" [formGroup]="quizForm">
+      <ng-container formArrayName="typeList">
+        <div class="card quiz-form mt-3">
+          <div class="card-body justify-content-center">
+            <h4 style="text-decoration: underline; font-weight: 600">
+              Learning Styles
+            </h4>
+
+            <div *ngFor="let typeForm of types.controls; let typeIndex = index">
+              <div [formGroup]="typeForm" class="form-container mb-2">
+                <div class="row justify-content-center">
+                  <div class="col-md-12 col-sm-12 mt-2">
+                    <p class="m-0 mb-2">
+                      <strong
+                        >Type Option:
+                        {{ typeForm.get('typeOption')?.value }}</strong
+                      >
+                    </p>
+
+                    <label for="typeName"
+                      >Type Name:<span class="text-danger">*</span></label
+                    >
+                    <input
+                      id="typeName"
+                      formControlName="typeName"
+                      class="form-control"
+                      required />
+                    <div
+                      *ngIf="
+                        typeForm.get('typeName')?.invalid &&
+                        (typeForm.get('typeName')?.dirty ||
+                          typeForm.get('typeName')?.touched)
+                      "
+                      class="text-danger">
+                      <div
+                        *ngIf="typeForm.get('typeName')?.hasError('required')">
+                        Type name is required.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 col-sm-12 mt-2">
+                    <label for="typeName"
+                      >Explanation:<span class="text-danger">*</span></label
+                    >
+                    <textarea
+                      formControlName="explanation"
+                      class="form-control"
+                      rows="5"
+                      required></textarea>
+                    <div
+                      *ngIf="
+                        typeForm.get('explanation')?.invalid &&
+                        (typeForm.get('explanation')?.dirty ||
+                          typeForm.get('explanation')?.touched)
+                      "
+                      class="text-danger">
+                      <div
+                        *ngIf="
+                          typeForm.get('explanation')?.hasError('required')
+                        ">
+                        Explanation is required.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button
+                      type="button"
+                      class="btn btn-outline-danger"
+                      (click)="removeType(typeIndex)">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button
+                    [disabled]="types.length === 5"
+                    type="button"
+                    class="btn btn-outline-primary"
+                    (click)="addType()">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container formArrayName="questionList">
+        <div class="card quiz-form mt-3">
+          <div class="card-body justify-content-center">
+            <h4 style="text-decoration: underline; font-weight: 600">
+              Assessment Questions
+            </h4>
+
+            <div
+              *ngFor="let questionForm of questions.controls; let i = index"
+              [formGroup]="questionForm"
+              class="form-container mb-2">
+              <div class="row justify-content-center">
+                <div class="col-md-1 col-sm-1 mt-2">{{ i + 1 }}.</div>
+
+                <div class="col-md-11 col-sm-11 mt-2">
+                  <label for="title"
+                    >Title:<span class="text-danger">*</span></label
+                  >
+                  <input
+                    id="title"
+                    formControlName="title"
+                    class="form-control"
+                    required />
+                  <div
+                    *ngIf="
+                      questionForm.get('title')?.invalid &&
+                      (questionForm.get('title')?.dirty ||
+                        questionForm.get('title')?.touched)
+                    "
+                    class="text-danger">
+                    <div
+                      *ngIf="questionForm.get('title')?.hasError('required')">
+                      Title is required.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-1 col-sm-1 mt-2"></div>
+                <div class="col-md-11 col-sm-11 mt-2">
+                  <div
+                    class="row"
+                    *ngFor="
+                      let optionForm of questionForm.get('options').controls;
+                      let optIndex = index
+                    "
+                    [formGroup]="optionForm">
+                    <div class="col-md-12 col-sm-12 mt-2">
+                      <label for="text"
+                        >{{ optionForm.get('type')?.value }}:<span
+                          class="text-danger"
+                          >*</span
+                        ></label
+                      >
+                      <input
+                        id="text"
+                        formControlName="text"
+                        class="form-control"
+                        required />
+                      <div
+                        *ngIf="
+                          optionForm.get('text')?.invalid &&
+                          (optionForm.get('text')?.dirty ||
+                            optionForm.get('text')?.touched)
+                        "
+                        class="text-danger">
+                        <div
+                          *ngIf="optionForm.get('text')?.hasError('required')">
+                          Text is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-2">
+                <div class="col">
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button
+                      type="button"
+                      class="btn btn-outline-danger"
+                      (click)="removeQns(i)">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    (click)="addQns()">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="card quiz-form mt-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-center">
+            <button
+              type="button"
+              class="btn btn-primary submit-btn"
+              style="margin-right: 10px"
+              (click)="onSubmit('active')"
+              [disabled]="quizForm.invalid">
+              Submit
+            </button>
+
+            <button
+              *ngIf="quizQuestion.status === 'draft' || type === 'create'"
+              type="button"
+              class="btn btn-secondary"
+              (click)="onSubmit('draft')"
+              [disabled]="quizForm.invalid">
+              Save Draft
+            </button>
+
+            <button
+              *ngIf="type !== 'create'"
+              type="button"
+              class="btn btn-danger"
+              style="margin-right: 10px"
+              (click)="deleteQuiz()">
+              Delete
+            </button>
+
+            <button
+              *ngIf="quizQuestion.status === 'active' && !quizQuestion.isDefault"
+              type="button"
+              class="btn btn-primary"
+              style="margin-right: 10px"
+              (click)="setDefault()">
+              Set As Default
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>
