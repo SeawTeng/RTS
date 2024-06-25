@@ -31,9 +31,21 @@ class QuizQuestionController {
   */
   async create(req, quizQuestionDto) {
     quizQuestionDto.isDeleted = false;
-    // quizQuestionDto.status = "active";
-
     return await QuizQuestionRepository.add(req, quizQuestionDto);
+  }
+
+  /**
+   *  @param {any} req
+  */
+  async setDefault(req) {
+    const prevDefault = await this.getActiveQuiz();
+    prevDefault.isDefault = false;
+
+    await QuizQuestionRepository.set(req, prevDefault);
+    const newDefault = await QuizQuestionRepository.getById(req.params.id);
+    newDefault.isDefault = true;
+
+    return await QuizQuestionRepository.set(req, newDefault);
   }
 
   /**

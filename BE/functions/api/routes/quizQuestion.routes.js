@@ -65,6 +65,17 @@ router.put("/:id", async (req, res) =>
     }
   }));
 
+// set default
+router.put("/default/:id", async (req, res) =>
+  await handleWriteRequest(res, async () => {
+    const auth = await QuizQuestionRepository.checkAuthenticate(req, res);
+    if (auth.message) {
+      return await QuizQuestionController.setDefault(req);
+    } else {
+      return auth;
+    }
+  }));
+
 // delete one quiz question
 router.delete("/:id", async (req, res) =>
   await handleWriteRequest(res, async () => {
