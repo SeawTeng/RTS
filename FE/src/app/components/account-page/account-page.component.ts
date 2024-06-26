@@ -100,9 +100,11 @@ export class AccountPageComponent implements OnInit {
         .subscribe(
           (res: any) => {
             this.learnerStyle = res;
-            this.learnerStyle[0].lastCreatedTime = moment(
-              this.learnerStyle[0].lastCreatedTime
-            ).format('DD-MM-YYYY');
+            if (this.learnerStyle.length) {
+              this.learnerStyle[0].lastCreatedTime = moment(
+                this.learnerStyle[0].lastCreatedTime
+              ).format('DD-MM-YYYY');
+            }
             this.loading = false;
           },
           error => {

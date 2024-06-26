@@ -1,7 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { authGuard } from './auth.guard';
-import { QuizFormComponent } from './components/quiz-form/quiz-form.component';
+import { adminGuard, authGuard } from './auth.guard';
 
 export const routes: Routes = [
   {
@@ -45,6 +44,35 @@ export const routes: Routes = [
             m => m.QuizFormComponent
           ),
         canActivate: [authGuard],
+      },
+    ],
+  },
+  {
+    path: 'quiz-list',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./components/quiz-list/quiz-list.component').then(
+            m => m.QuizListComponent
+          ),
+        canActivate: [adminGuard],
+      },
+      {
+        path: 'create',
+        loadComponent: () =>
+          import('./components/quiz-list/quiz-form/quiz-form.component').then(
+            m => m.QuizFormComponent
+          ),
+        canActivate: [adminGuard],
+      },
+      {
+        path: 'edit',
+        loadComponent: () =>
+          import('./components/quiz-list/quiz-form/quiz-form.component').then(
+            m => m.QuizFormComponent
+          ),
+        canActivate: [adminGuard],
       },
     ],
   },

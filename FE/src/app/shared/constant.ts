@@ -171,3 +171,5 @@ export const minutes: string[] = [
   '59',
   '60',
 ];
+
+export const learnerTypeList: string[] = ['A', 'B', 'C', 'D', 'E'];

@@ -23,7 +23,7 @@ class QuizQuestionRepository extends FirebaseRepository {
   }
 
   /**
-   * get active quiz
+   * get default quiz
   */
   async getActiveQuiz() {
     const response = await this.firebaseCollection

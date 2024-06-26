@@ -1,0 +1,56 @@
+.quiz-form {
+  width: 75%;
+  left: 12%;
+  padding: 10px 25px;
+
+  .title {
+    font-weight: 700;
+  }
+
+  .subtitle {
+    opacity: 70%;
+  }
+}
+
+.submit-btn {
+  background-color: #90bad0;
+  color: #fff;
+  min-height: 30px;
+  border: none;
+  border-radius: 5px;
+}
+
+.submit-btn:not([disabled]):hover,
+.submit-btn:not([disabled]):active {
+  background-color: #3f647d;
+}
+
+.answer-card {
+  top: 25%;
+  width: 45%;
+  position: absolute;
+  left: 26%;
+  padding: 10px 25px;
+}
+
+.custom-input {
+  border: none;
+  border-bottom: 1px solid #ced4da;
+  border-radius: 0;
+  padding: 5px 0;
+  margin-bottom: 10px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.custom-input:hover,
+.custom-input:focus {
+  border-bottom: 2px solid #00000092;
+}
+
+.sticky-bottom {
+  position: sticky;
+  bottom: 0%;
+  left: 16.9%;
+}

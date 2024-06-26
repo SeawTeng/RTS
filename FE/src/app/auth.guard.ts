@@ -12,3 +12,20 @@ export const authGuard: CanActivateFn = () => {
 
   return true;
 };
+
+export const adminGuard: CanActivateFn = () => {
+  const cookie = inject(AppService).getToken();
+
+  if (cookie) {
+    const store = localStorage.getItem('user');
+    const userInfo = store ? inject(AppService).decryption(store) : {};
+
+    if (userInfo.type == 'admin') {
+      return true;
+    }
+  } else {
+    inject(AppService).logout();
+  }
+  
+  return false;
+};

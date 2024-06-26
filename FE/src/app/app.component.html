@@ -83,6 +83,15 @@
               <li>
                 <a
                   class="dropdown-item"
+                  routerLink="/quiz-list"
+                  *ngIf="userInfo.type === 'admin'"
+                  style="white-space: normal">
+                  Learning Style Assessment Management
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
                   href="javascript:void(0);"
                   (click)="logout()"
                   >Logout</a
