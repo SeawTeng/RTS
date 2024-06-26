@@ -163,6 +163,15 @@ export class QuizFormComponent implements OnInit {
       explanation: ['', Validators.required],
     });
     this.types.push(type);
+
+    for (const qns of this.questions.controls) {
+      const option = this.fb.group({
+        text: ['', Validators.required],
+        type: [typeOption, Validators.required],
+      });
+
+      (qns.get('options') as FormArray).push(option);
+    }
   }
 
   removeType(index: number) {
@@ -173,6 +182,16 @@ export class QuizFormComponent implements OnInit {
         .at(i)
         ?.get('typeOption')
         ?.setValue(this.learnerTypeList[i]);
+    }
+
+    for (const qns of this.questions.controls) {
+      (qns.get('options') as FormArray).removeAt(index);
+
+      let optIndex = 0;
+      for (const opt of (qns.get('options') as FormArray).controls) {
+        opt.get('type')?.setValue(this.learnerTypeList[optIndex]);
+        optIndex++;
+      }
     }
   }
 
