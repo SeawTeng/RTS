@@ -235,6 +235,7 @@
               *ngIf="type === 'create' || quizQuestion?.status === 'draft'"
               type="button"
               class="btn btn-secondary"
+              style="margin-right: 10px"
               (click)="onSubmit('draft')"
               [disabled]="quizForm.invalid">
               Save Draft
