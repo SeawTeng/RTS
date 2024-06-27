@@ -56,6 +56,7 @@ export class PomodoroComponent implements OnInit {
 
   async ngOnInit() {
     await this.getAllCategory();
+    await this.getAllPomoSess();
   }
 
   chooseTask(task: any) {
@@ -166,20 +167,12 @@ export class PomodoroComponent implements OnInit {
 
 
   async getAllPomoSess() {
-    const api = this.service.getAllPomoSess();
-
     await this.service
       .httpCall(this.service.getAllPomoSess(), {}, 'get')
       .subscribe(
         async (res: any) => {
           this.pomoList = res;
           await this.service
-            .httpCall(
-              api,
-              {
-              },
-              'post'
-            )
             .subscribe((res: any) => {
               this.pomoList = res;
             });
