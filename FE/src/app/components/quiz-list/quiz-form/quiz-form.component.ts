@@ -113,7 +113,7 @@ export class QuizFormComponent implements OnInit {
   async onSubmit(type: string) {
     if (this.quizForm.valid) {
       const data: any = this.quizForm.value;
-      data.isDefault = false; 
+      data.isDefault = false;
       data.status = type;
 
       this.loading = true;
@@ -149,7 +149,6 @@ export class QuizFormComponent implements OnInit {
             }
           );
       }
-      
     }
   }
 
@@ -237,11 +236,7 @@ export class QuizFormComponent implements OnInit {
         return;
       }
       await this.service
-        .httpCall(
-          this.service.deleteQuizQuestion(this.id),
-          {},
-          'delete'
-        )
+        .httpCall(this.service.deleteQuizQuestion(this.id), {}, 'delete')
         .subscribe(
           async (res: any) => {
             this.router.navigate(['/quiz-list']);
@@ -269,11 +264,7 @@ export class QuizFormComponent implements OnInit {
       this.loading = true;
 
       await this.service
-        .httpCall(
-          this.service.setDefaultQuizQuestion(this.id),
-          {},
-          'put'
-        )
+        .httpCall(this.service.setDefaultQuizQuestion(this.id), {}, 'put')
         .subscribe(
           async (res: any) => {
             this.router.navigate(['/quiz-list']);

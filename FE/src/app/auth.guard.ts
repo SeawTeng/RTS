@@ -26,6 +26,6 @@ export const adminGuard: CanActivateFn = () => {
   } else {
     inject(AppService).logout();
   }
-  
+
   return false;
 };

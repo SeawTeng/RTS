@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <div *ngIf="quizQuestion && type === 'edit' || type === 'create'">
+  <div *ngIf="(quizQuestion && type === 'edit') || type === 'create'">
     <div class="add-lessons-form" [formGroup]="quizForm">
       <ng-container formArrayName="typeList">
         <div class="card quiz-form mt-3">
@@ -250,7 +250,9 @@
             </button>
 
             <button
-              *ngIf="quizQuestion.status === 'active' && !quizQuestion.isDefault"
+              *ngIf="
+                quizQuestion.status === 'active' && !quizQuestion.isDefault
+              "
               type="button"
               class="btn btn-primary"
               style="margin-right: 10px"
