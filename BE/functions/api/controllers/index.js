@@ -11,5 +11,5 @@ export {
   TodoTaskController,
   QuizQuestionController,
   QuizAnswerController,
-  pomodoroTimerController
+  pomodoroTimerController,
 };

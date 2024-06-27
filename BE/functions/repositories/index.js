@@ -11,5 +11,5 @@ export {
   TodoTaskRepository,
   QuizAnswerRepository,
   QuizQuestionRepository,
-  pomodoroTimerRepository
+  pomodoroTimerRepository,
 };

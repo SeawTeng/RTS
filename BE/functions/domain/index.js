@@ -11,5 +11,5 @@ export {
   TodoTask,
   QuizAnswer,
   QuizQuestion,
-  pomodoroTimer
+  pomodoroTimer,
 };

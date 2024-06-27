@@ -21,16 +21,16 @@ class PomodoroTimerRepository extends FirebaseRepository {
     const userId = jwt.decode(token, process.env.JWT_SECRET).id;
 
     const userDocRef = await this.db
-      .doc(`users/${userId}`);
+        .doc(`users/${userId}`);
 
     let response = null;
 
 
     response = await this.firebaseCollection
-      .where("userId", "==", userDocRef)
-      .where("isDeleted", "==", false)
-      .orderBy("endDateTime")
-      .get();
+        .where("userId", "==", userDocRef)
+        .where("isDeleted", "==", false)
+        .orderBy("endDateTime")
+        .get();
 
 
     response = this.processFirebaseResponse(response, true);
