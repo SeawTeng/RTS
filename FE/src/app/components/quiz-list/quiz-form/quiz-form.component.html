@@ -219,7 +219,7 @@
         </div>
       </ng-container>
 
-      <div class="card quiz-form mt-3 sticky-bottom">
+      <div class="card quiz-form mt-3">
         <div class="card-body">
           <div class="d-flex justify-content-center">
             <button
@@ -232,9 +232,10 @@
             </button>
 
             <button
-              *ngIf="quizQuestion.status === 'draft' || type === 'create'"
+              *ngIf="type === 'create' || quizQuestion?.status === 'draft'"
               type="button"
               class="btn btn-secondary"
+              style="margin-right: 10px"
               (click)="onSubmit('draft')"
               [disabled]="quizForm.invalid">
               Save Draft
@@ -251,7 +252,7 @@
 
             <button
               *ngIf="
-                quizQuestion.status === 'active' && !quizQuestion.isDefault
+                quizQuestion?.status === 'active' && !quizQuestion?.isDefault
               "
               type="button"
               class="btn btn-primary"
