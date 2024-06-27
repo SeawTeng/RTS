@@ -4,7 +4,6 @@ import { Router, RouterModule } from '@angular/router';
 import { ServicesService } from '../../services/services.service';
 import { ToDoCategoryComponent } from '../to-do/to-do-category-model/to-do-category-model.component';
 import { ToDoTaskComponent } from '../to-do/to-do-task-model/to-do-task-model.component';
-import { ToDoComponent } from '../to-do/to-do.component';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 
@@ -172,10 +171,6 @@ export class PomodoroComponent implements OnInit {
       .subscribe(
         async (res: any) => {
           this.pomoList = res;
-          await this.service
-            .subscribe((res: any) => {
-              this.pomoList = res;
-            });
         },
         error => {
           this.toastr.error(error.error, 'Error', {
@@ -247,7 +242,7 @@ export class PomodoroComponent implements OnInit {
   }
 
   playAudio() {
-    let audio = new Audio();
+    const audio = new Audio();
     audio.src = "../assets/bedside-clock-alarm-95792.mp3";
     audio.load();
     audio.play();
@@ -266,7 +261,7 @@ export class PomodoroComponent implements OnInit {
 
         }
         this.counter();
-      };
+      }
       if (this.mins == 0 && this.secs == 0) {
         //play sound && add to db 
         this.playAudio();
@@ -278,7 +273,7 @@ export class PomodoroComponent implements OnInit {
         this.createPomoSess();
         this.markTaskAsComplete(this.selectedTask);
         this.reset();
-      };
+      }
 
     }, 1000);
   }
@@ -294,14 +289,14 @@ export class PomodoroComponent implements OnInit {
 
         }
         this.counterBreak();
-      };
+      }
       if (this.breakMins == 0 && this.breakSecs == 0) {
         this.counter();
         this.isRunning = true;
         this.isBreak = false;
         this.pomoPage();
         this.reset();
-      };
+      }
 
     }, 1000);
   }
