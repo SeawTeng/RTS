@@ -8,8 +8,8 @@ class PomodoroTimerController {
   /**
      *  @param {any} req
     */
-  async getAllByUser(req) {
-    return await pomodoroTimerRepository.getAllByUser(req);
+  async getAll(req) {
+    return await pomodoroTimerRepository.getAll(req);
   }
 
   /**

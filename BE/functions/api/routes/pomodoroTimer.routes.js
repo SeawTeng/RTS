@@ -14,7 +14,7 @@ router.get("/getAll", async (req, res) =>
   await handleReadRequest(res, async () => {
     const auth = await pomodoroTimerRepository.checkAuthenticate(req, res);
     if (auth.message) {
-      return await pomodoroTimerController.getAllByUser(req);
+      return await pomodoroTimerController.getAll(req);
     } else {
       return auth;
     }
