@@ -232,7 +232,7 @@
             </button>
 
             <button
-              *ngIf="type === 'create' || quizQuestion.status === 'draft'"
+              *ngIf="type === 'create' || quizQuestion?.status === 'draft'"
               type="button"
               class="btn btn-secondary"
               (click)="onSubmit('draft')"
@@ -250,7 +250,7 @@
             </button>
 
             <button
-              *ngIf="quizQuestion.status === 'active' && !quizQuestion.isDefault"
+              *ngIf="quizQuestion?.status === 'active' && !quizQuestion?.isDefault"
               type="button"
               class="btn btn-primary"
               style="margin-right: 10px"
