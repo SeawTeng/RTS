@@ -15,24 +15,30 @@ import { CommonModule } from '@angular/common';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
+
+  //charts 
   title = 'ng-chart';
   cTaskchart: any = [];
   TaskStatuschart: any = [];
-
   eachTaskStackChart: any = [];
   pomoBar: any = [];
 
+
+  //get methods of to do and pomo 
   categoryList: any = [];
   taskList: any = [];
   pomoList: any = [];
   loading = false;
-
   selectedCategoryId: any = null;
   selectedTask: any = null;
   selectedCategory: any = null;
   showCompleted: boolean = true;
 
-  pomoTaskName = "";
+  // upper dashboard 
+  dueToday = 0;
+  completedToday = 0;
+  overdueTasks = 0;
+  productiveTime = 0;
 
 
   constructor(
@@ -57,15 +63,22 @@ export class DashboardComponent {
     // allow filter and sat first show week by week then let user decide 
     const completedTasks = this.taskList.filter((task: any) => task.status === 'completed');
     const completedTasksByDate: { [date: string]: number } = {};
+    const todayDate = new Date().toISOString().split('T')[0];
 
     completedTasks.forEach((task: any) => {
       if (task.endDate) {
         const date = new Date(task.endDate).toISOString().split('T')[0];
+        if (todayDate == date) {
+          this.completedToday += 1;
+        }
         if (!completedTasksByDate[date]) {
           completedTasksByDate[date] = 0;
         }
         completedTasksByDate[date]++;
       }
+
+
+
     });
 
 
@@ -97,6 +110,7 @@ export class DashboardComponent {
     });
   }
 
+  
 
   async taskStatusPieChart() {
     const pendingTasks = this.taskList.filter((task: any) => task.status === 'active').length;
@@ -167,6 +181,7 @@ export class DashboardComponent {
               this.taskList = res;
               this.numOfCompletedTaskBarChart();
               this.taskStatusPieChart();
+              this.findOverdueTask();
             });
         },
         error => {
@@ -178,6 +193,27 @@ export class DashboardComponent {
       );
   }
 
+  async findOverdueTask() {
+    const today = new Date();
+    const todayDate = today.toISOString().split('T')[0];
+    const pendingTasks = this.taskList.filter((task: any) => task.status === 'active');
+    this.dueToday = 0;
+    this.overdueTasks = 0;
+
+    pendingTasks.forEach((task: any) => {
+
+      const taskEndDate = new Date(task.endDate);
+      const taskEndDateString = taskEndDate.toISOString().split('T')[0];
+
+      if (taskEndDateString == todayDate) {
+        this.dueToday += 1;
+      } else if (taskEndDate < today) {
+        this.overdueTasks += 1;
+      }
+    });
+  }
+
+
   // ____                          ____ _                _       
   // |  _ \ ___  _ __ ___   ___    / ___| |__   __ _ _ __| |_ ___ 
   // | |_) / _ \| '_ ` _ \ / _ \  | |   | '_ \ / _` | '__| __/ __|
@@ -187,9 +223,9 @@ export class DashboardComponent {
 
   async eachTaskStackedChart() {
     const completedTasks = this.taskList.filter((task: any) => task.status === 'completed');
-  
+
     const completedTasksByDate: { [date: string]: { [task: string]: number } } = {};
-  
+
     completedTasks.forEach((task: any) => {
       if (task.endDateTime) {
         const date = new Date(task.endDateTime).toISOString().split('T')[0];
@@ -202,10 +238,10 @@ export class DashboardComponent {
         completedTasksByDate[date][task.task] += task.minutesTaken;
       }
     });
-  
+
     const labels = Object.keys(completedTasksByDate);
     const taskNames: any[] = [...new Set(completedTasks.map((task: any) => task.task))];
-  
+
     const datasets = taskNames.map((taskName: any) => {
       return {
         label: taskName,
@@ -214,7 +250,7 @@ export class DashboardComponent {
         backgroundColor: this.getRandomColor(),
       };
     });
-  
+
     this.eachTaskStackChart = new Chart('timeOnEachTaskStackChart', {
       type: 'bar',
       data: {
@@ -239,18 +275,24 @@ export class DashboardComponent {
       },
     });
   }
-  
+
   async totalPomoSessBarChart() {
 
     const pomoSessByDate: { [date: string]: number } = {};
+    const todayDate = new Date().toISOString().split('T')[0];
+
 
     this.pomoList.forEach((task: any) => {
+      const date = new Date(task.endDateTime).toISOString().split('T')[0];
+      if (todayDate == date) {
+        this.productiveTime += task.minutesTaken;
+      }
       if (task.endDateTime) {
         const date = new Date(task.endDateTime).toISOString().split('T')[0];
         if (!pomoSessByDate[date]) {
           pomoSessByDate[date] = 0;
         }
-        pomoSessByDate[date]+= task.minutesTaken;
+        pomoSessByDate[date] += task.minutesTaken;
       }
     });
 
@@ -283,8 +325,8 @@ export class DashboardComponent {
     });
   }
 
-  
-  
+
+
   getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -293,7 +335,7 @@ export class DashboardComponent {
     }
     return color;
   }
-  
+
 
   // ____                           _                 
   // |  _ \ ___  _ __ ___   ___   __| | ___  _ __ ___  
@@ -311,7 +353,6 @@ export class DashboardComponent {
       .subscribe(
         async (res: any) => {
           this.pomoList = res;
-          console.log(this.pomoList)
           this.eachTaskStackedChart();
           this.totalPomoSessBarChart();
         },
