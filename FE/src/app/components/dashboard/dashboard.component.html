@@ -32,23 +32,25 @@
     <div class="row chart-row">
         <div class="col chart-box">
             <canvas id="completedTaskBarChart">{{cTaskchart}}</canvas>
-            <!-- <select [(ngModel)]="selectedPeriod" (change)="updateChart()">
+            <select [(ngModel)]="selectedPeriod" (change)="updateTaskChart()">
                 <option value="7">1 Week</option>
                 <option value="31">1 Month</option>
                 <option value="93">3 Months</option>
-            </select> -->
+            </select>
         </div>
         <div class="col chart-box">
             <canvas id="taskstatuspiechart">{{TaskStatuschart}}</canvas>
+            <select [(ngModel)]="selectedCategory" (change)="updateCategory($event.target.value)">
+                <option *ngFor="let category of categoryList" [value]="category.id">{{ category.categoryName }}</option>
+            </select>
         </div>
     </div>
 
     <div class="row chart-row">
-        <div class="col chart-box">
-            <canvas id="timeOnEachTaskStackChart">{{eachTaskStackChart}}</canvas>
-        </div>
-        <div class="col chart-box">
-            <canvas id="pomoBarChart">{{pomoBar}}</canvas>
-        </div>
+        <canvas id="pomoBarChart">{{pomoBar}}</canvas>
+         </div>
     </div>
-</div>
+
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+    </ngx-loading>
+    
