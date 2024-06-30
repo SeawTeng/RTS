@@ -37,7 +37,7 @@ export class DashboardComponent {
   selectedTask: any = null;
   showCompleted: boolean = true;
 
-  // upper dashboard 
+  // upper dashboard (task overview) 
   dueToday = 0;
   completedToday = 0;
   overdueTasks = 0;
@@ -68,7 +68,7 @@ export class DashboardComponent {
   //   |_|\___/  |____/ \___/   \____|_| |_|\__,_|_|   \__|___/
 
   parseLastUpdatedTime(dateStr: any) {
-    console.log(dateStr)
+    // console.log(dateStr)
     const [datePart, timePart] = dateStr.split(' ');
     const [day, month, year] = datePart.split('-');
     return `${year}-${month}-${day}`;
@@ -107,8 +107,8 @@ export class DashboardComponent {
       newDate.setDate(newDate.getDate())
       const isCompleted = task.status === 'completed';
       const isInRange = newDate >= startDate && newDate <= today;
-      console.log(isCompleted + "completed")
-      console.log(isInRange + "in range")
+      // console.log(isCompleted + "completed")
+      // console.log(isInRange + "in range")
       return isInRange && isCompleted;
     });
 
