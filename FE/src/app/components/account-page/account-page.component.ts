@@ -103,6 +103,7 @@ export class AccountPageComponent implements OnInit {
             if (this.learnerStyle.length) {
               this.learnerStyle[0].lastCreatedTime = moment(
                 this.learnerStyle[0].lastCreatedTime
+                , 'DD-MM-YYYY HH:mm:ss'
               ).format('DD-MM-YYYY');
             }
             this.loading = false;
