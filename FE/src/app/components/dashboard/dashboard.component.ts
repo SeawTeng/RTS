@@ -303,6 +303,9 @@ export class DashboardComponent {
     const today = new Date();
     const SgDay = new Date(today);
     SgDay.setDate(SgDay.getDate() + 1);
+    const SgDayString = SgDay
+    .toISOString()
+    .split('T')[0];
 
     let startDate: Date;
     const periodNum = Number(period);
@@ -347,7 +350,7 @@ export class DashboardComponent {
       const formattedDate = parsedDate.toISOString().split('T')[0];
 
       // For the upper dashboard 
-      if (todayDate == formattedDate) {
+      if (SgDayString == formattedDate) {
         this.productiveTime += task.minutesTaken;
       }
 
