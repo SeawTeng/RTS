@@ -159,6 +159,7 @@
             <div class="col-md-4">
               <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button
+                  *ngIf="task.status !== 'completed'"
                   type="button"
                   class="btn btn-outline-primary btn-sm"
                   data-bs-toggle="modal"
