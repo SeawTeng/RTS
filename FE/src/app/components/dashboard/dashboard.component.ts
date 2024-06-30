@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
+import { NgModule } from '@angular/core';
 import Chart from 'chart.js/auto';
+import { HttpClientModule } from '@angular/common/http';
 import { ServicesService } from '../../services/services.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { start } from 'repl';
 import { NgxLoadingModule } from 'ngx-loading';
 
 
@@ -15,7 +17,7 @@ import { NgxLoadingModule } from 'ngx-loading';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
 
   //charts 
@@ -143,7 +145,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async updateCompletedTaskChart() {
-   
+
     await this.numOfCompletedTaskBarChart(this.selectedPeriod);
   }
 
@@ -278,7 +280,11 @@ export class DashboardComponent implements OnInit {
 
   async totalPomoSessBarChart(period?: number) {
 
+
     const today = new Date();
+    const SgDay = new Date(today);
+    SgDay.setDate(SgDay.getDate() + 1);
+
     let startDate: Date;
     const periodNum = Number(period);
 
@@ -338,7 +344,7 @@ export class DashboardComponent implements OnInit {
 
     const filteredDates = Object.keys(pomoSessByDate).filter(date => {
       const dateObj = new Date(date);
-      return dateObj >= startDate && dateObj <= today;
+      return dateObj >= startDate && dateObj <= SgDay;
     });
 
 
