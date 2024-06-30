@@ -22,10 +22,10 @@ export class DashboardComponent {
 
   //charts 
   title = 'ng-chart';
-  cTaskchart: any = [];
+  cTaskchart: any = null;
   TaskStatuschart: any = null;
   eachTaskStackChart: any = [];
-  pomoBar: any = [];
+  pomoBar: any = null;
 
 
   //get methods of to do and pomo 
@@ -44,8 +44,9 @@ export class DashboardComponent {
   productiveTime = 0;
 
   //filter 
-  selectedPeriod = 7;
+  selectedPeriod: number = 7;
   selectedCategory: any = null;
+  selectedPeriodforPomo: number = 7;
 
 
   constructor(
@@ -66,37 +67,12 @@ export class DashboardComponent {
   //   | | (_) | | |_| | (_) | | |___| | | | (_| | |  | |_\__ \
   //   |_|\___/  |____/ \___/   \____|_| |_|\__,_|_|   \__|___/
 
-  async numOfCompletedTaskBarChart(labels: any, data: any) {
-    this.cTaskchart = new Chart('completedTaskBarChart', {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: '# of Completed Tasks',
-            data: data,
-            borderWidth: 1,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-          },
-        ],
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
-      },
-    });
-  }
-
-
-  getFilteredData(period: number) {
+  async numOfCompletedTaskBarChart(period?: number) {
     const today = new Date();
     let startDate: Date;
+    const periodNum = Number(period)
 
-    switch (period) {
+    switch (periodNum) {
       case 7:
         startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
         break;
@@ -112,17 +88,13 @@ export class DashboardComponent {
     }
 
 
+
     const filteredTasks = this.taskList.filter((task: any) => {
       const taskDate = new Date(task.endDate);
-
       const isCompleted = task.status === 'completed';
       const isInRange = taskDate >= startDate && taskDate <= today;
-      // console.log('Is Completed:', isCompleted); 
-      // console.log('Is In Range:', isInRange); 
       return isInRange && isCompleted;
     });
-
-
 
     const filteredTasksByDate: { [date: string]: number } = {};
 
@@ -138,24 +110,43 @@ export class DashboardComponent {
       return new Date(a[0]).getTime() - new Date(b[0]).getTime();
     });
 
-
-
     const labels = sortedEntries.map(entry => entry[0]);
     const data = sortedEntries.map(entry => entry[1]);
 
-
-    return { labels, data };
+    if (this.cTaskchart) {
+      this.cTaskchart.data.labels = labels;
+      this.cTaskchart.data.datasets[0].data = data;
+      this.cTaskchart.update();
+    } else {
+      this.cTaskchart = new Chart('completedTaskBarChart', {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: '# of Completed Tasks',
+              data: data,
+              borderWidth: 1,
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    }
   }
 
-  async updateTaskChart() {
-
-    const filteredData = this.getFilteredData(this.selectedPeriod);
-
-
-    if (this.cTaskchart) {
-      this.cTaskchart.destroy();
-    }
-    this.numOfCompletedTaskBarChart(filteredData.labels, filteredData.data);
+  async updateCompletedTaskChart() {
+   
+    await this.numOfCompletedTaskBarChart(this.selectedPeriod);
   }
 
   async updateCategory(selectedCategories: string) {
@@ -165,15 +156,11 @@ export class DashboardComponent {
   async taskStatusPieChart(selectedCategories?: string) {
     const filteredTasks = this.taskList.filter((task: any) => {
       const categoryId = task.categoryId._path.segments[1];
-      // console.log(`Task ID: ${task.id}, Category ID: ${categoryId}`);
       return selectedCategories ? categoryId === selectedCategories : true;
     });
 
     const pendingTasks = filteredTasks.filter((task: any) => task.status === 'active').length;
     const completedTasks = filteredTasks.filter((task: any) => task.status === 'completed').length;
-
-    // console.log(pendingTasks);
-    // console.log(completedTasks);
 
     if (this.TaskStatuschart) {
       this.TaskStatuschart.data.datasets[0].data = [pendingTasks, completedTasks];
@@ -245,8 +232,8 @@ export class DashboardComponent {
               this.loading = false;
               this.taskList = res;
 
-              const filteredData = this.getFilteredData(this.selectedPeriod);
-              this.numOfCompletedTaskBarChart(filteredData.labels, filteredData.data);
+
+              this.numOfCompletedTaskBarChart();
               this.taskStatusPieChart();
               this.findOverdueTask();
             });
@@ -291,7 +278,26 @@ export class DashboardComponent {
 
 
 
-  async totalPomoSessBarChart() {
+  async totalPomoSessBarChart(period?: number) {
+
+    const today = new Date();
+    let startDate: Date;
+    const periodNum = Number(period);
+
+    switch (periodNum) {
+      case 7:
+        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+        break;
+      case 31:
+        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 31);
+        break;
+      case 93:
+        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 93);
+        break;
+      default:
+        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+        break;
+    }
 
     const pomoSessByDate: { [date: string]: number } = {};
     const todayDate = new Date(new Date().getTime() + 8 * 60 * 60 * 1000)
@@ -317,9 +323,11 @@ export class DashboardComponent {
 
       const formattedDate = parsedDate.toISOString().split('T')[0];
 
+      // For the upper dashboard 
       if (todayDate == formattedDate) {
         this.productiveTime += task.minutesTaken;
       }
+
 
       if (task.endDateTime) {
         if (!pomoSessByDate[formattedDate]) {
@@ -330,43 +338,55 @@ export class DashboardComponent {
     });
 
 
-    const labels = Object.keys(pomoSessByDate);
-    const data = Object.values(pomoSessByDate);
+    const filteredDates = Object.keys(pomoSessByDate).filter(date => {
+      const dateObj = new Date(date);
+      return dateObj >= startDate && dateObj <= today;
+    });
 
 
-    this.pomoBar = new Chart('pomoBarChart', {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Total Time Spent Each Day ',
-            data: data,
-            borderWidth: 1,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-          },
-        ],
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
+    filteredDates.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+
+
+    const filteredData = filteredDates.map(date => pomoSessByDate[date]);
+
+    const labels = filteredDates;
+    const data = filteredData;
+
+    if (this.pomoBar) {
+      this.pomoBar.data.labels = labels;
+      this.pomoBar.data.datasets[0].data = data;
+      this.pomoBar.update();
+    } else {
+
+      this.pomoBar = new Chart('pomoBarChart', {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Total Time Spent Each Day ',
+              data: data,
+              borderWidth: 1,
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
           },
         },
-      },
-    });
+      });
+    }
   }
 
+  async updatePomoBarChart() {
+    await this.totalPomoSessBarChart(this.selectedPeriodforPomo);
 
-
-  getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
   }
 
 

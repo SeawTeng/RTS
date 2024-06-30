@@ -31,12 +31,15 @@
 
     <div class="row chart-row">
         <div class="col chart-box">
-            <canvas id="completedTaskBarChart">{{cTaskchart}}</canvas>
-            <select [(ngModel)]="selectedPeriod" (change)="updateTaskChart()">
-                <option value="7">1 Week</option>
-                <option value="31">1 Month</option>
-                <option value="93">3 Months</option>
-            </select>
+            <div id="chart-wrapper">
+                <canvas id="completedTaskBarChart"></canvas>
+                <select [(ngModel)]="selectedPeriod" (change)="updateCompletedTaskChart()">
+                    <option value="7">1 Week</option>
+                    <option value="31">1 Month</option>
+                    <option value="93">3 Months</option>
+                </select>
+            </div>
+
         </div>
         <div class="col chart-box">
             <canvas id="taskstatuspiechart">{{TaskStatuschart}}</canvas>
@@ -46,11 +49,18 @@
         </div>
     </div>
 
-    <div class="row chart-row">
-        <canvas id="pomoBarChart">{{pomoBar}}</canvas>
-         </div>
-    </div>
+    <div class="row chart-row ">
+        <div class="pomo-chart">
+            <canvas id="pomoBarChart">{{pomoBar}}</canvas>
+            <select [(ngModel)]="selectedPeriodforPomo" (change)="updatePomoBarChart()">
+                <option value="7">1 Week</option>
+                <option value="31">1 Month</option>
+                <option value="93">3 Months</option>
+            </select>
 
-    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
-    </ngx-loading>
-    
+        </div>
+    </div>
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading>
