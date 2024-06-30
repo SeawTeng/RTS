@@ -67,8 +67,19 @@ export class DashboardComponent {
   //   | | (_) | | |_| | (_) | | |___| | | | (_| | |  | |_\__ \
   //   |_|\___/  |____/ \___/   \____|_| |_|\__,_|_|   \__|___/
 
+  parseLastUpdatedTime(dateStr: any) {
+    console.log(dateStr)
+    const [datePart, timePart] = dateStr.split(' ');
+    const [day, month, year] = datePart.split('-');
+    return `${year}-${month}-${day}`;
+  }
+
+
   async numOfCompletedTaskBarChart(period?: number) {
     const today = new Date();
+    const SgDay = new Date(today);
+    SgDay.setDate(SgDay.getDate() + 1);
+
     let startDate: Date;
     const periodNum = Number(period)
 
@@ -86,24 +97,33 @@ export class DashboardComponent {
         startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
         break;
     }
-
+    const sgdayString = SgDay.toISOString().split('T')[0];
+    const todayString = today.toISOString().split('T')[0];
 
 
     const filteredTasks = this.taskList.filter((task: any) => {
-      const taskDate = new Date(task.endDate);
+      const taskDate = this.parseLastUpdatedTime(task.lastUpdatedTime)
+      const newDate = new Date(taskDate);
+      newDate.setDate(newDate.getDate())
       const isCompleted = task.status === 'completed';
-      const isInRange = taskDate >= startDate && taskDate <= today;
+      const isInRange = newDate >= startDate && newDate <= today;
+      console.log(isCompleted + "completed")
+      console.log(isInRange + "in range")
       return isInRange && isCompleted;
     });
 
     const filteredTasksByDate: { [date: string]: number } = {};
 
     filteredTasks.forEach((task: any) => {
-      const date = new Date(task.endDate).toISOString().split('T')[0];
+      const date = this.parseLastUpdatedTime(task.lastUpdatedTime)
       if (!filteredTasksByDate[date]) {
         filteredTasksByDate[date] = 0;
       }
       filteredTasksByDate[date]++;
+
+      if (date === todayString) {
+        this.completedToday += 1
+      }
     });
 
     const sortedEntries = Object.entries(filteredTasksByDate).sort((a, b) => {
@@ -145,7 +165,6 @@ export class DashboardComponent {
   }
 
   async updateCompletedTaskChart() {
-
     await this.numOfCompletedTaskBarChart(this.selectedPeriod);
   }
 
@@ -304,7 +323,7 @@ export class DashboardComponent {
     }
 
     const pomoSessByDate: { [date: string]: number } = {};
-    const todayDate = new Date(new Date().getTime() + 8 * 60 * 60 * 1000)
+    const todayDate = new Date()
       .toISOString()
       .split('T')[0];
 
