@@ -145,7 +145,7 @@ export class DashboardComponent {
   }
 
   async updateCompletedTaskChart() {
-   
+
     await this.numOfCompletedTaskBarChart(this.selectedPeriod);
   }
 
@@ -280,7 +280,11 @@ export class DashboardComponent {
 
   async totalPomoSessBarChart(period?: number) {
 
+
     const today = new Date();
+    const SgDay = new Date(today);
+    SgDay.setDate(SgDay.getDate() + 1);
+
     let startDate: Date;
     const periodNum = Number(period);
 
@@ -340,7 +344,7 @@ export class DashboardComponent {
 
     const filteredDates = Object.keys(pomoSessByDate).filter(date => {
       const dateObj = new Date(date);
-      return dateObj >= startDate && dateObj <= today;
+      return dateObj >= startDate && dateObj <= SgDay;
     });
 
 
