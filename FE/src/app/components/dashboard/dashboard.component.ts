@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { NgModule } from '@angular/core';
+import { OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
-import { HttpClientModule } from '@angular/common/http';
 import { ServicesService } from '../../services/services.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { start } from 'repl';
 import { NgxLoadingModule } from 'ngx-loading';
 
 
@@ -17,7 +15,7 @@ import { NgxLoadingModule } from 'ngx-loading';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
 
   //charts 
