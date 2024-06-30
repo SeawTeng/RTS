@@ -17,7 +17,7 @@ body {
     margin: 0 auto;
     max-width: 1200px;
     border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .row {
@@ -39,7 +39,7 @@ body {
     background-color: #e9ecef;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .chart-row {
@@ -48,10 +48,38 @@ body {
 }
 
 .chart-box {
-    flex: 1;
-    margin: 10px;
+
+    margin: 10px auto;
     background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    max-height: 450px;
+
+
 }
+
+.pomo-chart {
+
+    margin: 10px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+    max-height: 450px;
+
+
+}
+
+#taskstatuspiechart {
+    width: 90% !important;
+    height: 90% !important;
+  }
