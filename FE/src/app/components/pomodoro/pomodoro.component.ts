@@ -198,9 +198,16 @@ export class PomodoroComponent implements OnInit {
 
   run() {
     if (this.selectedTask != null) {
-      this.isRunning = true;
-      this.counter();
-      this.isBreak = false;
+      if (this.initialMins > 0) {
+        this.isRunning = true;
+        this.counter();
+        this.isBreak = false;
+      }
+      else {
+        this.toastr.error("Each session has to be at least 1 minute", 'Error', {
+          positionClass: 'toast-top-center',
+        });
+      }
     }
     else {
       this.toastr.error("Select a task you want to work on", 'Error', {
