@@ -12,9 +12,9 @@ class pomodoroTimer extends Entity {
     * @param {string} startDateTime
     * @param {string} endDateTime
     * @param {boolean} pomodoroSession
-    * @param {boolean} breakSession 
-    * @param {integer} minutesTaken 
-    * @param {integer} secondsTaken 
+    * @param {boolean} breakSession
+    * @param {integer} minutesTaken
+    * @param {integer} secondsTaken
     * @param {string} lastCreatedBy
     * @param {string} lastUpdatedBy
     * @param {string} lastCreatedTime
@@ -47,10 +47,10 @@ class pomodoroTimer extends Entity {
     this.taskName = taskName;
     this.startDateTime = moment(startDateTime).format("DD-MM-YYYY HH:mm:ss");
     this.endDateTime = moment(startDateTime).format("DD-MM-YYYY HH:mm:ss");
-    this.pomodoroSession = pomodoroSession
-    this.breakSession = breakSession
-    this.minutesTaken = minutesTaken
-    this.secondsTaken = secondsTaken
+    this.pomodoroSession = pomodoroSession;
+    this.breakSession = breakSession;
+    this.minutesTaken = minutesTaken;
+    this.secondsTaken = secondsTaken;
     this.lastCreatedTime =
         moment(lastCreatedTime).format("DD-MM-YYYY HH:mm:ss") ||
         moment().format("DD-MM-YYYY HH:mm:ss");

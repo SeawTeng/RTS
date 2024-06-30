@@ -4,15 +4,20 @@ import { Router, RouterModule } from '@angular/router';
 import { ServicesService } from '../../services/services.service';
 import { ToDoCategoryComponent } from '../to-do/to-do-category-model/to-do-category-model.component';
 import { ToDoTaskComponent } from '../to-do/to-do-task-model/to-do-task-model.component';
-import { ToDoComponent } from '../to-do/to-do.component';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @Component({
   selector: 'app-pomodoro',
   standalone: true,
-  imports: [CommonModule, RouterModule, ToDoCategoryComponent,
-    ToDoTaskComponent,],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ToDoCategoryComponent,
+    ToDoTaskComponent,
+    NgxLoadingModule,
+  ],
   templateUrl: './pomodoro.component.html',
   styleUrl: './pomodoro.component.scss',
 })
@@ -24,11 +29,10 @@ export class PomodoroComponent implements OnInit {
   isBreak = false;
   initialBreak = 5;
   breakMins = 5;
-  breakSecs = 0
+  breakSecs = 0;
 
   isPomoPage = true;
   isBreakPage = false;
-
 
   categoryList: any = [];
   taskList: any = [];
@@ -40,12 +44,11 @@ export class PomodoroComponent implements OnInit {
   selectedCategory: any = null;
   showCompleted: boolean = true;
 
-
   constructor(
     private service: ServicesService,
     private toastr: ToastrService,
     public router: Router
-  ) { }
+  ) {}
 
   //   _                 _         _            _
   //  | |               | |       | |          | |
@@ -56,6 +59,7 @@ export class PomodoroComponent implements OnInit {
 
   async ngOnInit() {
     await this.getAllCategory();
+    await this.getAllPomoSess();
   }
 
   chooseTask(task: any) {
@@ -64,27 +68,13 @@ export class PomodoroComponent implements OnInit {
 
   async getAllCategory() {
     this.loading = true;
-    const api = this.selectedCategoryId
-      ? this.service.getAllTodoTaskByCategory(this.selectedCategoryId.id)
-      : this.service.getAllTodoTask();
 
     await this.service
-      .httpCall(this.service.getAllTodoCategory(), {}, 'get')
+      .httpCall(this.service.getAllTodoTask(), {}, 'post')
       .subscribe(
-        async (res: any) => {
-          this.categoryList = res;
-          await this.service
-            .httpCall(
-              api,
-              {
-
-              },
-              'post'
-            )
-            .subscribe((res: any) => {
-              this.loading = false;
-              this.taskList = res;
-            });
+        (res: any) => {
+          this.loading = false;
+          this.taskList = res;
         },
         error => {
           this.loading = false;
@@ -94,7 +84,6 @@ export class PomodoroComponent implements OnInit {
         }
       );
   }
-
 
   async markTaskAsComplete(task: any) {
     const data = {
@@ -127,16 +116,15 @@ export class PomodoroComponent implements OnInit {
     }
   }
 
-  // ____                           _                 
-  // |  _ \ ___  _ __ ___   ___   __| | ___  _ __ ___  
-  // | |_) / _ \| '_ ` _ \ / _ \ / _` |/ _ \| '__/ _ \ 
+  // ____                           _
+  // |  _ \ ___  _ __ ___   ___   __| | ___  _ __ ___
+  // | |_) / _ \| '_ ` _ \ / _ \ / _` |/ _ \| '__/ _ \
   // |  __/ (_) | | | | | | (_) | (_| | (_) | | | (_) |
-  // |_|___\___/|_| |_| |_|\___/ \__,_|\___/|_|  \___/ 
-  // |_   _(_)_ __ ___   ___ _ __                      
-  //   | | | | '_ ` _ \ / _ \ '__|                     
-  //   | | | | | | | | |  __/ |                        
-  //   |_| |_|_| |_| |_|\___|_|            
-
+  // |_|___\___/|_| |_| |_|\___/ \__,_|\___/|_|  \___/
+  // |_   _(_)_ __ ___   ___ _ __
+  //   | | | | '_ ` _ \ / _ \ '__|
+  //   | | | | | | | | |  __/ |
+  //   |_| |_|_| |_| |_|\___|_|
 
   async createPomoSess() {
     const endDateTime = new Date();
@@ -147,14 +135,16 @@ export class PomodoroComponent implements OnInit {
       pomodoroSession: true,
       taskName: this.selectedTask.title,
       endDateTime: endDateTime,
-      startDateTime: new Date(endDateTime.getTime() - this.initialMins * 60 * 1000)
-    }
+      startDateTime: new Date(
+        endDateTime.getTime() - this.initialMins * 60 * 1000
+      ),
+    };
 
     const api = this.service.createPomoSess();
     const type = 'post';
 
     await this.service.httpCall(api, data, type).subscribe(
-      () => { },
+      () => {},
       error => {
         this.loading = false;
         this.toastr.error(error.error, 'Error', {
@@ -164,30 +154,20 @@ export class PomodoroComponent implements OnInit {
     );
   }
 
-
   async getAllPomoSess() {
-    const api = this.service.getAllPomoSess();
-
+    this.loading = true;
     await this.service
       .httpCall(this.service.getAllPomoSess(), {}, 'get')
       .subscribe(
         async (res: any) => {
           this.pomoList = res;
-          await this.service
-            .httpCall(
-              api,
-              {
-              },
-              'post'
-            )
-            .subscribe((res: any) => {
-              this.pomoList = res;
-            });
+          this.loading = false;
         },
         error => {
           this.toastr.error(error.error, 'Error', {
             positionClass: 'toast-top-center',
           });
+          this.loading = false;
         }
       );
   }
@@ -207,14 +187,11 @@ export class PomodoroComponent implements OnInit {
       this.isRunning = true;
       this.counter();
       this.isBreak = false;
-    }
-    else {
-      this.toastr.error("Select a task you want to work on", 'Error', {
+    } else {
+      this.toastr.error('Select a task you want to work on', 'Error', {
         positionClass: 'toast-top-center',
       });
     }
-
-
   }
 
   reset() {
@@ -230,35 +207,29 @@ export class PomodoroComponent implements OnInit {
     if (!this.isRunning) {
       this.mins += 1;
       this.initialMins += 1;
-
     }
-
   }
   decrease() {
     if (!this.isRunning && this.mins > 0) {
       this.mins -= 1;
       this.initialMins -= 1;
     }
-
   }
   increaseBreak() {
-    if (!this.isRunning)
-      this.breakMins += 1;
+    if (!this.isRunning) this.breakMins += 1;
   }
   decreaseBreak() {
-    if (!this.isRunning && this.breakMins > 0)
-      this.breakMins -= 1;
+    if (!this.isRunning && this.breakMins > 0) this.breakMins -= 1;
   }
   breakTime() {
     this.counterBreak();
   }
 
   playAudio() {
-    let audio = new Audio();
-    audio.src = "../assets/bedside-clock-alarm-95792.mp3";
+    const audio = new Audio();
+    audio.src = '../assets/bedside-clock-alarm-95792.mp3';
     audio.load();
     audio.play();
-
   }
 
   counter() {
@@ -267,15 +238,13 @@ export class PomodoroComponent implements OnInit {
         if (this.secs === 0) {
           this.secs = 59;
           this.mins -= 1;
-
         } else {
           this.secs -= 1;
-
         }
         this.counter();
-      };
+      }
       if (this.mins == 0 && this.secs == 0) {
-        //play sound && add to db 
+        //play sound && add to db
         this.playAudio();
         this.breakPage();
         this.breakTime();
@@ -285,8 +254,7 @@ export class PomodoroComponent implements OnInit {
         this.createPomoSess();
         this.markTaskAsComplete(this.selectedTask);
         this.reset();
-      };
-
+      }
     }, 1000);
   }
   counterBreak() {
@@ -295,25 +263,18 @@ export class PomodoroComponent implements OnInit {
         if (this.breakSecs === 0) {
           this.breakSecs = 59;
           this.breakMins -= 1;
-
         } else {
           this.breakSecs -= 1;
-
         }
         this.counterBreak();
-      };
+      }
       if (this.breakMins == 0 && this.breakSecs == 0) {
         this.counter();
         this.isRunning = true;
         this.isBreak = false;
         this.pomoPage();
         this.reset();
-      };
-
+      }
     }, 1000);
   }
-
-
-
-
 }

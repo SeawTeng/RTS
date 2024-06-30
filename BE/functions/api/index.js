@@ -9,7 +9,7 @@ import {
   TodoTaskRoutes,
   QuizQuestionRoutes,
   QuizAnswerRoutes,
-  pomodoroTimerRoutes
+  pomodoroTimerRoutes,
 } from "./routes/index.js";
 
 const app = express();
