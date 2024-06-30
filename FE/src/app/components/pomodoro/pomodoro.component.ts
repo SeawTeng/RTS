@@ -236,7 +236,7 @@ export class PomodoroComponent implements OnInit {
 
   }
   decrease() {
-    if (!this.isRunning && this.mins > 1) {
+    if (!this.isRunning && this.mins > 1 && this.initialMins > 1) {
       this.mins -= 1;
       this.initialMins -= 1;
     }
