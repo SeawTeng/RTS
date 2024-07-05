@@ -21,7 +21,7 @@ export class SignupComponent implements OnInit {
   loading: boolean = false;
   passwordShow: boolean = false;
 
-  today: string = moment().format('YYYY-MM-DD');
+  today: string = moment().subtract(10, 'years').format('YYYY-MM-DD');
 
   constructor(
     private service: ServicesService,

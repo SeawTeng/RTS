@@ -31,7 +31,9 @@
     <div class="card-body">
       <div class="row align-items-center">
         <div class="col-md-8 mt-4">
-          <h4 class="m-0">Categories</h4>
+          <h4 class="m-0"><strong>
+            Categories
+          </strong></h4>
         </div>
         <div class="col-md-4">
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -69,9 +71,11 @@
       <div class="row align-items-center mt-5 mb-4">
         <div class="col-md-8">
           <h4 class="m-0">
-            {{
-              selectedCategoryId ? selectedCategoryId.categoryName : 'All Tasks'
-            }}
+            <strong>
+              {{
+                selectedCategoryId ? selectedCategoryId.categoryName : 'All Tasks'
+              }}
+            </strong>
 
             <button
               *ngIf="selectedCategoryId && selectedCategoryId.categoryName"
