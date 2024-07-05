@@ -10,6 +10,7 @@ import { ToDoTaskComponent } from './to-do-task-model/to-do-task-model.component
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import * as ics from 'ics';
+import moment from 'moment';
 
 @Component({
   selector: 'app-to-do',
@@ -307,5 +308,12 @@ export class ToDoComponent implements OnInit {
           });
         }
       );
+  }
+
+  compareDue(task: any) {
+    if (moment(task.endDate).isBefore(moment())) {
+      return true;
+    }
+    return false;
   }
 }
