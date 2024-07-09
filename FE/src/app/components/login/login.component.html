@@ -92,6 +92,14 @@
                 </form>
 
                 <div class="col-md-12 col-sm-12 mt-3">
+                  <p class="text-center text-primary" style="cursor: pointer">
+                    <a data-bs-toggle="modal" data-bs-target="#resetModel">
+                      Forget Password?
+                    </a>
+                  </p>
+                </div>
+
+                <div class="col-md-12 col-sm-12 mt-3">
                   <p class="text-center">
                     Not a member? Click here to
                     <a routerLink="/signup">sign up</a>
@@ -108,3 +116,62 @@
 
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
 </ngx-loading>
+
+<div
+  class="modal fade"
+  id="resetModel"
+  tabindex="-1"
+  aria-labelledby="resetModelLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="resetModelLabel">Reset Password</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          (click)="clearForm()"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="resetForm" (ngSubmit)="resetAccount()">
+          <div class="row justify-content-center">
+            <div class="col-md-10 col-sm-12 mt-2">
+              <label for="email"
+                >Email:<span class="text-danger">*</span></label
+              >
+              <input formControlName="email" class="custom-input" required />
+              <div
+                *ngIf="
+                  resetForm.get('email')?.invalid &&
+                  (resetForm.get('email')?.dirty ||
+                    resetForm.get('email')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="resetForm.get('email')?.hasError('required')">
+                  Email is required.
+                </div>
+                <div *ngIf="resetForm.get('email')?.hasError('email')">
+                  Invalid email format.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-10 col-sm-12 mt-3 text-center">
+              <button
+                type="submit"
+                data-bs-dismiss="modal"
+                class="btn btn-info submit-btn"
+                [disabled]="resetForm.invalid">
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

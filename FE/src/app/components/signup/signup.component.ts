@@ -21,7 +21,7 @@ export class SignupComponent implements OnInit {
   loading: boolean = false;
   passwordShow: boolean = false;
 
-  today: string = moment().format('YYYY-MM-DD');
+  today: string = moment().subtract(10, 'years').format('YYYY-MM-DD');
 
   constructor(
     private service: ServicesService,
@@ -48,6 +48,8 @@ export class SignupComponent implements OnInit {
     if (this.signupForm.valid) {
       const formValues = this.signupForm.value;
       formValues.type = 'normal';
+      // make sure email is valid no matter upper or lower case
+      formValues.email = (formValues.email).toLowerCase();
       const encryptedData = this.service.encryption(formValues);
       this.loading = true;
 

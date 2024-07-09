@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({});
+  resetForm: FormGroup = new FormGroup({});
   loading: boolean = false;
   passwordShow: boolean = false;
 
@@ -30,6 +31,10 @@ export class LoginComponent implements OnInit {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
+    });
+
+    this.resetForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
     });
 
     // ensure that user that have alr login will not visit this page
@@ -51,6 +56,8 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     if (this.loginForm.valid) {
       const formValues = this.loginForm.value;
+      // make sure email is valid no matter upper or lower case
+      formValues.email = (formValues.email).toLowerCase();
       const encryptedData = this.service.encryption(formValues);
       this.loading = true;
 
@@ -64,6 +71,43 @@ export class LoginComponent implements OnInit {
             this.loading = false;
 
             this.router.navigate(['home']);
+          },
+          (error: any) => {
+            this.toastr.error(error.error, 'Error', {
+              positionClass: 'toast-top-center',
+            });
+            this.loading = false;
+          }
+        );
+    } else {
+      this.loading = false;
+    }
+  }
+
+  clearForm() {
+    this.resetForm.reset();
+  }
+
+  resetAccount() {
+    if (this.resetForm.valid) {
+      const formValues = this.resetForm.value;
+      // make sure email is valid no matter upper or lower case
+      formValues.email = (formValues.email).toLowerCase();
+      const encryptedData = this.service.encryption(formValues);
+      this.loading = true;
+
+      this.service
+        .httpCall(this.service.resetPassword(), { data: encryptedData }, 'post')
+        .subscribe(
+          (res: any) => {
+            this.loading = false;
+            this.toastr.success(
+              'Please check your email address for reset link.',
+              'Success',
+              {
+                positionClass: 'toast-top-center',
+              }
+            );
           },
           (error: any) => {
             this.toastr.error(error.error, 'Error', {

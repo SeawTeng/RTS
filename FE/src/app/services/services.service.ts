@@ -38,6 +38,18 @@ export class ServicesService extends AppService {
     return '/users/updatePassword';
   }
 
+  resetPassword() {
+    return `/users/resetPassword`;
+  }
+
+  validateResetPassword(id: string) {
+    return `/users/validateResetPassword/${id}`;
+  }
+
+  updateResetPassword() {
+    return `/users/updateResetPassword`;
+  }
+
   //   _                 _                   _
   //  | |               | |                 | |
   //  | |_ ___ ______ __| | ___     ___ __ _| |_ ___  __ _  ___  _ __ _   _

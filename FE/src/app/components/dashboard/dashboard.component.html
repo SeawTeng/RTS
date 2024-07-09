@@ -2,64 +2,70 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@^1"></script>
 
 <div class="dashboard-container">
-    <div class="row row-cols-4 text-center">
-        <div class="col task-box">
-            <h4>Tasks Due Today</h4>
-            <p>
-                {{dueToday}}
-            </p>
-        </div>
-        <div class="col task-box">
-            <h4>Today's Completed Tasks</h4>
-            <p>
-                {{completedToday}}
-            </p>
-        </div>
-        <div class="col task-box">
-            <h4>Overdue Tasks</h4>
-            <p>
-                {{overdueTasks}}
-            </p>
-        </div>
-        <div class="col task-box">
-            <h4>Productive Time</h4>
-            <p>
-                {{productiveTime}}
-            </p>
-        </div>
+  <div class="row row-cols-4 text-center">
+    <div class="col task-box">
+      <h4>Tasks Due Today</h4>
+      <p>
+        {{ dueToday }}
+      </p>
     </div>
-
-    <div class="row chart-row">
-        <div class="col chart-box">
-            <div id="chart-wrapper">
-                <canvas id="completedTaskBarChart"></canvas>
-                <select [(ngModel)]="selectedPeriod" (change)="updateCompletedTaskChart()">
-                    <option value="7">1 Week</option>
-                    <option value="31">1 Month</option>
-                    <option value="93">3 Months</option>
-                </select>
-            </div>
-
-        </div>
-        <div class="col chart-box">
-            <canvas id="taskstatuspiechart">{{TaskStatuschart}}</canvas>
-            <select [(ngModel)]="selectedCategory" (change)="updateCategory($event.target.value)">
-                <option *ngFor="let category of categoryList" [value]="category.id">{{ category.categoryName }}</option>
-            </select>
-        </div>
+    <div class="col task-box">
+      <h4>Today's Completed Tasks</h4>
+      <p>
+        {{ completedToday }}
+      </p>
     </div>
-
-    <div class="row chart-row ">
-        <div class="pomo-chart">
-            <canvas id="pomoBarChart">{{pomoBar}}</canvas>
-            <select [(ngModel)]="selectedPeriodforPomo" (change)="updatePomoBarChart()">
-                <option value="7">1 Week</option>
-                <option value="31">1 Month</option>
-                <option value="93">3 Months</option>
-            </select>
-
-        </div>
+    <div class="col task-box">
+      <h4>Overdue Tasks</h4>
+      <p>
+        {{ overdueTasks }}
+      </p>
     </div>
+    <div class="col task-box">
+      <h4>Productive Time</h4>
+      <p>
+        {{ productiveTime }}
+      </p>
+    </div>
+  </div>
+
+  <div class="row chart-row">
+    <div class="col chart-box">
+      <div id="chart-wrapper">
+        <canvas id="completedTaskBarChart"></canvas>
+        <select
+          [(ngModel)]="selectedPeriod"
+          (change)="updateCompletedTaskChart()">
+          <option value="7">1 Week</option>
+          <option value="31">1 Month</option>
+          <option value="93">3 Months</option>
+        </select>
+      </div>
+    </div>
+    <div class="col chart-box">
+      <canvas id="taskstatuspiechart">{{ TaskStatuschart }}</canvas>
+      <select
+        [(ngModel)]="selectedCategory"
+        (change)="updateCategory($event.target.value)">
+        <option *ngFor="let category of categoryList" [value]="category.id">
+          {{ category.categoryName }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row chart-row">
+    <div class="pomo-chart">
+      <canvas id="pomoBarChart">{{ pomoBar }}</canvas>
+      <select
+        [(ngModel)]="selectedPeriodforPomo"
+        (change)="updatePomoBarChart()">
+        <option value="7">1 Week</option>
+        <option value="31">1 Month</option>
+        <option value="93">3 Months</option>
+      </select>
+    </div>
+  </div>
 </div>
 
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">

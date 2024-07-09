@@ -114,6 +114,27 @@ class UserController {
   }
 
   /**
+   *  @param {any} req
+  */
+  async resetPassword(req) {
+    return await UserRepository.resetPassword(req);
+  }
+
+  /**
+   *  @param {any} req
+  */
+  async validateResetPassword(req) {
+    return await UserRepository.validateResetPassword(req);
+  }
+
+  /**
+   *  @param {any} req
+  */
+  async updateResetPassword(req) {
+    return await UserRepository.updateResetPassword(req);
+  }
+
+  /**
    *  @param {string} id
   */
   async delete(id) {

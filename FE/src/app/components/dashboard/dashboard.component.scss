@@ -1,85 +1,79 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
 }
 
 .dashboard-container {
-    background-color: #ffffff;
-    padding: 20px;
-    margin: 0 auto;
-    max-width: 1200px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 1200px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .row-cols-4 {
-    flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .col {
-    flex: 1;
-    margin: 5px;
+  flex: 1;
+  margin: 5px;
 }
 
 .task-box {
-    background-color: #e9ecef;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #e9ecef;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .chart-row {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .chart-box {
+  margin: 10px auto;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-    margin: 10px auto;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-    max-height: 450px;
-
-
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  max-height: 450px;
 }
 
 .pomo-chart {
+  margin: 10px auto;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-    margin: 10px auto;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-    width: 100%;
-    max-width: 700px;
-    height: auto;
-    max-height: 450px;
-
-
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  max-height: 450px;
 }
 
 #taskstatuspiechart {
-    width: 90% !important;
-    height: 90% !important;
-  }
+  width: 90% !important;
+  height: 90% !important;
+}
