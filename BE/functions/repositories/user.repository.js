@@ -54,9 +54,7 @@ class UserRepository extends FirebaseRepository {
       message: {
         subject: "Reset Password",
         text: "",
-        html: `Reset Password link: 
-          <a href="https://rts-tkik.onrender.com/reset#${response.id}">
-          https://rts-tkik.onrender.com/reset#${response.id}</a>`,
+        html: `Reset Password Code: <strong>${response.id}</strong>`,
       },
     };
 
@@ -70,16 +68,20 @@ class UserRepository extends FirebaseRepository {
   async validateResetPassword(req) {
     const reset = await this.db
         .doc(`resetPassword/${req.params.id}`).get();
-    const data = this.processDBResponse(reset);
 
+    if (reset.data() == undefined) {
+      throw new Error("Invalid Code!");
+    }
+
+    const data = this.processDBResponse(reset);
     const hours = moment().diff(
         moment(data.requestDate, "DD-MM-YYYY HH:mm:ss"),
         "hours");
 
-    if (data.id || Math.abs(hours) <= 24) {
+    if (Math.abs(hours) <= 24 && !data.used) {
       return data;
     } else {
-      throw new Error("Invalid Link!");
+      throw new Error("Invalid Code!");
     }
   }
 
@@ -112,6 +114,10 @@ class UserRepository extends FirebaseRepository {
         password: decryptedData.new_password,
         id: existingUser.id,
       };
+
+      await this.db
+          .doc(`resetPassword/${decryptedData.code}`)
+          .update({used: true});
 
       return await this.set(req, newPassword);
     } else {
