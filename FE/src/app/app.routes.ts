@@ -16,11 +16,6 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'reset',
-    loadComponent: () =>
-      import('./components/reset/reset.component').then(m => m.ResetComponent),
-  },
-  {
     path: 'login',
     loadComponent: () =>
       import('./components/login/login.component').then(m => m.LoginComponent),

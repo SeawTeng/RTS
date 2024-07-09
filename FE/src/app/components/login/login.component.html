@@ -118,7 +118,7 @@
 </ngx-loading>
 
 <div
-  class="modal fade"
+  class="modal modal-lg fade"
   id="resetModel"
   tabindex="-1"
   aria-labelledby="resetModelLabel"
@@ -131,15 +131,16 @@
         <h1 class="modal-title fs-5" id="resetModelLabel">Reset Password</h1>
         <button
           type="button"
+          id="closeReset"
           class="btn-close"
           data-bs-dismiss="modal"
           (click)="clearForm()"
           aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="resetForm" (ngSubmit)="resetAccount()">
+        <form [formGroup]="resetForm" (ngSubmit)="resetPassword()">
           <div class="row justify-content-center">
-            <div class="col-md-10 col-sm-12 mt-2">
+            <div class="col-md-8 col-sm-12 mt-2">
               <label for="email"
                 >Email:<span class="text-danger">*</span></label
               >
@@ -160,15 +161,115 @@
               </div>
             </div>
 
-            <div class="col-md-10 col-sm-12 mt-3 text-center">
+            <div class="col-md-2 col-sm-12 mt-4">
               <button
-                type="submit"
-                data-bs-dismiss="modal"
+                type="button"
                 class="btn btn-info submit-btn"
-                [disabled]="resetForm.invalid">
-                Submit
+                (click)="resetAccount()"
+                [disabled]="resetForm.get('email')?.invalid">
+                Send Email
               </button>
             </div>
+
+            <ng-container *ngIf="sendEmail">
+              <div class="col-md-10 col-sm-12 mt-2">
+                <label for="code"
+                  >Code:<span class="text-danger">*</span></label
+                >
+                <input formControlName="code" class="custom-input" required />
+                <div
+                  *ngIf="
+                    resetForm.get('code')?.invalid &&
+                    (resetForm.get('code')?.dirty ||
+                      resetForm.get('code')?.touched)
+                  "
+                  class="text-danger">
+                  <div *ngIf="resetForm.get('code')?.hasError('required')">
+                    Code is required.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-10 col-sm-12 mt-2">
+                <label for="new_password"
+                  >New Password:<span class="text-danger">*</span></label
+                >
+                <div class="input-group">
+                  <input
+                    id="password"
+                    [type]="newPasswordShow ? 'text' : 'password'"
+                    formControlName="new_password"
+                    class="custom-input"
+                    required />
+                  <span class="input-group-append">
+                    <button
+                      class="btn btn-outline-secondary bg-white border-start-0 border ms-n5"
+                      type="button"
+                      style="height: 30px"
+                      (click)="newPasswordShow = !newPasswordShow">
+                      <i
+                        [class]="
+                          newPasswordShow ? 'fa fa-eye-slash' : 'fa fa-eye'
+                        "
+                        style="font-size: 20px"></i>
+                    </button>
+                  </span>
+                </div>
+                <div
+                  *ngIf="
+                    resetForm.get('new_password')?.invalid &&
+                    (resetForm.get('new_password')?.dirty ||
+                      resetForm.get('new_password')?.touched)
+                  "
+                  class="text-danger">
+                  <div
+                    *ngIf="
+                      resetForm.get('new_password')?.hasError('required')
+                    ">
+                    Password is required.
+                  </div>
+                  <div
+                    *ngIf="
+                      !resetForm.get('new_password')?.value?.match('^(?=.*[A-Z])')
+                    ">
+                    At least one uppercase letter.
+                  </div>
+                  <div
+                    *ngIf="
+                      !resetForm.get('new_password')?.value?.match('(?=.*[a-z])')
+                    ">
+                    At least one lowercase letter.
+                  </div>
+                  <div
+                    *ngIf="
+                      !resetForm.get('new_password')?.value?.match('(.*[0-9].*)')
+                    ">
+                    At least one digit.
+                  </div>
+                  <div
+                    *ngIf="
+                      !resetForm.get('new_password')?.value?.match('(?=.*[!@#$%^&*])')
+                    ">
+                    At least one special character.
+                  </div>
+                  <div
+                    *ngIf="
+                      !resetForm.get('new_password')?.value?.match('.{8,}')
+                    ">
+                    At least 8 characters long.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-10 col-sm-12 mt-3 text-center">
+                <button
+                  type="submit"
+                  class="btn btn-info submit-btn"
+                  [disabled]="resetForm.invalid">
+                  Submit
+                </button>
+              </div>
+            </ng-container>
           </div>
         </form>
       </div>
