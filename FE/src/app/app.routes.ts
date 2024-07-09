@@ -16,6 +16,11 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'reset',
+    loadComponent: () =>
+      import('./components/reset/reset.component').then(m => m.ResetComponent),
+  },
+  {
     path: 'login',
     loadComponent: () =>
       import('./components/login/login.component').then(m => m.LoginComponent),
@@ -103,7 +108,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/dashboard/dashboard.component').then(
         m => m.DashboardComponent
-
       ),
     canActivate: [authGuard],
   },

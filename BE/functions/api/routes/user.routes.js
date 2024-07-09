@@ -64,4 +64,19 @@ router.post("/updatePassword", async (req, res) =>
     }
   }));
 
+router.post("/resetPassword", async (req, res) =>
+  await handleWriteRequest(res, async () => {
+    return await UserController.resetPassword(req);
+  }));
+
+router.get("/validateResetPassword/:id", async (req, res) =>
+  await handleReadRequest(res, async () => {
+    return await UserController.validateResetPassword(req);
+  }));
+
+router.post("/updateResetPassword", async (req, res) =>
+  await handleReadRequest(res, async () => {
+    return await UserController.updateResetPassword(req);
+  }));
+
 export default router;

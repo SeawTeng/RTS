@@ -131,13 +131,18 @@
               <div
                 *ngIf="
                   (taskForm.get('hour')?.invalid &&
-                  (taskForm.get('hour')?.dirty || taskForm.get('hour')?.touched)) ||
+                    (taskForm.get('hour')?.dirty ||
+                      taskForm.get('hour')?.touched)) ||
                   (taskForm.get('minute')?.invalid &&
-                  (taskForm.get('minute')?.dirty ||
-                    taskForm.get('minute')?.touched))
+                    (taskForm.get('minute')?.dirty ||
+                      taskForm.get('minute')?.touched))
                 "
                 class="text-danger">
-                <div *ngIf="taskForm.get('hour')?.hasError('required') || taskForm.get('minute')?.hasError('required')">
+                <div
+                  *ngIf="
+                    taskForm.get('hour')?.hasError('required') ||
+                    taskForm.get('minute')?.hasError('required')
+                  ">
                   Time is required.
                 </div>
               </div>

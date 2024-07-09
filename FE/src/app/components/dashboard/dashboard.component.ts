@@ -1,34 +1,27 @@
-import { Component } from '@angular/core';
-import { NgModule } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
-import { HttpClientModule } from '@angular/common/http';
 import { ServicesService } from '../../services/services.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { start } from 'repl';
 import { NgxLoadingModule } from 'ngx-loading';
-
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule, FormsModule, NgxLoadingModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent {
-
-
-  //charts 
+export class DashboardComponent implements OnInit {
+  //charts
   title = 'ng-chart';
   cTaskchart: any = null;
   TaskStatuschart: any = null;
   eachTaskStackChart: any = [];
   pomoBar: any = null;
 
-
-  //get methods of to do and pomo 
+  //get methods of to do and pomo
   categoryList: any = [];
   taskList: any = [];
   pomoList: any = [];
@@ -37,32 +30,29 @@ export class DashboardComponent {
   selectedTask: any = null;
   showCompleted: boolean = true;
 
-  // upper dashboard (task overview) 
+  // upper dashboard (task overview)
   dueToday = 0;
   completedToday = 0;
   overdueTasks = 0;
   productiveTime = 0;
 
-  //filter 
+  //filter
   selectedPeriod: number = 7;
   selectedCategory: any = null;
   selectedPeriodforPomo: number = 7;
 
-
   constructor(
     private service: ServicesService,
-    private toastr: ToastrService,
-
-  ) { }
+    private toastr: ToastrService
+  ) {}
 
   async ngOnInit() {
     await this.getAllCategory();
     await this.getAllPomoSess();
-
   }
 
-  // _____       ____           ____ _                _       
-  // |_   _|__   |  _ \  ___    / ___| |__   __ _ _ __| |_ ___ 
+  // _____       ____           ____ _                _
+  // |_   _|__   |  _ \  ___    / ___| |__   __ _ _ __| |_ ___
   //   | |/ _ \  | | | |/ _ \  | |   | '_ \ / _` | '__| __/ __|
   //   | | (_) | | |_| | (_) | | |___| | | | (_| | |  | |_\__ \
   //   |_|\___/  |____/ \___/   \____|_| |_|\__,_|_|   \__|___/
@@ -74,37 +64,51 @@ export class DashboardComponent {
     return `${year}-${month}-${day}`;
   }
 
-
   async numOfCompletedTaskBarChart(period?: number) {
     const today = new Date();
     const SgDay = new Date(today);
     SgDay.setDate(SgDay.getDate() + 1);
 
     let startDate: Date;
-    const periodNum = Number(period)
+    const periodNum = Number(period);
 
     switch (periodNum) {
       case 7:
-        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+        startDate = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate() - 7
+        );
         break;
       case 31:
-        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 31);
+        startDate = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate() - 31
+        );
         break;
       case 93:
-        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 93);
+        startDate = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate() - 93
+        );
         break;
       default:
-        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+        startDate = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate() - 7
+        );
         break;
     }
     const sgdayString = SgDay.toISOString().split('T')[0];
     const todayString = today.toISOString().split('T')[0];
 
-
     const filteredTasks = this.taskList.filter((task: any) => {
-      const taskDate = this.parseLastUpdatedTime(task.lastUpdatedTime)
+      const taskDate = this.parseLastUpdatedTime(task.lastUpdatedTime);
       const newDate = new Date(taskDate);
-      newDate.setDate(newDate.getDate())
+      newDate.setDate(newDate.getDate());
       const isCompleted = task.status === 'completed';
       const isInRange = newDate >= startDate && newDate <= today;
       // console.log(isCompleted + "completed")
@@ -115,14 +119,14 @@ export class DashboardComponent {
     const filteredTasksByDate: { [date: string]: number } = {};
 
     filteredTasks.forEach((task: any) => {
-      const date = this.parseLastUpdatedTime(task.lastUpdatedTime)
+      const date = this.parseLastUpdatedTime(task.lastUpdatedTime);
       if (!filteredTasksByDate[date]) {
         filteredTasksByDate[date] = 0;
       }
       filteredTasksByDate[date]++;
 
       if (date === todayString) {
-        this.completedToday += 1
+        this.completedToday += 1;
       }
     });
 
@@ -178,11 +182,18 @@ export class DashboardComponent {
       return selectedCategories ? categoryId === selectedCategories : true;
     });
 
-    const pendingTasks = filteredTasks.filter((task: any) => task.status === 'active').length;
-    const completedTasks = filteredTasks.filter((task: any) => task.status === 'completed').length;
+    const pendingTasks = filteredTasks.filter(
+      (task: any) => task.status === 'active'
+    ).length;
+    const completedTasks = filteredTasks.filter(
+      (task: any) => task.status === 'completed'
+    ).length;
 
     if (this.TaskStatuschart) {
-      this.TaskStatuschart.data.datasets[0].data = [pendingTasks, completedTasks];
+      this.TaskStatuschart.data.datasets[0].data = [
+        pendingTasks,
+        completedTasks,
+      ];
       this.TaskStatuschart.update();
     } else {
       this.TaskStatuschart = new Chart('taskstatuspiechart', {
@@ -197,10 +208,7 @@ export class DashboardComponent {
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
               ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(75, 192, 192, 1)',
-              ],
+              borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
               borderWidth: 1,
             },
           ],
@@ -217,16 +225,12 @@ export class DashboardComponent {
     }
   }
 
-
-
-
   //   _                 _         _            _
   //  | |               | |       | |          | |
   //  | |_ ___ ______ __| | ___   | |_ __ _ ___| | __
   //  | __/ _ \______/ _` |/ _ \  | __/ _` / __| |/ /
   //  | || (_) |    | (_| | (_) | | || (_| \__ \   <
   //   \__\___/      \__,_|\___/   \__\__,_|___/_|\_\
-
 
   async getAllCategory() {
     this.loading = true;
@@ -251,7 +255,6 @@ export class DashboardComponent {
               this.loading = false;
               this.taskList = res;
 
-
               this.numOfCompletedTaskBarChart();
               this.taskStatusPieChart();
               this.findOverdueTask();
@@ -267,16 +270,15 @@ export class DashboardComponent {
   }
 
   async findOverdueTask() {
-    const today = new Date(new Date().getTime() + 8 * 60 * 60 * 1000)
-    const todayDate = today
-      .toISOString()
-      .split('T')[0];
-    const pendingTasks = this.taskList.filter((task: any) => task.status === 'active');
+    const today = new Date(new Date().getTime() + 8 * 60 * 60 * 1000);
+    const todayDate = today.toISOString().split('T')[0];
+    const pendingTasks = this.taskList.filter(
+      (task: any) => task.status === 'active'
+    );
     this.dueToday = 0;
     this.overdueTasks = 0;
 
     pendingTasks.forEach((task: any) => {
-
       const taskEndDate = new Date(task.endDate);
       const taskEndDateString = taskEndDate.toISOString().split('T')[0];
 
@@ -288,47 +290,54 @@ export class DashboardComponent {
     });
   }
 
-
-  // ____                          ____ _                _       
-  // |  _ \ ___  _ __ ___   ___    / ___| |__   __ _ _ __| |_ ___ 
+  // ____                          ____ _                _
+  // |  _ \ ___  _ __ ___   ___    / ___| |__   __ _ _ __| |_ ___
   // | |_) / _ \| '_ ` _ \ / _ \  | |   | '_ \ / _` | '__| __/ __|
   // |  __/ (_) | | | | | | (_) | | |___| | | | (_| | |  | |_\__ \
   // |_|   \___/|_| |_| |_|\___/   \____|_| |_|\__,_|_|   \__|___/
 
-
-
   async totalPomoSessBarChart(period?: number) {
-
-
     const today = new Date();
     const SgDay = new Date(today);
     SgDay.setDate(SgDay.getDate() + 1);
-    const SgDayString = SgDay
-    .toISOString()
-    .split('T')[0];
+    const SgDayString = SgDay.toISOString().split('T')[0];
 
     let startDate: Date;
     const periodNum = Number(period);
 
     switch (periodNum) {
       case 7:
-        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+        startDate = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate() - 7
+        );
         break;
       case 31:
-        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 31);
+        startDate = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate() - 31
+        );
         break;
       case 93:
-        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 93);
+        startDate = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate() - 93
+        );
         break;
       default:
-        startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+        startDate = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate() - 7
+        );
         break;
     }
 
     const pomoSessByDate: { [date: string]: number } = {};
-    const todayDate = new Date()
-      .toISOString()
-      .split('T')[0];
+    const todayDate = new Date().toISOString().split('T')[0];
 
     this.pomoList.forEach((task: any) => {
       const dateStr = task.endDateTime;
@@ -349,11 +358,10 @@ export class DashboardComponent {
 
       const formattedDate = parsedDate.toISOString().split('T')[0];
 
-      // For the upper dashboard 
+      // For the upper dashboard
       if (SgDayString == formattedDate) {
         this.productiveTime += task.minutesTaken;
       }
-
 
       if (task.endDateTime) {
         if (!pomoSessByDate[formattedDate]) {
@@ -363,15 +371,12 @@ export class DashboardComponent {
       }
     });
 
-
     const filteredDates = Object.keys(pomoSessByDate).filter(date => {
       const dateObj = new Date(date);
       return dateObj >= startDate && dateObj <= SgDay;
     });
 
-
     filteredDates.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-
 
     const filteredData = filteredDates.map(date => pomoSessByDate[date]);
 
@@ -383,7 +388,6 @@ export class DashboardComponent {
       this.pomoBar.data.datasets[0].data = data;
       this.pomoBar.update();
     } else {
-
       this.pomoBar = new Chart('pomoBarChart', {
         type: 'bar',
         data: {
@@ -412,19 +416,17 @@ export class DashboardComponent {
 
   async updatePomoBarChart() {
     await this.totalPomoSessBarChart(this.selectedPeriodforPomo);
-
   }
 
-
-  // ____                           _                 
-  // |  _ \ ___  _ __ ___   ___   __| | ___  _ __ ___  
-  // | |_) / _ \| '_ ` _ \ / _ \ / _` |/ _ \| '__/ _ \ 
+  // ____                           _
+  // |  _ \ ___  _ __ ___   ___   __| | ___  _ __ ___
+  // | |_) / _ \| '_ ` _ \ / _ \ / _` |/ _ \| '__/ _ \
   // |  __/ (_) | | | | | | (_) | (_| | (_) | | | (_) |
-  // |_|___\___/|_| |_| |_|\___/ \__,_|\___/|_|  \___/ 
-  // |_   _(_)_ __ ___   ___ _ __                      
-  //   | | | | '_ ` _ \ / _ \ '__|                     
-  //   | | | | | | | | |  __/ |                        
-  //   |_| |_|_| |_| |_|\___|_|       
+  // |_|___\___/|_| |_| |_|\___/ \__,_|\___/|_|  \___/
+  // |_   _(_)_ __ ___   ___ _ __
+  //   | | | | '_ ` _ \ / _ \ '__|
+  //   | | | | | | | | |  __/ |
+  //   |_| |_|_| |_| |_|\___|_|
 
   async getAllPomoSess() {
     await this.service
@@ -442,6 +444,4 @@ export class DashboardComponent {
         }
       );
   }
-
-
 }
