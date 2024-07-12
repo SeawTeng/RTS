@@ -106,6 +106,14 @@ export const routes: Routes = [
       ),
     canActivate: [authGuard],
   },
+  {
+    path: 'discussion',
+    loadComponent: () =>
+      import('./components/discussion-forum/discussion-forum.component').then(
+        m => m.DiscussionForumComponent
+      ),
+    canActivate: [authGuard],
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
     path: '**',
