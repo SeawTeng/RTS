@@ -1,0 +1,126 @@
+<div class="container pt-5">
+  <div class="card mb-4">
+    <div class="card-body justify-content-center">
+      <div class="text-center mt-4">
+        <h1 class="title mt-4">Discussion Forum</h1>
+      </div>
+
+      <div class="mt-2" style="float: right">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#postModal">
+          Create Post
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="discussionList">
+    <div class="card w-100 mb-2" *ngFor="let discussion of discussionList">
+      <div
+        class="card-body discussion-card"
+        (click)="redirectDetail(discussion)">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <p class="d-flex align-items-center m-0 text-secondary">
+              <i class="fa fa-user-circle" style="padding-right: 5px"></i>
+              {{ discussion.userName }}
+              •
+              <span style="font-size: 13px; margin-left: 5px">
+                {{ convertDate(discussion.lastCreatedDate) }}
+              </span>
+            </p>
+
+            <p class="m-0 title">
+              {{ discussion.title }}
+            </p>
+            <p class="content m-0">
+              {{ discussion.content }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade modal-lg"
+  id="postModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Create Post</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="postForm" (ngSubmit)="createDicussion()">
+          <div class="row justify-content-center">
+            <div class="col-md-8 col-sm-12 mt-2">
+              <label for="title"
+                >Title:<span class="text-danger">*</span></label
+              >
+              <input formControlName="title" class="custom-input" required />
+              <div
+                *ngIf="
+                  postForm.get('title')?.invalid &&
+                  (postForm.get('title')?.dirty ||
+                    postForm.get('title')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="postForm.get('title')?.hasError('required')">
+                  Title is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-8 col-sm-12 mt-2">
+              <label for="content"
+                >Content:<span class="text-danger">*</span></label
+              >
+              <textarea
+                class="form-control"
+                rows="5"
+                formControlName="content"
+                required></textarea>
+              <div
+                *ngIf="
+                  postForm.get('content')?.invalid &&
+                  (postForm.get('content')?.dirty ||
+                    postForm.get('content')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="postForm.get('content')?.hasError('required')">
+                  Content is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-8 col-sm-12 mt-3 text-center">
+              <button
+                type="submit"
+                data-bs-dismiss="modal"
+                class="btn btn-info submit-btn"
+                [disabled]="postForm.invalid">
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-loading
+  [show]="loading"
+  [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>

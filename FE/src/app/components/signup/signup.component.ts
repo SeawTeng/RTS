@@ -49,7 +49,7 @@ export class SignupComponent implements OnInit {
       const formValues = this.signupForm.value;
       formValues.type = 'normal';
       // make sure email is valid no matter upper or lower case
-      formValues.email = (formValues.email).toLowerCase();
+      formValues.email = formValues.email.toLowerCase();
       const encryptedData = this.service.encryption(formValues);
       this.loading = true;
 

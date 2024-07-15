@@ -106,6 +106,27 @@ export const routes: Routes = [
       ),
     canActivate: [authGuard],
   },
+  {
+    path: 'discussion',
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import(
+            './components/discussion-forum/discussion-forum.component'
+          ).then(m => m.DiscussionForumComponent),
+        canActivate: [authGuard],
+      },
+      {
+        path: 'view',
+        loadComponent: () =>
+          import('./components/discussion-form/discussion-form.component').then(
+            m => m.DiscussionFormComponent
+          ),
+        canActivate: [authGuard],
+      },
+    ],
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
     path: '**',

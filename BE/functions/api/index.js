@@ -10,6 +10,8 @@ import {
   QuizQuestionRoutes,
   QuizAnswerRoutes,
   pomodoroTimerRoutes,
+  DiscussionRoutes,
+  DiscussionCommentRoutes,
 } from "./routes/index.js";
 
 const app = express();
@@ -33,6 +35,8 @@ app.use("/todoTask", TodoTaskRoutes);
 app.use("/quizQuestion", QuizQuestionRoutes);
 app.use("/quizAnswer", QuizAnswerRoutes);
 app.use("/pomodoroTimer", pomodoroTimerRoutes);
+app.use("/discussion", DiscussionRoutes);
+app.use("/discussionComment", DiscussionCommentRoutes);
 
 const api = functions.https.onRequest(app);
 

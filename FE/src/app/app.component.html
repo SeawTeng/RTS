@@ -16,7 +16,7 @@
     <ul class="navbar-nav mr-auto align-items-center" *ngIf="userLogin">
       <li class="nav-item">
         <a class="nav-link" [routerLinkActive]="['active']" routerLink="/quiz"
-          >Learning Style Assessment</a
+          >Assessment</a
         >
       </li>
 
@@ -25,13 +25,13 @@
           class="nav-link"
           [routerLinkActive]="['active']"
           routerLink="/pomodoro"
-          >Pomodoro Timer</a
+          >Timer</a
         >
       </li>
 
       <li class="nav-item">
         <a class="nav-link" [routerLinkActive]="['active']" routerLink="/todo"
-          >To Do List</a
+          >To-Do</a
         >
       </li>
       <li class="nav-item">
@@ -40,6 +40,14 @@
           [routerLinkActive]="['active']"
           routerLink="/dashboard"
           >Dashboard</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLinkActive]="['active']"
+          routerLink="/discussion"
+          >Discussion</a
         >
       </li>
     </ul>
@@ -94,7 +102,7 @@
                   routerLink="/quiz-list"
                   *ngIf="userInfo.type === 'admin'"
                   style="white-space: normal">
-                  Learning Style Assessment Management
+                  Assessment Management
                 </a>
               </li>
               <li>

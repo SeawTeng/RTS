@@ -223,32 +223,38 @@
                   "
                   class="text-danger">
                   <div
-                    *ngIf="
-                      resetForm.get('new_password')?.hasError('required')
-                    ">
+                    *ngIf="resetForm.get('new_password')?.hasError('required')">
                     Password is required.
                   </div>
                   <div
                     *ngIf="
-                      !resetForm.get('new_password')?.value?.match('^(?=.*[A-Z])')
+                      !resetForm
+                        .get('new_password')
+                        ?.value?.match('^(?=.*[A-Z])')
                     ">
                     At least one uppercase letter.
                   </div>
                   <div
                     *ngIf="
-                      !resetForm.get('new_password')?.value?.match('(?=.*[a-z])')
+                      !resetForm
+                        .get('new_password')
+                        ?.value?.match('(?=.*[a-z])')
                     ">
                     At least one lowercase letter.
                   </div>
                   <div
                     *ngIf="
-                      !resetForm.get('new_password')?.value?.match('(.*[0-9].*)')
+                      !resetForm
+                        .get('new_password')
+                        ?.value?.match('(.*[0-9].*)')
                     ">
                     At least one digit.
                   </div>
                   <div
                     *ngIf="
-                      !resetForm.get('new_password')?.value?.match('(?=.*[!@#$%^&*])')
+                      !resetForm
+                        .get('new_password')
+                        ?.value?.match('(?=.*[!@#$%^&*])')
                     ">
                     At least one special character.
                   </div>
