@@ -25,12 +25,13 @@ class DiscussionController {
   */
   async create(req, discussionDto) {
     const token = req.headers["authorization"];
-    const userId = jwt.decode(token, process.env.JWT_SECRET).id;
+    const dec = jwt.decode(token, process.env.JWT_SECRET);
 
     discussionDto.isDeleted = false;
     const userDocRef = await DiscussionRepository.db
-        .doc(`users/${userId}`);
+        .doc(`users/${dec.id}`);
     discussionDto.userId = userDocRef;
+    discussionDto.userName = dec.firstName + " " + dec.lastName;
 
     return await DiscussionRepository.add(req, discussionDto);
   }

@@ -25,15 +25,16 @@ class DiscussionCommentController {
   */
   async create(req, discussionCommentDto) {
     const token = req.headers["authorization"];
-    const userId = jwt.decode(token, process.env.JWT_SECRET).id;
+    const dec = jwt.decode(token, process.env.JWT_SECRET);
 
     discussionCommentDto.isDeleted = false;
     const userDocRef = await DiscussionCommentRepository.db
-        .doc(`users/${userId}`);
+        .doc(`users/${dec.id}`);
     const discussionDocRef = await DiscussionCommentRepository.db
-        .doc(`discussion/${req.body.id}`);
+        .doc(`discussion/${req.body.discussionId}`);
     discussionCommentDto.userId = userDocRef;
     discussionCommentDto.discussionId = discussionDocRef;
+    discussionCommentDto.userName = dec.firstName + " " + dec.lastName;
 
     return await DiscussionCommentRepository.add(req, discussionCommentDto);
   }

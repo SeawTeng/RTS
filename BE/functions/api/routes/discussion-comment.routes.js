@@ -10,11 +10,11 @@ import {DiscussionCommentRepository} from "../../repositories/index.js";
 const router = express.Router();
 
 // get all discussion of the user
-router.get("/getAll", async (req, res) =>
+router.get("/getAll/:id", async (req, res) =>
   await handleReadRequest(res, async () => {
-    const auth = await DiscussionCommentController.checkAuthenticate(req, res);
+    const auth = await DiscussionCommentRepository.checkAuthenticate(req, res);
     if (auth.message) {
-      return await DiscussionCommentRepository.getAll(req);
+      return await DiscussionCommentController.getAll(req);
     } else {
       return auth;
     }
@@ -23,9 +23,9 @@ router.get("/getAll", async (req, res) =>
 // get one discussion with its id
 router.get("/:id", async (req, res) =>
   await handleReadRequest(res, async () => {
-    const auth = await DiscussionCommentController.checkAuthenticate(req, res);
+    const auth = await DiscussionCommentRepository.checkAuthenticate(req, res);
     if (auth.message) {
-      return await DiscussionCommentRepository.getById(req.params.id);
+      return await DiscussionCommentController.getById(req.params.id);
     } else {
       return auth;
     }
@@ -34,9 +34,9 @@ router.get("/:id", async (req, res) =>
 // create one discussion
 router.post("/create", async (req, res) =>
   await handleWriteRequest(res, async () => {
-    const auth = await DiscussionCommentController.checkAuthenticate(req, res);
+    const auth = await DiscussionCommentRepository.checkAuthenticate(req, res);
     if (auth.message) {
-      return await DiscussionCommentRepository.create(req, req.body);
+      return await DiscussionCommentController.create(req, req.body);
     } else {
       return auth;
     }
@@ -45,9 +45,9 @@ router.post("/create", async (req, res) =>
 // update one discussion
 router.put("/:id", async (req, res) =>
   await handleWriteRequest(res, async () => {
-    const auth = await DiscussionCommentController.checkAuthenticate(req, res);
+    const auth = await DiscussionCommentRepository.checkAuthenticate(req, res);
     if (auth.message) {
-      return await DiscussionCommentRepository.update(req);
+      return await DiscussionCommentController.update(req);
     } else {
       return auth;
     }
@@ -56,9 +56,9 @@ router.put("/:id", async (req, res) =>
 // delete one discussion
 router.delete("/:id", async (req, res) =>
   await handleWriteRequest(res, async () => {
-    const auth = await DiscussionCommentController.checkAuthenticate(req, res);
+    const auth = await DiscussionCommentRepository.checkAuthenticate(req, res);
     if (auth.message) {
-      return await DiscussionCommentRepository.delete(req);
+      return await DiscussionCommentController.delete(req);
     } else {
       return auth;
     }
