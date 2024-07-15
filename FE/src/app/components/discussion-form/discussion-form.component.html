@@ -1,0 +1,112 @@
+<div class="container pt-5" *ngIf="discussion">
+  <div class="card mb-4">
+    <div class="card-body title-card justify-content-center">
+      <h2 class="mt-3">{{ discussion.title }}</h2>
+
+      <p class="mt-3" style="font-size: 18px;">{{ discussion.content }}</p>
+
+      <p
+        class="d-flex align-items-center justify-content-end m-0 text-secondary">
+        <i class="fa fa-user-circle" style="padding-right: 5px"></i>
+        {{ discussion.userName }}
+        •
+        <span style="font-size: 13px; margin-left: 5px">
+          {{ convertDate(discussion.lastCreatedDate) }}
+        </span>
+      </p>
+
+      <button
+        type="button"
+        class="btn btn-outline-primary mt-3"
+        style="float: right;"
+        data-bs-toggle="modal"
+        data-bs-target="#commentModal">
+        Add Comment
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="commentList">
+    <div class="card w-100 mb-2" *ngFor="let comment of commentList">
+      <div class="card-body comment-card">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <p class="d-flex align-items-center m-0 text-secondary">
+              <i class="fa fa-user-circle" style="padding-right: 5px"></i>
+              {{ comment.userName }}
+              •
+              <span style="font-size: 13px; margin-left: 5px">
+                {{ convertDate(comment.lastCreatedDate) }}
+              </span>
+            </p>
+
+            <p class="content m-0 mt-2">
+              {{ comment.comment }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="commentModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Create Comment</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="commentForm" (ngSubmit)="createComment()">
+          <div class="row justify-content-center">
+            <div class="col-md-10 col-sm-12 mt-2">
+              <label for="comment"
+                >Comment:<span class="text-danger">*</span></label
+              >
+              <textarea
+                class="form-control"
+                rows="5"
+                formControlName="comment"
+                required></textarea>
+              <div
+                *ngIf="
+                  commentForm.get('comment')?.invalid &&
+                  (commentForm.get('comment')?.dirty ||
+                    commentForm.get('comment')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="commentForm.get('comment')?.hasError('required')">
+                  Comment is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-10 col-sm-12 mt-3 text-center">
+              <button
+                type="submit"
+                data-bs-dismiss="modal"
+                class="btn btn-info submit-btn"
+                [disabled]="commentForm.invalid">
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-loading
+  [show]="loading"
+  [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>

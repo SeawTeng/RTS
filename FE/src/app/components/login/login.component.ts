@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const formValues = this.loginForm.value;
       // make sure email is valid no matter upper or lower case
-      formValues.email = (formValues.email).toLowerCase();
+      formValues.email = formValues.email.toLowerCase();
       const encryptedData = this.service.encryption(formValues);
       this.loading = true;
 
@@ -102,7 +102,7 @@ export class LoginComponent implements OnInit {
   resetAccount() {
     const formValues = this.resetForm.value;
     // make sure email is valid no matter upper or lower case
-    formValues.email = (formValues.email).toLowerCase();
+    formValues.email = formValues.email.toLowerCase();
     const encryptedData = this.service.encryption(formValues);
     this.loading = true;
 
@@ -135,14 +135,18 @@ export class LoginComponent implements OnInit {
   resetPassword() {
     if (this.resetForm.valid) {
       this.loading = true;
-      
+
       this.service
-        .httpCall(this.service.validateResetPassword(this.resetForm.get('code')?.value), {}, 'get')
+        .httpCall(
+          this.service.validateResetPassword(this.resetForm.get('code')?.value),
+          {},
+          'get'
+        )
         .subscribe(
           (res: any) => {
             this.loading = false;
             if (res.email !== this.resetForm.get('email')?.value) {
-              this.toastr.error("Invalid Code", 'Error', {
+              this.toastr.error('Invalid Code', 'Error', {
                 positionClass: 'toast-top-center',
               });
               return;
@@ -151,12 +155,16 @@ export class LoginComponent implements OnInit {
             const data = {
               userId: res.from._path.segments[1],
               code: this.resetForm.get('code')?.value,
-              new_password: this.resetForm.get('new_password')?.value
+              new_password: this.resetForm.get('new_password')?.value,
             };
             const encryptedData = this.service.encryption(data);
 
             this.service
-              .httpCall(this.service.updateResetPassword(), { data: encryptedData }, 'post')
+              .httpCall(
+                this.service.updateResetPassword(),
+                { data: encryptedData },
+                'post'
+              )
               .subscribe(
                 (res: any) => {
                   this.loading = false;

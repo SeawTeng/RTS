@@ -8,16 +8,16 @@
   .content {
     font-size: 18px;
     opacity: 85%;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
   }
 
   &:hover {
     background-color: #90bad06e;
     cursor: pointer;
   }
+}
+
+.title-card {
+  padding: 20px 30px;
 }
 
 .custom-input {
