@@ -22,7 +22,7 @@
       <div class="modal-body">
         <form [formGroup]="taskForm" (ngSubmit)="createTask()">
           <div class="row justify-content-center">
-            <div class="col-md-8 col-sm-12 mt-2">
+            <div class="col-md-9 col-sm-12 mt-2">
               <label for="title"
                 >Title:<span class="text-danger">*</span></label
               >
@@ -40,7 +40,7 @@
               </div>
             </div>
 
-            <div class="col-md-8 col-sm-12 mt-2">
+            <div class="col-md-9 col-sm-12 mt-2">
               <label for="description"
                 >Description:<span class="text-danger">*</span></label
               >
@@ -61,7 +61,7 @@
               </div>
             </div>
 
-            <div class="col-md-8 col-sm-12 mt-2">
+            <div class="col-md-9 col-sm-12 mt-2">
               <label for="categoryId"
                 >Category:<span class="text-danger">*</span></label
               >
@@ -85,36 +85,18 @@
               </div>
             </div>
 
-            <div class="col-md-8 col-sm-12 mt-2">
+            <div class="col-md-9 col-sm-12 mt-2">
               <label for="endDate"
                 >End Date:<span class="text-danger">*</span></label
               >
-              <input
+              <div class="d-flex">
+                <input
                 id="endDate"
                 type="date"
                 formControlName="endDate"
                 class="custom-input"
                 [min]="today"
                 required />
-              <div
-                *ngIf="
-                  taskForm.get('endDate')?.invalid &&
-                  (taskForm.get('endDate')?.dirty ||
-                    taskForm.get('endDate')?.touched)
-                "
-                class="text-danger">
-                <div *ngIf="taskForm.get('endDate')?.hasError('required')">
-                  End Date is required.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row justify-content-center">
-            <div class="col-md-8 col-sm-12 mt-2">
-              <label for="hour">Time:<span class="text-danger">*</span></label>
-
-              <div class="d-flex">
                 <select class="custom-input" formControlName="hour">
                   <option *ngFor="let h of hours" [value]="h">
                     {{ h }}
@@ -126,6 +108,18 @@
                     {{ m }}
                   </option>
                 </select>
+              </div>
+              
+              <div
+                *ngIf="
+                  taskForm.get('endDate')?.invalid &&
+                  (taskForm.get('endDate')?.dirty ||
+                    taskForm.get('endDate')?.touched)
+                "
+                class="text-danger">
+                <div *ngIf="taskForm.get('endDate')?.hasError('required')">
+                  End Date is required.
+                </div>
               </div>
 
               <div
@@ -143,12 +137,14 @@
                     taskForm.get('hour')?.hasError('required') ||
                     taskForm.get('minute')?.hasError('required')
                   ">
-                  Time is required.
+                  End Time is required.
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="col-md-8 col-sm-12 mt-3 text-center">
+          <div class="row justify-content-center">
+            <div class="col-md-9 col-sm-12 mt-3 text-center">
               <button
                 type="submit"
                 data-bs-dismiss="modal"
