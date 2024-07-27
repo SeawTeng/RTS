@@ -227,7 +227,9 @@
               class="btn btn-primary submit-btn"
               style="margin-right: 10px"
               (click)="onSubmit('active')"
-              [disabled]="quizForm.invalid">
+              [disabled]="quizForm.invalid || 
+                quizForm.value?.typeList.length === 0 || 
+                quizForm.value?.questionList.length === 0">
               Submit
             </button>
 
@@ -237,7 +239,9 @@
               class="btn btn-secondary"
               style="margin-right: 10px"
               (click)="onSubmit('draft')"
-              [disabled]="quizForm.invalid">
+              [disabled]="quizForm.invalid || 
+                quizForm.value?.typeList.length === 0 || 
+                quizForm.value?.questionList.length === 0">
               Save Draft
             </button>
 
