@@ -93,7 +93,7 @@ export class ToDoComponent implements OnInit {
   async deleteTask(task: any) {
     const { value: confirm } = await Swal.fire({
       title: 'Delete Task',
-      text: 'Do you sure you want to delete this task?',
+      text: 'Are you sure you want to delete this task?',
       showCancelButton: true,
     });
 
@@ -135,7 +135,7 @@ export class ToDoComponent implements OnInit {
 
     const { value: confirm } = await Swal.fire({
       title: 'Complete Task',
-      text: 'Do you sure you want to mark this task as completed?',
+      text: 'Are you sure you want to mark this task as completed?',
       showCancelButton: true,
     });
 
@@ -240,7 +240,7 @@ export class ToDoComponent implements OnInit {
   async deleteCategory() {
     const { value: confirm } = await Swal.fire({
       title: 'Delete Category',
-      text: 'Do you sure you want to delete this category? This action will also delete all the related tasks.',
+      text: 'Are you sure you want to delete this category? This action will also delete all the related tasks.',
       showCancelButton: true,
     });
 

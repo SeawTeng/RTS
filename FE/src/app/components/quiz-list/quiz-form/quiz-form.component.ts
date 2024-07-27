@@ -219,7 +219,7 @@ export class QuizFormComponent implements OnInit {
   async deleteQuiz() {
     const { value: confirm } = await Swal.fire({
       title: 'Delete Learning Style Assessment',
-      text: 'Do you sure you want to delete this learning style assessment?',
+      text: 'Are you sure you want to delete this learning style assessment?',
       showCancelButton: true,
     });
 
@@ -256,7 +256,7 @@ export class QuizFormComponent implements OnInit {
   async setDefault() {
     const { value: confirm } = await Swal.fire({
       title: 'Set Default Learning Style Assessment',
-      text: 'Do you sure you want to set this learning style assessment as default?',
+      text: 'Are you sure you want to set this learning style assessment as default?',
       showCancelButton: true,
     });
 
