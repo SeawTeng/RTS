@@ -99,7 +99,7 @@ export class PomodoroComponent implements OnInit {
 
     const { value: confirm } = await Swal.fire({
       title: 'Complete Task',
-      text: 'Do you sure you want to mark this task as completed?',
+      text: 'Are you sure you want to mark this task as completed?',
       showCancelButton: true,
     });
 
