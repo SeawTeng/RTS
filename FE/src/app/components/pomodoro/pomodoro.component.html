@@ -1,146 +1,186 @@
-<div class="container vh-100 d-flex align-items-center">
-  <div class="row w-100">
-    <div class="col-md-11">
-      <div class="card">
-        <div class="card-body">
-          <div class="row w-100">
-            <div class="col-md-6">
-              <div class="child d-flex">
-                <div class="btn-group" role="group" aria-label="Basic example">
-                  <button (click)="pomoPage()" style="margin-right: 10px">
-                    Pomodoro
-                  </button>
-                  <button (click)="breakPage()">Break</button>
-                </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-                <div class="pomo" *ngIf="!isBreak && !isBreakPage">
-                  <div class="d-flex align-items-center">
-                    <button
-                      class="custom-min"
-                      *ngIf="isRunning === false"
-                      (click)="decrease()">
-                      -
-                    </button>
-                    <h2 class="timer my-0">
-                      {{ mins }} : {{ secs < 10 ? '0' + secs : secs }}
-                    </h2>
-                    <button
-                      class="custom-min"
-                      *ngIf="isRunning === false"
-                      (click)="increase()">
-                      +
-                    </button>
-                  </div>
-                  <div class="button-container text-center">
-                    <button
-                      *ngIf="isRunning !== true && isPomoPage"
-                      (click)="run()">
-                      Start
-                    </button>
-                    <button
-                      *ngIf="isRunning !== false || isBreak"
-                      (click)="pause()">
-                      Pause
-                    </button>
-                    <button
-                      *ngIf="isRunning !== false && isPomoPage"
-                      (click)="reset()">
-                      Reset
-                    </button>
-                  </div>
-                </div>
+<div class="container pt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <div class="card upd-card mb-3" style="height: 100%">
+        <div class="row g-0 h-100">
+          <div class="col-md-2 side-nav-bar">
+            <nav class="nav flex-column">
+              <a class="nav-link" [ngClass]="{ active: activePage === 'timer' }" (click)="tabChange('timer')">Pomodoro
+                Timer</a>
+              <a class="nav-link" [ngClass]="{ active: activePage === 'break' }" (click)="tabChange('break')">Break</a>
+              <a class="nav-link" [ngClass]="{ active: activePage === 'setting' }"
+                (click)="tabChange('setting')">Setting</a>
+              <a class="nav-link" [ngClass]="{ active: activePage === 'history' }"
+                (click)="tabChange('history')">History</a>
+            </nav>
+          </div>
 
-                <div *ngIf="isBreakPage" class="break">
-                  <div class="d-flex align-items-center">
-                    <button
-                      class="custom-min"
-                      *ngIf="isRunning === false"
-                      (click)="decreaseBreak()">
-                      -
-                    </button>
-                    <h2 class="timer">
-                      {{ breakMins }} :
-                      {{ breakSecs < 10 ? '0' + breakSecs : breakSecs }}
-                    </h2>
-                    <button
-                      class="custom-min"
-                      *ngIf="isRunning === false"
-                      (click)="increaseBreak()">
-                      +
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="col-md-10 d-flex align-items-center" *ngIf="activePage === 'timer'">
+            <div class="card-body w-100">
+              <div class="form-container">
+                <div class="text-center mb-3">
+                  <div class="position-relative" style="display: flex; justify-content: center; align-items: center;">
 
-            <div class="col-md-6">
-              <div class="task-content">
-                <h2>To Do List</h2>
-                <div *ngIf="taskList.length === 0">
-                  <p>Create a task to get started !</p>
-                </div>
+                    <div class="chartBox" style="position: relative;">
+                      <p
+                        style="position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); z-index: 2; margin: 0;">
+                        Focus Session
+                      </p>
+                      <canvas id="doughnutChartTimer" style="position: relative; z-index: 1;"></canvas>
+                      <h2 id="minutes" class="timer my-0"
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; margin: 0;">
+                        {{ mins }} : {{ secs < 10 ? '0' + secs : secs }} </h2>
+                          <button class="playbtn" *ngIf="isRunning !== true" (click)="openModal()"
+                            style="position: absolute; top: 75%; left: 50%; transform: translate(-50%, -50%); z-index: 2; margin: 0;">
+                            <i class="fa fa-play"></i></button>
 
-                <ul class="list-group">
-                  <li class="list-group-item" *ngFor="let task of taskList">
-                    <div class="row align-items-center">
-                      <div class="col-md-1">
-                        <div (click)="chooseTask(task)">
-                          <i
-                            style="font-size: 25px; cursor: pointer"
-                            [ngClass]="
-                              task == selectedTask
-                                ? 'fa fa-check-square-o'
-                                : 'fa fa-square-o'
-                            "></i>
-                        </div>
-                      </div>
-
-                      <div class="col-md-7">
-                        <p class="m-0">
-                          {{ task.title }}
-                          <span
-                            class="badge text-bg-warning"
-                            *ngIf="task.status === 'active'"
-                            >In progress</span
-                          >
-                          <span
-                            class="badge text-bg-success"
-                            *ngIf="task.status === 'completed'"
-                            >Completed</span
-                          >
-                        </p>
-                        <p class="task-due m-0">{{ task.description }}</p>
-                        <p class="task-due m-0">Due Date: {{ task.endDate }}</p>
-                      </div>
+                          <button class="playbtn" *ngIf="isRunning !== false" (click)="pause()"
+                            style="position: absolute; top: 75%; left: 35%; transform: translate(-50%, -50%); z-index: 2; margin: 0;"><i
+                              class="fa fa-pause"></i></button>
+                          <button class="playbtn" *ngIf="isRunning !== false" (click)="reset()"
+                            style="position: absolute; top: 75%; left: 65%; transform: translate(-50%, -50%); z-index: 2; margin: 0;"><i
+                              class="fa fa-refresh"></i></button>
                     </div>
-                  </li>
-                </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="mt-4">
-      <div class="col-md-11">
-        <div class="card">
-          <div class="card-body">
-            <div class="task-content">
-              <h2>Pomodoro Session History</h2>
-              <p>Your history is empty.</p>
 
-              <ul class="list-group">
-                <li class="list-group-item" *ngFor="let pomo of pomoList">
-                  <div class="row align-items-center">
-                    <div class="col-md-7">
-                      <p class="m-0">Task: {{ pomo.taskName }}</p>
-                      <p class="m-0">Time Spent: {{ pomo.minutesTaken }}</p>
-                      <p class="m-0">Date: {{ pomo.endDateTime }}</p>
+
+          <div class="col-md-10 d-flex align-items-center" *ngIf="activePage === 'break'">
+            <div class="card-body w-100">
+              <div class="form-container">
+                <div class="text-center mb-3">
+                  <div class="position-relative" style="display: flex; justify-content: center; align-items: center;">
+
+                    <div class="chartBox" style="position: relative;">
+                      <p
+                        style="position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); z-index: 2; margin: 0;">
+                        Break Session
+                      </p>
+                      <canvas id="doughnutBreakChartTimer" style="position: relative; z-index: 1;"></canvas>
+                      <h2 id="minutes" class="timer my-0"
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; margin: 0;">
+                        {{ breakMins }} : {{ breakSecs < 10 ? '0' + breakSecs : breakSecs }} </h2>
+                          <button class="playbtn" *ngIf="isRunning !== true" (click)="startBreak()"
+                            style="position: absolute; top: 75%; left: 50%; transform: translate(-50%, -50%); z-index: 2; margin: 0;">
+                            <i class="fa fa-play"></i></button>
+
+                          <button class="playbtn" *ngIf="isRunning !== false" (click)="pause()"
+                            style="position: absolute; top: 75%; left: 35%; transform: translate(-50%, -50%); z-index: 2; margin: 0;"><i
+                              class="fa fa-pause"></i></button>
+                          <button class="playbtn" *ngIf="isRunning !== false" (click)="breakReset()"
+                            style="position: absolute; top: 75%; left: 65%; transform: translate(-50%, -50%); z-index: 2; margin: 0;"><i
+                              class="fa fa-refresh"></i></button>
                     </div>
                   </div>
-                </li>
-              </ul>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-10 d-flex align-items-center" *ngIf="activePage === 'setting'">
+            <div class="card-body w-100">
+              <div class="form-container">
+                <div class="text-center mb-3">
+                  <h2>Setting</h2>
+                </div>
+
+                <p>Customise Focus Level</p>
+                <div class="focus-options">
+                  <label class="option">
+                    <input type="radio" name="timeOption" value="babyStep" [(ngModel)]="selectedLevel"
+                      (change)="updateTime('babyStep')">
+                    <span class="option-title">Baby Step</span>
+                    <span class="option-description">10 min (focus) • 5 min (break)</span>
+                  </label>
+                  <label class="option">
+                    <input type="radio" name="timeOption" value="popular" [(ngModel)]="selectedLevel"
+                      (change)="updateTime('popular')">
+                    <span class="option-title">Popular</span>
+                    <span class="option-description">25 min (focus) • 5 min (break)</span>
+                  </label>
+                  <label class="option">
+                    <input type="radio" name="timeOption" value="custom" [(ngModel)]="selectedOption"
+                      (change)="updateTime('custom')">
+                    <span class="option-title">Custom</span>
+                    <div class="custom-setting">
+                      <!--    need more help with this -->
+                      <label for="pomodoro">Focus</label>
+                      <input id="pomodoro" type="number" [(ngModel)]="pomodoroTime" min="1"
+                        (change)="updateTime('custom')">
+                      <span>min</span>
+                    </div>
+                    <div class="custom-setting">
+                      <label for="shortBreak">Break</label>
+                      <input id="shortBreak" type="number" [(ngModel)]="shortBreakTime" min="1"
+                        (change)="updateTime('custom')">
+                      <span>min</span>
+                    </div>
+                  </label>
+
+                </div>
+                <p>Sound Settings</p>
+
+                <div class="switch-container">
+                  <input type="checkbox" id="toggle" [(ngModel)]="isChecked" >
+                  <label class="slider round" for="toggle"></label>
+                  <label for="toggle">Play sound when timer finishes</label>
+                </div>
+                
+                
+
+
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-10 d-flex align-items-center" *ngIf="activePage === 'history'">
+            <div class="card-body w-100">
+              <div class="form-container">
+                <div class="text-center mb-3">
+                  <h2>History</h2>
+                </div>
+                  <div class="searchbar">
+                    <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchTerm"
+                      (input)="searchPomoSess()" />
+                  </div>
+
+                  <label style="display: inline-block; margin-right: 10px;">
+                    <input type="checkbox" [(ngModel)]="earliest" (ngModelChange)="changeSort('earliest')">
+                    Earliest
+                  </label>
+                  <label style="display: inline-block;">
+                    <input type="checkbox" [(ngModel)]="latest" (ngModelChange)="changeSort('latest')">
+                    Latest
+                  </label>
+
+                  <div class="task-content">
+
+                    <p *ngIf="filteredPomoList.length ==0">You have not started a pomodoro session</p>
+
+                    <ul class="list-group">
+                      <li class="list-group-item" *ngFor="let pomo of filteredPomoList">
+                        <!-- <div class="card mb-3 shadow-sm">
+                            <div class="card-body"> -->
+                        <div>
+                          <h6 class="card-title mb-1">Task: {{ pomo.taskName }}</h6>
+                          <p class="card-text">Time Spent: {{ pomo.minutesTaken }} minutes</p>
+                          <p class="card-text">Date: {{ pomo.endDateTime }}</p>
+                        </div>
+                        <!-- </div>
+                          </div> -->
+                      </li>
+                    </ul>
+                  </div>
+              </div>
             </div>
           </div>
         </div>
@@ -149,5 +189,5 @@
   </div>
 </div>
 
-<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
-</ngx-loading>
+<!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }">
+</ngx-loading> -->
