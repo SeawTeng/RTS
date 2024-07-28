@@ -178,3 +178,34 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(26px);
 }
+
+
+.side-nav-bar {
+  background-color: #eef7ff;
+  border-radius: 5px;
+
+  .nav {
+    align-items: center;
+    margin-top: 4rem;
+
+    .nav-link {
+      min-height: 60px;
+      font-weight: 600 !important;
+      color: #153448;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+      line-height: 40px;
+
+      &.active {
+        background-color: #153448;
+        color: #fff;
+      }
+
+      &:hover {
+        background-color: #153448;
+        color: #fff;
+      }
+    }
+  }
+}
