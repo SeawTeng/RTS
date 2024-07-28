@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">All Tasks</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+</div>
+<!-- update task here-->
+<div class="modal-body">
+    <ul class="list-group">
+        <p *ngIf="taskList.length==0">You do not have any tasks</p>
+        <li class="list-group-item" *ngFor="let task of taskList">
+            <div class="row align-items-center">
+                <div class="col-md-1">
+                    <div (click)="chooseTask(task)">
+                        <i style="font-size: 25px; cursor: pointer"
+                            [ngClass]="task == selectedTask ? 'fa fa-check-square-o' : 'fa fa-square-o'"></i>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    {{ task.title }}
+                    <span class="badge text-bg-warning" *ngIf="task.status === 'active'">In
+                        progress</span>
+                    <span class="badge text-bg-success" *ngIf="task.status === 'completed'">Completed</span>
+
+                    <p class="task-due m-0">{{ task.description }}</p>
+                    <p class="task-due m-0">Due Date: {{ task.endDate }}</p>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
+        Close
+    </button>
+    <button type="button" class="btn btn-primary" (click)="saveTask()">Start</button>
+</div>
