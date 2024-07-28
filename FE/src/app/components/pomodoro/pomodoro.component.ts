@@ -113,7 +113,6 @@ export class PomodoroComponent implements AfterViewInit, OnDestroy, OnInit {
 
   async tabChange(tab: string) {
     this.activePage = tab;
-    this.loading = true;
     this.isRunning = false;
 
     if (this.activePage == 'timer') {
@@ -518,12 +517,14 @@ export class PomodoroComponent implements AfterViewInit, OnDestroy, OnInit {
 
 
   async getAllPomoSess() {
+    this.loading = true;
     await this.service
       .httpCall(this.service.getAllPomoSess(), {}, 'get')
       .subscribe(
         async (res: any) => {
           this.pomoList = res;
           this.filteredPomoList = res;
+          this.loading = false; 
         },
         error => {
           this.toastr.error(error.error, 'Error', {

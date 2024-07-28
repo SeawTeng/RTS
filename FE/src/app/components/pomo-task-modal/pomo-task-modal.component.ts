@@ -17,6 +17,7 @@ export class PomoTaskModalComponent implements OnInit {
   categoryList: any = [];
   selectedCategoryId: any = null;
   selectedTask: any = null;
+  loading = false; 
 
   doughnutChartTimer: any;
 
@@ -30,6 +31,7 @@ export class PomoTaskModalComponent implements OnInit {
     await this.getAllCategory();
   }
   async getAllCategory() {
+    this.loading = true;
 
     const api = this.selectedCategoryId
       ? this.service.getAllTodoTaskByCategory(this.selectedCategoryId.id)
@@ -51,6 +53,7 @@ export class PomoTaskModalComponent implements OnInit {
             .subscribe((res: any) => {
 
               this.taskList = res;
+              this.loading = false; 
 
             });
         },
