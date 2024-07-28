@@ -129,12 +129,12 @@
                 <p>Sound Settings</p>
 
                 <div class="switch-container">
-                  <input type="checkbox" id="toggle" [(ngModel)]="isChecked" >
+                  <input type="checkbox" id="toggle" [(ngModel)]="isChecked">
                   <label class="slider round" for="toggle"></label>
                   <label for="toggle">Play sound when timer finishes</label>
                 </div>
-                
-                
+
+
 
 
 
@@ -148,38 +148,38 @@
                 <div class="text-center mb-3">
                   <h2>History</h2>
                 </div>
-                  <div class="searchbar">
-                    <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchTerm"
-                      (input)="searchPomoSess()" />
-                  </div>
+                <div class="searchbar">
+                  <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchTerm"
+                    (input)="searchPomoSess()" />
+                </div>
 
-                  <label style="display: inline-block; margin-right: 10px;">
-                    <input type="checkbox" [(ngModel)]="earliest" (ngModelChange)="changeSort('earliest')">
-                    Earliest
-                  </label>
-                  <label style="display: inline-block;">
-                    <input type="checkbox" [(ngModel)]="latest" (ngModelChange)="changeSort('latest')">
-                    Latest
-                  </label>
+                <label style="display: inline-block; margin-right: 10px;">
+                  <input type="checkbox" [(ngModel)]="earliest" (ngModelChange)="changeSort('earliest')">
+                  Earliest
+                </label>
+                <label style="display: inline-block;">
+                  <input type="checkbox" [(ngModel)]="latest" (ngModelChange)="changeSort('latest')">
+                  Latest
+                </label>
 
-                  <div class="task-content">
+                <div class="task-content">
 
-                    <p *ngIf="filteredPomoList.length ==0">You have not started a pomodoro session</p>
+                  <p *ngIf="filteredPomoList.length ==0">You have not started a pomodoro session</p>
 
-                    <ul class="list-group">
-                      <li class="list-group-item" *ngFor="let pomo of filteredPomoList">
-                        <!-- <div class="card mb-3 shadow-sm">
+                  <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let pomo of filteredPomoList">
+                      <!-- <div class="card mb-3 shadow-sm">
                             <div class="card-body"> -->
-                        <div>
-                          <h6 class="card-title mb-1">Task: {{ pomo.taskName }}</h6>
-                          <p class="card-text">Time Spent: {{ pomo.minutesTaken }} minutes</p>
-                          <p class="card-text">Date: {{ pomo.endDateTime }}</p>
-                        </div>
-                        <!-- </div>
+                      <div>
+                        <h6 class="card-title mb-1">Task: {{ pomo.taskName }}</h6>
+                        <p class="card-text">Time Spent: {{ pomo.minutesTaken }} minutes</p>
+                        <p class="card-text">Date: {{ pomo.endDateTime }}</p>
+                      </div>
+                      <!-- </div>
                           </div> -->
-                      </li>
-                    </ul>
-                  </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
