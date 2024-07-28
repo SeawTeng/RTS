@@ -189,40 +189,49 @@ export class DashboardComponent implements OnInit {
       (task: any) => task.status === 'completed'
     ).length;
 
-    if (this.TaskStatuschart) {
-      this.TaskStatuschart.data.datasets[0].data = [
-        pendingTasks,
-        completedTasks,
-      ];
-      this.TaskStatuschart.update();
-    } else {
-      this.TaskStatuschart = new Chart('taskstatuspiechart', {
-        type: 'pie',
-        data: {
-          labels: ['Pending Tasks', 'Completed Tasks'],
-          datasets: [
-            {
-              label: 'Task Status',
-              data: [pendingTasks, completedTasks],
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-              ],
-              borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'top',
-            },
+    const hasData = pendingTasks > 0 || completedTasks > 0;
+  const data = hasData ? [pendingTasks, completedTasks] : [1];
+  const labels = hasData ? ['Pending Tasks', 'Completed Tasks'] : ['No Tasks'];
+  const backgroundColor = hasData
+    ? ['rgba(255, 99, 132, 0.2)', 'rgba(75, 192, 192, 0.2)']
+    : ['rgba(200, 200, 200, 0.2)'];
+  const borderColor = hasData
+    ? ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)']
+    : ['rgba(200, 200, 200, 1)'];
+
+  if (this.TaskStatuschart) {
+    this.TaskStatuschart.data.datasets[0].data = data;
+    this.TaskStatuschart.data.labels = labels;
+    this.TaskStatuschart.data.datasets[0].backgroundColor = backgroundColor;
+    this.TaskStatuschart.data.datasets[0].borderColor = borderColor;
+    this.TaskStatuschart.update();
+  } else {
+    this.TaskStatuschart = new Chart('taskstatuspiechart', {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Task Status',
+            data: data,
+            backgroundColor: backgroundColor,
+            borderColor: borderColor,
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
           },
         },
-      });
-    }
+      },
+    });
+  }
+
+
   }
 
   //   _                 _         _            _

@@ -33,9 +33,7 @@
     <div class="col chart-box">
       <div id="chart-wrapper">
         <canvas id="completedTaskBarChart"></canvas>
-        <select
-          [(ngModel)]="selectedPeriod"
-          (change)="updateCompletedTaskChart()">
+        <select [(ngModel)]="selectedPeriod" (change)="updateCompletedTaskChart()">
           <option value="7">1 Week</option>
           <option value="31">1 Month</option>
           <option value="93">3 Months</option>
@@ -44,9 +42,7 @@
     </div>
     <div class="col chart-box">
       <canvas id="taskstatuspiechart">{{ TaskStatuschart }}</canvas>
-      <select
-        [(ngModel)]="selectedCategory"
-        (change)="updateCategory($event.target.value)">
+      <select *ngIf="categoryList.length > 0" [(ngModel)]="selectedCategory" (change)="updateCategory($event.target.value)">
         <option *ngFor="let category of categoryList" [value]="category.id">
           {{ category.categoryName }}
         </option>
@@ -57,9 +53,7 @@
   <div class="row chart-row">
     <div class="pomo-chart">
       <canvas id="pomoBarChart">{{ pomoBar }}</canvas>
-      <select
-        [(ngModel)]="selectedPeriodforPomo"
-        (change)="updatePomoBarChart()">
+      <select [(ngModel)]="selectedPeriodforPomo" (change)="updatePomoBarChart()">
         <option value="7">1 Week</option>
         <option value="31">1 Month</option>
         <option value="93">3 Months</option>
